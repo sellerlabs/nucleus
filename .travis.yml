@@ -12,4 +12,5 @@ before_script:
   - composer self-update
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "hhvm" -o "$TRAVIS_PHP_VERSION" = "hhvm-nightly" ]; then composer update --ignore-platform-reqs; else composer update; fi'
 
-script: vendor/bin/phpspec run
+script:
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "hhvm" -o "$TRAVIS_PHP_VERSION" = "hhvm-nightly" ]; then vendor/bin/phpspec run -c phpspec.hhvm.yml; else vendor/bin/phpspec run; fi'
