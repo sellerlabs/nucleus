@@ -1,0 +1,23 @@
+{
+    "name": "chromabits/nucleus",
+    "description": "Some core PHP utilities",
+    "require-dev": {
+        "mockery/mockery": "0.9.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eduardo Trujillo",
+            "email": "ed@chromabits.com"
+        }
+    ],
+    "require": {
+        "phpspec/phpspec": "~2.0",
+        "henrikbjorn/phpspec-code-coverage": "~0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Chromabits\\Nucleus\\": "src/Chromabits/Nucleus"
+        }
+    }
+}
