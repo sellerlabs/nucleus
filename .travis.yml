@@ -9,7 +9,7 @@ php:
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "hhvm" -o "$TRAVIS_PHP_VERSION" = "hhvm-nightly" ]; then composer self-update --ignore-platform-reqs; else composer self-update; fi'
-  - composer update
+  - composer self-update
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "hhvm" -o "$TRAVIS_PHP_VERSION" = "hhvm-nightly" ]; then composer update --ignore-platform-reqs; else composer update; fi'
 
 script: vendor/bin/phpspec run
