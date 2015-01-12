@@ -60,8 +60,6 @@ class ArrayUtils
             return $input;
         }
 
-        return array_filter($input, function ($key) use ($allowed) {
-            return in_array($key, $allowed);
-        }, ARRAY_FILTER_USE_KEY);
+        return array_intersect_key($input, array_flip($allowed));
     }
 }
