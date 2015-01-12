@@ -2,8 +2,6 @@
 language: php
 
 php:
-  # aliased to a recent 5.5.x version
-  - 5.5
   # aliased to a recent 5.6.x version
   - 5.6
   # HHVM
@@ -11,6 +9,7 @@ php:
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
+  - composer self-update
   - composer update
 
 script: vendor/bin/phpspec run
