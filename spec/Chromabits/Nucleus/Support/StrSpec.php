@@ -68,4 +68,39 @@ class StrSpec extends ObjectBehavior
 
         $this->snake('this_is_cached')->shouldReturn('This is cached');
     }
+
+    function it_should_generate_random_strings()
+    {
+        $this->random()->shouldBeString();
+
+        $this->random()->shouldHaveLength(16);
+
+        $this->random(32)->shouldHaveLength(32);
+
+        $otherRandom = $this->random();
+
+        $this->random()->shouldNotEqual($otherRandom);
+    }
+
+    function it_should_generate_quick_random_strings()
+    {
+        $this->quickRandom()->shouldBeString();
+
+        $this->quickRandom()->shouldHaveLength(16);
+
+        $this->quickRandom(32)->shouldHaveLength(32);
+
+        $otherRandom = $this->quickRandom();
+
+        $this->quickRandom()->shouldNotEqual($otherRandom);
+    }
+
+    public function getMatchers()
+    {
+        return [
+            'haveLength' => function($subject, $key) {
+                return strlen($subject) == $key;
+            },
+        ];
+    }
 }
