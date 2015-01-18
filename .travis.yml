@@ -2,6 +2,7 @@
 language: php
 
 php:
+  - 5.5
   # aliased to a recent 5.6.x version
   - 5.6
   # HHVM
@@ -13,4 +14,4 @@ before_script:
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "hhvm" -o "$TRAVIS_PHP_VERSION" = "hhvm-nightly" ]; then composer update --ignore-platform-reqs; else composer update; fi'
 
 script:
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "hhvm" -o "$TRAVIS_PHP_VERSION" = "hhvm-nightly" ]; then vendor/bin/phpspec run -c phpspec.hhvm.yml; else vendor/bin/phpspec run; fi'
+  - phpunit --coverage-text

@@ -1,9 +1,6 @@
 {
     "name": "chromabits/nucleus",
     "description": "Some core PHP utilities",
-    "require-dev": {
-        "mockery/mockery": "0.9.*"
-    },
     "license": "MIT",
     "authors": [
         {
@@ -11,13 +8,21 @@
             "email": "ed@chromabits.com"
         }
     ],
-    "require": {
-        "phpspec/phpspec": "~2.0",
-        "henrikbjorn/phpspec-code-coverage": "~0.2"
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "mockery/mockery": "0.9.*"
     },
     "autoload": {
         "psr-4": {
             "Chromabits\\Nucleus\\": "src/Chromabits/Nucleus"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Chromabits\\Nucleus\\": "tests/Chromabits/Nucleus"
+        }
+    },
+    "require": {
+        "lstrojny/phpunit-function-mocker": "0.2.*"
     }
 }
