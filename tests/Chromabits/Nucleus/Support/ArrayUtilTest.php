@@ -121,6 +121,9 @@ class ArrayUtilTest extends TestCase
         $this->assertEquals(10, $input[0]);
         $this->assertEquals(20, $input[1]);
         $this->assertEquals(30, $input[2]);
+
+        $utils->exchange($input, 0, 1);
+        $utils->exchange($input, 0, 2);
     }
 
     /**
