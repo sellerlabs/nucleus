@@ -2,6 +2,7 @@
 
 namespace Tests\Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
 use Chromabits\Nucleus\Support\ArrayUtils;
 use Chromabits\Nucleus\Testing\TestCase;
 use Mockery;
@@ -9,13 +10,14 @@ use Mockery;
 /**
  * Class ArrayUtilTest
  *
+ * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Support
  */
 class ArrayUtilTest extends TestCase
 {
     public function testConstructor()
     {
-        $this->assertInstanceOf('Chromabits\Nucleus\Support\ArrayUtils', new ArrayUtils());
+        $this->assertInstanceOf(ArrayUtils::class, new ArrayUtils());
     }
 
     public function testFilterNull()
@@ -50,7 +52,10 @@ class ArrayUtilTest extends TestCase
 
         $utils = new ArrayUtils();
 
-        $this->assertEquals($output, $utils->filterNullValues($input, ['key1']));
+        $this->assertEquals(
+            $output,
+            $utils->filterNullValues($input, ['key1'])
+        );
     }
 
     public function testCallSetters()
@@ -104,7 +109,10 @@ class ArrayUtilTest extends TestCase
 
         $utils = new ArrayUtils();
 
-        $this->assertEquals($output, $utils->filterKeys($input, ['first_name']));
+        $this->assertEquals(
+            $output,
+            $utils->filterKeys($input, ['first_name'])
+        );
         $this->assertEquals($input, $utils->filterKeys($input, []));
         $this->assertEquals($input, $utils->filterKeys($input, null));
         $this->assertEquals($input, $utils->filterKeys($input));
@@ -126,14 +134,13 @@ class ArrayUtilTest extends TestCase
         $utils->exchange($input, 0, 2);
     }
 
-    /**
-     * @expectedException \Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException
-     */
     public function testExchangeWithInvalid()
     {
         $input = [10, 30, 20];
 
         $utils = new ArrayUtils();
+
+        $this->setExpectedException(IndexOutOfBoundsException::class);
 
         $utils->exchange($input, 1, 99);
     }

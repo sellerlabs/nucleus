@@ -10,7 +10,8 @@ use Chromabits\Nucleus\Testing\Traits\ConstructorTesterTrait;
  *
  * This is not a unit test. It's merely a class for testing a trait
  *
- * @package tests\Chromabits\Nucleus\Testing\Traits
+ * @author Eduardo Trujillo <ed@chromabits.com>
+ * @package Tests\Chromabits\Nucleus\Testing\Traits
  */
 class ConstructorTesterHelper extends TestCase
 {

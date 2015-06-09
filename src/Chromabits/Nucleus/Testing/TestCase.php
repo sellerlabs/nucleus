@@ -7,6 +7,7 @@ namespace Chromabits\Nucleus\Testing;
  *
  * A base test case with some extra assertions
  *
+ * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Testing
  */
 class TestCase extends \PHPUnit_Framework_TestCase

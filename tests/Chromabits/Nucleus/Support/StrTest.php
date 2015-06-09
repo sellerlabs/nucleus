@@ -4,11 +4,12 @@ namespace Tests\Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Support\Str;
 use Chromabits\Nucleus\Testing\TestCase;
-use PHPUnit_Extension_FunctionMocker;
+use PHPUnit_Extension_FunctionMocker as FunctionMocker;
 
 /**
  * Class StrTest
  *
+ * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Support
  */
 class StrTest extends TestCase
@@ -44,7 +45,10 @@ class StrTest extends TestCase
         $str = new Str();
 
         $this->assertEquals('camel_case_stuff', $str->snake('camelCaseStuff'));
-        $this->assertEquals('studly_case_stuff', $str->snake('StudlyCaseStuff'));
+        $this->assertEquals(
+            'studly_case_stuff',
+            $str->snake('StudlyCaseStuff')
+        );
     }
 
     public function testCamelCache()
@@ -82,11 +86,14 @@ class StrTest extends TestCase
 
     public function testQuickRandom()
     {
-        $randomInteger = mt_rand(1, 100);
+        $someInteger = mt_rand(1, 100);
 
         $str = new Str();
 
-        $this->assertEquals($randomInteger, strlen($str->quickRandom($randomInteger)));
+        $this->assertEquals(
+            $someInteger,
+            strlen($str->quickRandom($someInteger))
+        );
         $this->assertInternalType('string', $str->quickRandom());
         $this->assertEquals(16, strlen($str->quickRandom()));
     }
@@ -100,8 +107,8 @@ class StrTest extends TestCase
 
         $this->assertEquals(16, strlen($str->random()));
 
-        $randomInteger = mt_rand(1, 100);
-        $this->assertEquals($randomInteger, strlen($str->random($randomInteger)));
+        $someInteger = mt_rand(1, 100);
+        $this->assertEquals($someInteger, strlen($str->random($someInteger)));
         $this->assertInternalType('string', $str->random());
     }
 
@@ -111,7 +118,7 @@ class StrTest extends TestCase
      */
     public function testRandomWithMissingFunction()
     {
-        $this->php = PHPUnit_Extension_FunctionMocker::start($this, 'Chromabits\Nucleus\Support')
+        $this->php = FunctionMocker::start($this, 'Chromabits\Nucleus\Support')
              ->mockFunction('function_exists')
              ->mockFunction('openssl_random_pseudo_bytes')
              ->getMock();
@@ -132,7 +139,7 @@ class StrTest extends TestCase
      */
     public function testRandomWithFailure()
     {
-        $this->php = PHPUnit_Extension_FunctionMocker::start($this, 'Chromabits\Nucleus\Support')
+        $this->php = FunctionMocker::start($this, 'Chromabits\Nucleus\Support')
              ->mockFunction('function_exists')
              ->mockFunction('openssl_random_pseudo_bytes')
              ->getMock();

@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\Chromabits\Nucleus\Testing\Traits;
+namespace Tests\Chromabits\Nucleus\Testing\Traits;
 
 use Chromabits\Nucleus\Testing\TestCase;
 use Chromabits\Nucleus\Testing\Traits\ConstructorTesterTrait;
@@ -8,7 +8,8 @@ use Chromabits\Nucleus\Testing\Traits\ConstructorTesterTrait;
 /**
  * Class InvalidConstructorTesterHelper
  *
- * @package tests\Chromabits\Nucleus\Testing\Traits
+ * @author Eduardo Trujillo <ed@chromabits.com>
+ * @package Tests\Chromabits\Nucleus\Testing\Traits
  */
 class InvalidConstructorTesterHelper extends TestCase
 {

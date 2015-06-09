@@ -9,6 +9,7 @@ use ArrayIterator;
 /**
  * Class TestCaseTest
  *
+ * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus
  */
 class TestCaseTest extends PHPUnit_Framework_TestCase
@@ -17,7 +18,10 @@ class TestCaseTest extends PHPUnit_Framework_TestCase
     {
         $case = new TestCase();
 
-        $case->assertInstanceOf(['ArrayIterator', 'Iterator'], new ArrayIterator());
+        $case->assertInstanceOf(
+            ['ArrayIterator', 'Iterator'],
+            new ArrayIterator()
+        );
 
         $case->assertInstanceOf('ArrayIterator', new ArrayIterator());
 
@@ -41,6 +45,9 @@ class TestCaseTest extends PHPUnit_Framework_TestCase
     {
         $case = new TestCase();
 
-        $case->assertInstanceOf(['ArrayIterator', 'EmptyIterator'], new ArrayIterator());
+        $case->assertInstanceOf(
+            ['ArrayIterator', 'EmptyIterator'],
+            new ArrayIterator()
+        );
     }
 }

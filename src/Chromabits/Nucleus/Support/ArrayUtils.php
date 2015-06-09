@@ -9,7 +9,8 @@ use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
  *
  * Array utility functions
  *
- * @package Chromabits\TutumClient\Support
+ * @author Eduardo Trujillo <ed@chromabits.com>
+ * @package Chromabits\Nucleus\Support
  */
 class ArrayUtils
 {
@@ -31,8 +32,9 @@ class ArrayUtils
     }
 
     /**
-     * Set properties of an object by only calling setters of array keys that are set
-     * in the input array. Useful for parsing API responses into entities.
+     * Set properties of an object by only calling setters of array keys that
+     * are set in the input array. Useful for parsing API responses into
+     * entities.
      *
      * @param $object
      * @param array $input
@@ -78,8 +80,9 @@ class ArrayUtils
     {
         $count = count($elements);
 
-        if (($indexA < 0 || $indexA > ($count - 1)) ||
-            $indexB < 0 || $indexB > ($count - 1)) {
+        if (($indexA < 0 || $indexA > ($count - 1))
+            || $indexB < 0 || $indexB > ($count - 1)
+        ) {
             throw new IndexOutOfBoundsException;
         }
 

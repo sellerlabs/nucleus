@@ -7,7 +7,8 @@ use Chromabits\Nucleus\Testing\TestCase;
 /**
  * Class ConstructorTesterTraitTest
  *
- * @package tests\Chromabits\Nucleus\Testing\Traits
+ * @author Eduardo Trujillo <ed@chromabits.com>
+ * @package Tests\Chromabits\Nucleus\Testing\Traits
  */
 class ConstructorTesterTraitTest extends TestCase
 {

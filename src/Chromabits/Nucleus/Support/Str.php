@@ -7,9 +7,10 @@ use RuntimeException;
 /**
  * Class Str
  *
- * String utilities (from Laravel)
+ * Some string utilities (from Laravel)
  *
- * @package Chromabits\TutumClient\Support
+ * @author Eduardo Trujillo <ed@chromabits.com>
+ * @package Chromabits\Nucleus\Support
  */
 class Str
 {
@@ -42,8 +43,7 @@ class Str
      */
     public static function camel($value)
     {
-        if (isset(static::$camelCache[$value]))
-        {
+        if (isset(static::$camelCache[$value])) {
             return static::$camelCache[$value];
         }
 
@@ -59,14 +59,14 @@ class Str
      */
     public static function snake($value, $delimiter = '_')
     {
-        if (isset(static::$snakeCache[$value.$delimiter]))
-        {
+        if (isset(static::$snakeCache[$value.$delimiter])) {
             return static::$snakeCache[$value.$delimiter];
         }
 
-        if ( ! ctype_lower($value))
-        {
-            $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value));
+        if (!ctype_lower($value)) {
+            $value = strtolower(
+                preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value)
+            );
         }
 
         return static::$snakeCache[$value.$delimiter] = $value;
@@ -80,8 +80,7 @@ class Str
      */
     public static function studly($value)
     {
-        if (isset(static::$studlyCache[$value]))
-        {
+        if (isset(static::$studlyCache[$value])) {
             return static::$studlyCache[$value];
         }
 
@@ -130,19 +129,21 @@ class Str
      */
     public static function random($length = 16)
     {
-        if ( ! function_exists('openssl_random_pseudo_bytes'))
-        {
+        if (!function_exists('openssl_random_pseudo_bytes')) {
             throw new RuntimeException('OpenSSL extension is required.');
         }
 
         $bytes = openssl_random_pseudo_bytes($length * 2);
 
-        if ($bytes === false)
-        {
+        if ($bytes === false) {
             throw new RuntimeException('Unable to generate random string.');
         }
 
-        return substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $length);
+        return substr(
+            str_replace(['/', '+', '='], '', base64_encode($bytes)),
+            0,
+            $length
+        );
     }
 
     /**
@@ -155,7 +156,8 @@ class Str
      */
     public static function quickRandom($length = 16)
     {
-        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyz'
+            . 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
         return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
     }
