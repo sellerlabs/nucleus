@@ -18,7 +18,7 @@ class PrimitiveTypeTest extends TestCase
         $result = PrimitiveType::getKeys();
 
         $this->assertEquals(
-            ['STRING', 'INTEGER', 'FLOAT', 'BOOLEAN', 'OBJECT'],
+            ['COLLECTION', 'STRING', 'INTEGER', 'FLOAT', 'BOOLEAN', 'OBJECT'],
             $result
         );
     }
@@ -29,6 +29,7 @@ class PrimitiveTypeTest extends TestCase
 
         $this->assertEquals(
             [
+                'COLLECTION' => 'array',
                 'STRING' => 'string',
                 'INTEGER' => 'int',
                 'FLOAT' => 'float',

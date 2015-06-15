@@ -13,6 +13,7 @@ namespace Chromabits\Nucleus\Support;
  */
 class PrimitiveType extends Enum
 {
+    const COLLECTION = 'array';
     const STRING = 'string';
     const INTEGER = 'int';
     const FLOAT = 'float';
