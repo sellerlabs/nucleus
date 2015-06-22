@@ -23,7 +23,7 @@ class ConstructorTesterHelper extends TestCase
 
     protected function make()
     {
-        return new TestCase();
+        return $this->getMockForAbstractClass(TestCase::class);
     }
 
     public function setMultipleTypes()

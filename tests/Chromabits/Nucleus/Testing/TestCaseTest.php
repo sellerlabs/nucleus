@@ -10,13 +10,13 @@ use ArrayIterator;
  * Class TestCaseTest
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
- * @package Tests\Chromabits\Nucleus
+ * @package Tests\Chromabits\Nucleus\Testing
  */
 class TestCaseTest extends PHPUnit_Framework_TestCase
 {
     public function testAssertInstanceOf()
     {
-        $case = new TestCase();
+        $case = $this->getMockForAbstractClass(TestCase::class);
 
         $case->assertInstanceOf(
             ['ArrayIterator', 'Iterator'],
@@ -33,7 +33,7 @@ class TestCaseTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertInstanceOfWithInvalid()
     {
-        $case = new TestCase();
+        $case = $this->getMockForAbstractClass(TestCase::class);
 
         $case->assertInstanceOf('EmptyIterator', new ArrayIterator());
     }
@@ -43,7 +43,7 @@ class TestCaseTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertInstanceOfWithMultipleInvalid()
     {
-        $case = new TestCase();
+        $case = $this->getMockForAbstractClass(TestCase::class);
 
         $case->assertInstanceOf(
             ['ArrayIterator', 'EmptyIterator'],

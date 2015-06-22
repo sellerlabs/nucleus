@@ -10,7 +10,7 @@ namespace Chromabits\Nucleus\Testing;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Testing
  */
-class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
     /**
      * Asserts that a variable is of a given type.
