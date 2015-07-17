@@ -1,10 +1,8 @@
 <?php
 
-$basePath = dirname(__DIR__);
-
 $finder = Symfony\CS\Finder\DefaultFinder::create()
-    ->in($basePath . '/src')
-    ->in($basePath . '/tests');
+    ->in('src')
+    ->in('tests');
 
 return Symfony\CS\Config\Config::create()
     ->level(Symfony\CS\FixerInterface::NONE_LEVEL)

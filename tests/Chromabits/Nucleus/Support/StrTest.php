@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Tests\Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Support\Str;
@@ -56,7 +65,7 @@ class StrTest extends TestCase
         $str = new Str();
 
         $str->setCamelCache([
-            "this_is_cached" => 'This is cached'
+            "this_is_cached" => 'This is cached',
         ]);
 
         $this->assertEquals('This is cached', $str->camel('this_is_cached'));
@@ -67,7 +76,7 @@ class StrTest extends TestCase
         $str = new Str();
 
         $str->setStudlyCache([
-            "this_is_cached" => 'This is cached'
+            "this_is_cached" => 'This is cached',
         ]);
 
         $this->assertEquals('This is cached', $str->studly('this_is_cached'));
@@ -78,7 +87,7 @@ class StrTest extends TestCase
         $str = new Str();
 
         $str->setSnakeCache([
-            "thisIsCached_" => 'This is cached'
+            "thisIsCached_" => 'This is cached',
         ]);
 
         $this->assertEquals('This is cached', $str->snake('thisIsCached'));

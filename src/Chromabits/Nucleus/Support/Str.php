@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Support;
 
 use RuntimeException;
@@ -59,17 +68,17 @@ class Str
      */
     public static function snake($value, $delimiter = '_')
     {
-        if (isset(static::$snakeCache[$value.$delimiter])) {
-            return static::$snakeCache[$value.$delimiter];
+        if (isset(static::$snakeCache[$value . $delimiter])) {
+            return static::$snakeCache[$value . $delimiter];
         }
 
         if (!ctype_lower($value)) {
             $value = strtolower(
-                preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value)
+                preg_replace('/(.)(?=[A-Z])/', '$1' . $delimiter, $value)
             );
         }
 
-        return static::$snakeCache[$value.$delimiter] = $value;
+        return static::$snakeCache[$value . $delimiter] = $value;
     }
 
     /**

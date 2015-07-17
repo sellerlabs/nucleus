@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
@@ -83,7 +92,7 @@ class ArrayUtils
         if (($indexA < 0 || $indexA > ($count - 1))
             || $indexB < 0 || $indexB > ($count - 1)
         ) {
-            throw new IndexOutOfBoundsException;
+            throw new IndexOutOfBoundsException();
         }
 
         $temp = $elements[$indexA];

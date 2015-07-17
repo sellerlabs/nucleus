@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Testing\Traits;
 
 use Exception;
@@ -48,7 +57,7 @@ trait ConstructorTesterTrait
      *
      * @return mixed
      */
-    public abstract function assertInstanceOf(
+    abstract public function assertInstanceOf(
         $expected,
         $actual,
         $message = ''
@@ -63,7 +72,7 @@ trait ConstructorTesterTrait
      *
      * @return mixed
      */
-    public abstract function assertInternalType(
+    abstract public function assertInternalType(
         $expected,
         $actual,
         $message = ''

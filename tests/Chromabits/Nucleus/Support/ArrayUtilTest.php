@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Tests\Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
@@ -25,11 +34,11 @@ class ArrayUtilTest extends TestCase
         $input = [
             'key1' => 'content',
             'key2' => null,
-            'otherkey' => null
+            'otherkey' => null,
         ];
 
         $output = [
-            'key1' => 'content'
+            'key1' => 'content',
         ];
 
         $utils = new ArrayUtils();
@@ -43,11 +52,11 @@ class ArrayUtilTest extends TestCase
             'key1' => 'content',
             'key2' => null,
             'otherkey' => null,
-            'otherkey2' => 'ishouldnotbehere'
+            'otherkey2' => 'ishouldnotbehere',
         ];
 
         $output = [
-            'key1' => 'content'
+            'key1' => 'content',
         ];
 
         $utils = new ArrayUtils();
@@ -104,7 +113,7 @@ class ArrayUtilTest extends TestCase
         ];
 
         $output = [
-            'first_name' => 'content'
+            'first_name' => 'content',
         ];
 
         $utils = new ArrayUtils();

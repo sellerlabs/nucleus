@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Tests\Chromabits\Nucleus\Testing\Traits;
 
 use Chromabits\Nucleus\Testing\TestCase;
@@ -18,7 +27,7 @@ class ConstructorTesterHelper extends TestCase
     use ConstructorTesterTrait;
 
     protected $constructorTypes = [
-        'Chromabits\Nucleus\Testing\TestCase'
+        'Chromabits\Nucleus\Testing\TestCase',
     ];
 
     protected function make()
@@ -30,7 +39,7 @@ class ConstructorTesterHelper extends TestCase
     {
         $this->constructorTypes = [
             '\PHPUnit_Framework_TestCase',
-            'Chromabits\Nucleus\Testing\TestCase'
+            'Chromabits\Nucleus\Testing\TestCase',
         ];
     }
 
