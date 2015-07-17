@@ -11,8 +11,6 @@
 
 namespace Chromabits\Nucleus\Exceptions;
 
-use Exception;
-
 /**
  * Class ResolutionException
  *
@@ -22,7 +20,7 @@ use Exception;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Exceptions
  */
-class ResolutionException extends Exception
+class ResolutionException extends CoreException
 {
     //
 }

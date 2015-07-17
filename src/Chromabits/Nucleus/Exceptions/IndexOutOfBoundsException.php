@@ -11,8 +11,6 @@
 
 namespace Chromabits\Nucleus\Exceptions;
 
-use Exception;
-
 /**
  * Class IndexOutOfBoundsException
  *
@@ -20,9 +18,10 @@ use Exception;
  * in the current context or is outside of the bounds of
  * the list or set.
  *
+ * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Exceptions
  */
-class IndexOutOfBoundsException extends Exception
+class IndexOutOfBoundsException extends CoreException
 {
     //
 }
