@@ -1,8 +1,6 @@
 <?php
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
-    ->in('src')
-    ->in('tests');
+$finder = Symfony\CS\Finder\DefaultFinder::create()->in(['src', 'tests']);
 
 return Symfony\CS\Config\Config::create()
     ->level(Symfony\CS\FixerInterface::NONE_LEVEL)

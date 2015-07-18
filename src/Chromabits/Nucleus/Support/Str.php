@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Strings\Rope;
 use RuntimeException;
 
 /**
@@ -24,39 +25,16 @@ use RuntimeException;
 class Str
 {
     /**
-     * The cache of snake-cased words.
-     *
-     * @var array
-     */
-    protected static $snakeCache = [];
-
-    /**
-     * The cache of camel-cased words.
-     *
-     * @var array
-     */
-    protected static $camelCache = [];
-
-    /**
-     * The cache of studly-cased words.
-     *
-     * @var array
-     */
-    protected static $studlyCache = [];
-
-    /**
      * Convert a value to camel case.
      *
      * @param string $value
+     * @param null $encoding
+     *
      * @return string
      */
-    public static function camel($value)
+    public static function camel($value, $encoding = null)
     {
-        if (isset(static::$camelCache[$value])) {
-            return static::$camelCache[$value];
-        }
-
-        return static::$camelCache[$value] = lcfirst(static::studly($value));
+        return (new Rope($value, $encoding))->toCamel()->toString();
     }
 
     /**
@@ -64,69 +42,29 @@ class Str
      *
      * @param string $value
      * @param string $delimiter
+     * @param null $encoding
+     *
      * @return string
      */
-    public static function snake($value, $delimiter = '_')
+    public static function snake($value, $delimiter = '_', $encoding = null)
     {
-        if (isset(static::$snakeCache[$value . $delimiter])) {
-            return static::$snakeCache[$value . $delimiter];
-        }
-
-        if (!ctype_lower($value)) {
-            $value = strtolower(
-                preg_replace('/(.)(?=[A-Z])/', '$1' . $delimiter, $value)
-            );
-        }
-
-        return static::$snakeCache[$value . $delimiter] = $value;
+        return (new Rope($value, $encoding))->toSnake($delimiter)->toString();
     }
 
     /**
      * Convert a value to studly caps case.
      *
      * @param string $value
+     * @param null $encoding
+     *
      * @return string
      */
-    public static function studly($value)
+    public static function studly($value, $encoding = null)
     {
-        if (isset(static::$studlyCache[$value])) {
-            return static::$studlyCache[$value];
-        }
-
-        $value = ucwords(str_replace(['-', '_'], ' ', $value));
-
-        return static::$studlyCache[$value] = str_replace(' ', '', $value);
+        return (new Rope($value, $encoding))->toStudly()->toString();
     }
 
-    /**
-     * Replace the snake case cache
-     *
-     * @param $cache
-     */
-    public static function setSnakeCache($cache)
-    {
-        static::$snakeCache = $cache;
-    }
 
-    /**
-     * Replace the camel case cache
-     *
-     * @param $cache
-     */
-    public static function setCamelCache($cache)
-    {
-        static::$camelCache = $cache;
-    }
-
-    /**
-     * Replace the studly cache
-     *
-     * @param $cache
-     */
-    public static function setStudlyCache($cache)
-    {
-        static::$studlyCache = $cache;
-    }
 
     /**
      * Generate a more truly "random" alpha-numeric string.

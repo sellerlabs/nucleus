@@ -28,11 +28,6 @@ class StrTest extends TestCase
      */
     protected $php;
 
-    public function testConstructor()
-    {
-        $this->assertInstanceOf('Chromabits\Nucleus\Support\Str', new Str());
-    }
-
     public function testCamel()
     {
         $str = new Str();
@@ -58,39 +53,6 @@ class StrTest extends TestCase
             'studly_case_stuff',
             $str->snake('StudlyCaseStuff')
         );
-    }
-
-    public function testCamelCache()
-    {
-        $str = new Str();
-
-        $str->setCamelCache([
-            "this_is_cached" => 'This is cached',
-        ]);
-
-        $this->assertEquals('This is cached', $str->camel('this_is_cached'));
-    }
-
-    public function testStudlyCache()
-    {
-        $str = new Str();
-
-        $str->setStudlyCache([
-            "this_is_cached" => 'This is cached',
-        ]);
-
-        $this->assertEquals('This is cached', $str->studly('this_is_cached'));
-    }
-
-    public function testSnakeCache()
-    {
-        $str = new Str();
-
-        $str->setSnakeCache([
-            "thisIsCached_" => 'This is cached',
-        ]);
-
-        $this->assertEquals('This is cached', $str->snake('thisIsCached'));
     }
 
     public function testQuickRandom()
