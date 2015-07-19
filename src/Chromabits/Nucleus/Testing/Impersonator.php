@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Testing;
 
+use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Exceptions\ResolutionException;
 use Closure;
 use Mockery;
@@ -75,10 +76,18 @@ class Impersonator
      * constructor or conflicting interfaces, it is recommended that you build
      * the object manually.
      *
-     * @param $mock
+     * @param mixed $mock
+     *
+     * @throws LackOfCoffeeException
      */
     public function provide($mock)
     {
+        if (is_string($mock) || is_array($mock)) {
+            throw new LackOfCoffeeException(
+                'A mock cannot be a string or an array.'
+            );
+        }
+
         $interfaces = class_implements($mock);
         $parents = class_parents($mock);
 
@@ -108,13 +117,17 @@ class Impersonator
      * @param $target
      *
      * @return \ReflectionParameter[]
+     * @throws LackOfCoffeeException
      */
     protected function getArgumentTypes($target)
     {
         $reflect = new ReflectionClass($target);
 
-        if (is_null($reflect)) {
-            return [];
+        if ($reflect->getConstructor() === null) {
+            throw new LackOfCoffeeException(
+                'Using an impersonator on a class without a constructor does'
+                . ' not make much sense.'
+            );
         }
 
         return $reflect->getConstructor()->getParameters();

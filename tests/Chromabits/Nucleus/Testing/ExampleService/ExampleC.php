@@ -1,0 +1,56 @@
+<?php
+
+namespace Tests\Chromabits\Nucleus\Testing\ExampleService;
+
+/**
+ * Class ExampleC
+ *
+ * @author Eduardo Trujillo <ed@chromabits.com>
+ * @package Tests\Chromabits\Nucleus\Testing\ExampleService
+ */
+class ExampleC
+{
+    /**
+     * @var ExampleAInterface
+     */
+    protected $one;
+
+    /**
+     * @var ExampleA
+     */
+    protected $two;
+
+    /**
+     * Construct an instance of a ExampleC.
+     *
+     * @param ExampleAInterface $one
+     * @param ExampleA $two
+     */
+    public function __construct(
+        ExampleAInterface $one,
+        ExampleA $two
+    ) {
+        $this->one = $one;
+        $this->two = $two;
+    }
+
+    /**
+     * Get one.
+     *
+     * @return ExampleAInterface
+     */
+    public function getOne()
+    {
+        return $this->one;
+    }
+
+    /**
+     * Get two.
+     *
+     * @return ExampleA
+     */
+    public function getTwo()
+    {
+        return $this->two;
+    }
+}
