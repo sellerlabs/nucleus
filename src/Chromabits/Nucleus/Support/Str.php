@@ -64,8 +64,6 @@ class Str
         return (new Rope($value, $encoding))->toStudly()->toString();
     }
 
-
-
     /**
      * Generate a more truly "random" alpha-numeric string.
      *
