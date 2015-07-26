@@ -12,6 +12,7 @@
 namespace Chromabits\Nucleus\Testing;
 
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
+use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 
 /**
  * Class TestCase
@@ -77,5 +78,20 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
                 $message
             );
         }
+    }
+
+    /**
+     * Assert that the provided value is an array.
+     *
+     * @param mixed $actual
+     * @param string $message
+     */
+    public static function assertIsArray($actual, $message = '')
+    {
+        static::assertInternalType(
+            CompoundTypes::COMPOUND_ARRAY,
+            $actual,
+            $message
+        );
     }
 }

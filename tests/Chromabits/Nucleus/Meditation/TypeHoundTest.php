@@ -9,12 +9,12 @@ use SplQueue;
 use stdClass;
 
 /**
- * Class ReflectorTest
+ * Class TypeHoundTest
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Meditation
  */
-class ReflectorTest extends TestCase
+class TypeHoundTest extends TestCase
 {
     public function testResolve()
     {
