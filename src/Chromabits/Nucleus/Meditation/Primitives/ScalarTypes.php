@@ -13,9 +13,9 @@ use Chromabits\Nucleus\Meditation\TypesDefinition;
 class ScalarTypes extends TypesDefinition
 {
     const SCALAR_STRING = 'string';
-    const SCALAR_INTEGER = 'int';
+    const SCALAR_INTEGER = 'integer';
     const SCALAR_FLOAT = 'float';
-    const SCALAR_BOOLEAN = 'bool';
+    const SCALAR_BOOLEAN = 'boolean';
 
     /**
      * Get a list of names of all the types defined.

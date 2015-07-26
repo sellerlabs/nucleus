@@ -11,6 +11,8 @@
 
 namespace Chromabits\Nucleus\Testing;
 
+use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
+
 /**
  * Class TestCase
  *
@@ -43,5 +45,37 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         }
 
         parent::assertInstanceOf($expected, $actual, $message);
+    }
+
+    /**
+     * Run assert equals with an input matrix.
+     *
+     * Every entry should be formatted as following:
+     *
+     * [$expected, $equals, $message (optional)]
+     *
+     * @param array $comparisons
+     *
+     * @throws LackOfCoffeeException
+     */
+    public static function assertEqualsMatrix(array $comparisons)
+    {
+        foreach ($comparisons as $comparison) {
+            if (count($comparison) < 2) {
+                throw new LackOfCoffeeException('Comparison entry is invalid.');
+            }
+
+            $message = null;
+
+            if (array_key_exists(2, $comparison)) {
+                $message = $comparison[2];
+            }
+
+            static::assertEquals(
+                $comparison[0],
+                $comparison[1],
+                $message
+            );
+        }
     }
 }

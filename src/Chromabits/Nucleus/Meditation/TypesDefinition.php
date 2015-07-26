@@ -51,36 +51,6 @@ abstract class TypesDefinition extends Enum
     }
 
     /**
-     * Get a list of names of all the class types defined.
-     *
-     * @return string[]
-     */
-    public function getClasses()
-    {
-        return [];
-    }
-
-    /**
-     * Get a list of names of all the interface types defined.
-     *
-     * @return string[]
-     */
-    public function getInterfaces()
-    {
-        return [];
-    }
-
-    /**
-     * Get a list of names of all the special types defined.
-     *
-     * @return string[]
-     */
-    public function getTraits()
-    {
-        return [];
-    }
-
-    /**
      * Type check a value.
      *
      * @param string $typeName
