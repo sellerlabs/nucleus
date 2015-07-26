@@ -32,7 +32,7 @@ class UnknownTypeException extends CoreException
         Exception $previous = null
     ) {
         parent::__construct(
-            sprintf('The type %s is unknown', $typeName),
+            sprintf('The type %s is unknown.', $typeName),
             $code,
             $previous
         );
