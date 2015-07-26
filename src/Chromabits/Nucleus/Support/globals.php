@@ -54,7 +54,7 @@ if (!function_exists('coalesce')) {
     /**
      * Return the first non-null argument.
      *
-     * @param ...$args
+     * @param mixed ...$args
      *
      * @return null
      */
@@ -67,6 +67,26 @@ if (!function_exists('coalesce')) {
         }
 
         return null;
+    }
+}
+
+if (!function_exists('truthy')) {
+    /**
+     * Return the first non-false argument.
+     *
+     * @param mixed ...$args
+     *
+     * @return null
+     */
+    function truthy(...$args)
+    {
+        foreach ($args as $arg) {
+            if ($arg) {
+                return $arg;
+            }
+        }
+
+        return false;
     }
 }
 
