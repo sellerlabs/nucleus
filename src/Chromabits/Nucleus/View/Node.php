@@ -3,6 +3,8 @@
 namespace Chromabits\Nucleus\View;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
+use Chromabits\Nucleus\Meditation\Spec;
+use Chromabits\Nucleus\View\Exceptions\InvalidAttributesException;
 use Chromabits\Nucleus\View\Interfaces\Renderable;
 
 /**
@@ -23,12 +25,14 @@ class Node
 
     protected $content;
 
+    protected $spec;
+
     /**
      * Construct an instance of a Node.
      *
      * @param string $tagName
      * @param string[] $attributes
-     * @param string|Renderable $content
+     * @param string|Renderable|string[]|Renderable[] $content
      * @param bool $selfClosing
      */
     public function __construct(
@@ -41,6 +45,8 @@ class Node
         $this->attributes = $attributes;
         $this->content = $content;
         $this->selfClosing = $selfClosing;
+
+        $this->spec = new Spec();
     }
 
     /**
@@ -57,7 +63,7 @@ class Node
             return $name;
         }
 
-        return sprintf('%s="%s"', [
+        return vsprintf('%s="%s"', [
             $name,
             nucleus_escape_html((string) $value)
         ]);
@@ -72,7 +78,7 @@ class Node
     {
         return implode(' ', array_map(function ($name, $value) {
             return $this->renderAttribute($name, $value);
-        }, $this->attributes, array_keys($this->attributes)));
+        }, array_keys($this->attributes), $this->attributes));
     }
 
     /**
@@ -110,9 +116,16 @@ class Node
      * Render the Node.
      *
      * @return string
+     * @throws CoreException
+     * @throws InvalidAttributesException
      */
-    protected function render()
+    public function render()
     {
+        $result = $this->spec->check($this->attributes);
+        if ($result->failed()) {
+            throw new InvalidAttributesException($result);
+        }
+
         if ($this->selfClosing) {
             return sprintf(
                 '<%s%s/>',
@@ -120,11 +133,16 @@ class Node
             );
         }
 
-        return sprintf(
+        $attributes = $this->renderAttributes();
+        if (strlen($attributes)) {
+            $attributes = ' ' . $attributes;
+        }
+
+        return vsprintf(
             '<%s%s>%s</%s>',
             [
                 $this->tagName,
-                $this->renderAttributes(),
+                $attributes,
                 $this->renderContent(),
                 $this->tagName
             ]
