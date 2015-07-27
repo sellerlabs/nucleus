@@ -52,4 +52,30 @@ class EitherConstraint extends AbstractConstraint
             $this->other->check($value)
         );
     }
+
+    /**
+     * Return whether the constraint is defined by an union of types.
+     *
+     * @return bool
+     */
+    public function isUnion()
+    {
+        return true;
+    }
+
+    /**
+     * Get string representation of this constraint.
+     *
+     * @return mixed
+     */
+    public function toString()
+    {
+        $one = $this->one->toString();
+        $other = $this->other->toString();
+
+        $one = $this->one->isUnion() ? sprintf('(%s)', $one) : $one;
+        $other = $this->other->isUnion() ? sprintf('(%s)', $other) : $other;
+
+        return sprintf('%s|%s', $one, $other);
+    }
 }

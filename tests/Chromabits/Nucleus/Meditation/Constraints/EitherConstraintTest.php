@@ -81,4 +81,32 @@ class EitherConstraintTest extends TestCase
             [true, $instance->check([])],
         ]);
     }
+
+    public function testToString()
+    {
+        $instance = new EitherConstraint(
+            new PrimitiveTypeConstraint(CompoundTypes::COMPOUND_ARRAY),
+            new EitherConstraint(
+                new ClassTypeConstraint(CoreException::class),
+                new PrimitiveTypeConstraint(ScalarTypes::SCALAR_FLOAT)
+            )
+        );
+
+        $expected = CompoundTypes::COMPOUND_ARRAY . '|(' . CoreException::class
+            . '|' . ScalarTypes::SCALAR_FLOAT . ')';
+
+        $this->assertEquals($expected, $instance->toString());
+        $this->assertEquals($expected, $instance->__toString());
+        $this->assertEquals($expected, (string) $instance);
+    }
+
+    public function testIsUnion()
+    {
+        $instance = new EitherConstraint(
+            new PrimitiveTypeConstraint(ScalarTypes::SCALAR_STRING),
+            new PrimitiveTypeConstraint(ScalarTypes::SCALAR_FLOAT)
+        );
+
+        $this->assertTrue($instance->isUnion());
+    }
 }

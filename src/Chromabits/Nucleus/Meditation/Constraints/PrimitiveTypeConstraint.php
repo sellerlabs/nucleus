@@ -37,4 +37,14 @@ class PrimitiveTypeConstraint extends AbstractConstraint
 
         return $this->expectedType === $hound->resolve();
     }
+
+    /**
+     * Get string representation of this constraint.
+     *
+     * @return mixed
+     */
+    public function toString()
+    {
+        return $this->expectedType;
+    }
 }

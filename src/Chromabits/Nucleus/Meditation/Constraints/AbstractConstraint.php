@@ -18,4 +18,31 @@ abstract class AbstractConstraint
      * @return mixed
      */
     abstract public function check($value);
+
+    /**
+     * Return whether the constraint is defined by an union of types.
+     *
+     * @return bool
+     */
+    public function isUnion()
+    {
+        return false;
+    }
+
+    /**
+     * Get string representation of this constraint.
+     *
+     * @return mixed
+     */
+    abstract public function toString();
+
+    /**
+     * Get string representation of this constraint.
+     *
+     * @return mixed
+     */
+    public function __toString()
+    {
+        return $this->toString();
+    }
 }

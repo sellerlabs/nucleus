@@ -2,6 +2,9 @@
 
 namespace Tests\Chromabits\Nucleus\Meditation;
 
+use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
+use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
+use Chromabits\Nucleus\Meditation\Primitives\SpecialTypes;
 use Chromabits\Nucleus\Meditation\TypeHound;
 use Chromabits\Nucleus\Testing\Impersonator;
 use Chromabits\Nucleus\Testing\TestCase;
@@ -44,5 +47,42 @@ class TypeHoundTest extends TestCase
         ]);
 
         closedir($resource);
+    }
+
+    public function testIsKnown()
+    {
+        $this->assertEqualsMatrix([
+            [true, TypeHound::isKnown(ScalarTypes::SCALAR_BOOLEAN)],
+            [true, TypeHound::isKnown(ScalarTypes::SCALAR_FLOAT)],
+            [true, TypeHound::isKnown(ScalarTypes::SCALAR_INTEGER)],
+            [true, TypeHound::isKnown(ScalarTypes::SCALAR_STRING)],
+            [true, TypeHound::isKnown(CompoundTypes::COMPOUND_ARRAY)],
+            [true, TypeHound::isKnown(CompoundTypes::COMPOUND_OBJECT)],
+            [true, TypeHound::isKnown(SpecialTypes::SPECIAL_NULL)],
+            [true, TypeHound::isKnown(SpecialTypes::SPECIAL_RESOURCE)],
+        ]);
+    }
+
+    public function testMatches()
+    {
+        $this->assertTrue(
+            (new TypeHound('some string'))->matches(new TypeHound('other'))
+        );
+        $this->assertTrue(
+            (new TypeHound(34))->matches(new TypeHound(101))
+        );
+        $this->assertTrue(
+            (new TypeHound([]))->matches(new TypeHound(['wow']))
+        );
+
+        $this->assertFalse(
+            (new TypeHound('some string'))->matches(new TypeHound(0.78))
+        );
+        $this->assertFalse(
+            (new TypeHound(0.45))->matches(new TypeHound(404))
+        );
+        $this->assertFalse(
+            (new TypeHound([]))->matches(new TypeHound(0.78))
+        );
     }
 }

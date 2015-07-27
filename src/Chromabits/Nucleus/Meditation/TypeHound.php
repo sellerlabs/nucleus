@@ -17,15 +17,39 @@ use Chromabits\Nucleus\Meditation\Primitives\SpecialTypes;
  */
 class TypeHound
 {
+    /**
+     * The value being examined.
+     *
+     * @var mixed
+     */
     protected $value;
 
-    protected $definitions;
+    /**
+     * The types defined.
+     *
+     * @var string[]
+     */
+    protected static $types = [];
 
-    protected $compounds;
+    /**
+     * @var TypesDefinition[]
+     */
+    protected static $definitions = [];
 
-    protected $scalars;
+    /**
+     * @var string[]
+     */
+    protected static $compounds = [];
 
-    protected $specials;
+    /**
+     * @var string[]
+     */
+    protected static $scalars = [];
+
+    /**
+     * @var string[]
+     */
+    protected static $specials = [];
 
     /**
      * Construct an instance of a TypeHound.
@@ -40,9 +64,9 @@ class TypeHound
     /**
      * Register the internal type definitions used by this TypeHound.
      */
-    protected function registerDefinitions()
+    protected static function registerDefinitions()
     {
-        $this->definitions = [
+        static::$definitions = [
             new CompoundTypes(),
             new ScalarTypes(),
             new SpecialTypes(),
@@ -52,24 +76,31 @@ class TypeHound
     /**
      * Aggregate the all the types in the definitions.
      */
-    protected function aggregateDefinitions()
+    protected static function aggregateDefinitions()
     {
         array_map(function (TypesDefinition $definition) {
-            $this->compounds = array_merge(
-                $this->compounds,
+            static::$compounds = array_merge(
+                static::$compounds,
                 $definition->getCompounds()
             );
 
-            $this->scalars = array_merge(
-                $this->scalars,
+            static::$scalars = array_merge(
+                static::$scalars,
                 $definition->getScalars()
             );
 
-            $this->specials = array_merge(
-                $this->specials,
+            static::$specials = array_merge(
+                static::$specials,
                 $definition->getSpecial()
             );
-        }, $this->definitions);
+
+            static::$types = array_merge(
+                static::$types,
+                $definition->getCompounds(),
+                $definition->getScalars(),
+                $definition->getSpecial()
+            );
+        }, static::$definitions);
     }
 
     /**
@@ -80,6 +111,8 @@ class TypeHound
      */
     public function resolve()
     {
+        // TODO: Make this dynamic.
+
         if (is_scalar($this->value)) {
             if (is_string($this->value)) {
                 return ScalarTypes::SCALAR_STRING;
@@ -103,11 +136,33 @@ class TypeHound
         throw new UnknownTypeException(gettype($this->value));
     }
 
-    // matches()
+    /**
+     * Check that the type matches.
+     *
+     * @param TypeHound $other
+     *
+     * @return bool
+     * @throws UnknownTypeException
+     */
+    public function matches(TypeHound $other)
+    {
+        return $this->resolve() === $other->resolve();
+    }
 
-    // registerDefinition()
+    /**
+     * Check if the type is known.
+     *
+     * @param string $typeName
+     *
+     * @return bool
+     */
+    public static function isKnown($typeName)
+    {
+        static::registerDefinitions();
+        static::aggregateDefinitions();
 
-    // isKnown()
+        return in_array($typeName, static::$types);
+    }
 
     /**
      * Creates a hound and resolves it immediately.

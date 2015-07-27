@@ -43,4 +43,18 @@ class ClassTypeConstraintTest extends TestCase
             [false, $instance->check(new Exception())],
         ]);
     }
+
+    public function testToString()
+    {
+        $instance = new ClassTypeConstraint(CoreException::class);
+
+        $this->assertEquals(CoreException::class, $instance->toString());
+    }
+
+    public function testIsUnion()
+    {
+        $instance = new ClassTypeConstraint(CoreException::class);
+
+        $this->assertFalse($instance->isUnion());
+    }
 }

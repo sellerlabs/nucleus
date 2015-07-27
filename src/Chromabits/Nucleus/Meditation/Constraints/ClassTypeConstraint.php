@@ -38,4 +38,14 @@ class ClassTypeConstraint extends AbstractConstraint
     {
         return is_a($value, $this->className, false);
     }
+
+    /**
+     * Get string representation of this constraint.
+     *
+     * @return mixed
+     */
+    public function toString()
+    {
+        return $this->className;
+    }
 }
