@@ -6,12 +6,12 @@ use Chromabits\Nucleus\View\Interfaces\Renderable;
 use Chromabits\Nucleus\View\Node;
 
 /**
- * Class Image
+ * Class Italic
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View\Common
  */
-class Image extends Node
+class Italic extends Node
 {
     /**
      * Construct an instance of a Button.
@@ -21,6 +21,6 @@ class Image extends Node
      */
     public function __construct($attributes, $content = '')
     {
-        parent::__construct('img', $attributes, $content);
+        parent::__construct('i', $attributes, $content);
     }
 }

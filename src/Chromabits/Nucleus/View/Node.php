@@ -15,7 +15,7 @@ use Chromabits\Nucleus\View\Interfaces\Renderable;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View
  */
-class Node
+class Node implements Renderable
 {
     protected $tagName = null;
 
