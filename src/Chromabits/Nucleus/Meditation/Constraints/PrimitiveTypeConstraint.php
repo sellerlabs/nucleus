@@ -2,6 +2,7 @@
 
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
+use Chromabits\Nucleus\Meditation\Exceptions\UnknownTypeException;
 use Chromabits\Nucleus\Meditation\TypeHound;
 
 /**
@@ -10,7 +11,7 @@ use Chromabits\Nucleus\Meditation\TypeHound;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
  */
-class PrimitiveTypeConstraint extends AbstractConstraint
+class PrimitiveTypeConstraint extends AbstractTypeConstraint
 {
     /**
      * Construct an instance of a PrimitiveConstant.
@@ -28,10 +29,12 @@ class PrimitiveTypeConstraint extends AbstractConstraint
      * Check if the constraint is met.
      *
      * @param mixed $value
+     * @param array $context
      *
      * @return mixed
+     * @throws UnknownTypeException
      */
-    public function check($value)
+    public function check($value, array $context = [])
     {
         $hound = new TypeHound($value);
 

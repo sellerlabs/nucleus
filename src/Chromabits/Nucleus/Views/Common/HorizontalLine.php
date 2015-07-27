@@ -1,6 +1,6 @@
 <?php
 
-namespace Chromabits\Nucleus\Views\Common;
+namespace Chromabits\Nucleus\View\Common;
 
 class HorizontalLine
 {

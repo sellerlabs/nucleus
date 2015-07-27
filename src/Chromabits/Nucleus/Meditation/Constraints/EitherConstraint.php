@@ -8,7 +8,7 @@ namespace Chromabits\Nucleus\Meditation\Constraints;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
  */
-class EitherConstraint extends AbstractConstraint
+class EitherConstraint extends AbstractTypeConstraint
 {
     /**
      * First type.
@@ -42,10 +42,11 @@ class EitherConstraint extends AbstractConstraint
      * Check if the constraint is met.
      *
      * @param mixed $value
+     * @param array $context
      *
      * @return bool
      */
-    public function check($value)
+    public function check($value, array $context = [])
     {
         return truthy(
             $this->one->check($value),

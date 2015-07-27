@@ -1,6 +1,6 @@
 <?php
 
-namespace Chromabits\Nucleus\Views\Interfaces;
+namespace Chromabits\Nucleus\View\Interfaces;
 
 /**
  * Interface Renderable
@@ -8,7 +8,7 @@ namespace Chromabits\Nucleus\Views\Interfaces;
  * Represents an object that can be rendered into a string.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
- * @package Chromabits\Nucleus\Views\Interfaces
+ * @package Chromabits\Nucleus\View\Interfaces
  */
 interface Renderable
 {

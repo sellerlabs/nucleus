@@ -14,20 +14,11 @@ abstract class AbstractConstraint
      * Check if the constraint is met.
      *
      * @param mixed $value
+     * @param array $context
      *
      * @return mixed
      */
-    abstract public function check($value);
-
-    /**
-     * Return whether the constraint is defined by an union of types.
-     *
-     * @return bool
-     */
-    public function isUnion()
-    {
-        return false;
-    }
+    abstract public function check($value, array $context = []);
 
     /**
      * Get string representation of this constraint.

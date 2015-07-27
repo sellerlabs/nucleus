@@ -8,7 +8,7 @@ namespace Chromabits\Nucleus\Meditation\Constraints;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
  */
-class ClassTypeConstraint extends AbstractConstraint
+class ClassTypeConstraint extends AbstractTypeConstraint
 {
     /**
      * Expected class name.
@@ -31,10 +31,11 @@ class ClassTypeConstraint extends AbstractConstraint
      * Check if the constraint is met.
      *
      * @param mixed $value
+     * @param array $context
      *
      * @return mixed
      */
-    public function check($value)
+    public function check($value, array $context = [])
     {
         return is_a($value, $this->className, false);
     }

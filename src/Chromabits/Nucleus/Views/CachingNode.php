@@ -1,6 +1,6 @@
 <?php
 
-namespace Chromabits\Nucleus\Views;
+namespace Chromabits\Nucleus\View;
 
 /**
  * Class CachingNode
@@ -8,7 +8,7 @@ namespace Chromabits\Nucleus\Views;
  * WIP
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
- * @package Chromabits\Nucleus\Views
+ * @package Chromabits\Nucleus\View
  */
 abstract class CachingNode extends Node
 {

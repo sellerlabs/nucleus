@@ -1,6 +1,6 @@
 <?php
 
-namespace Chromabits\Nucleus\Views\Attributes;
+namespace Chromabits\Nucleus\View\Attributes;
 
 class AttributeTypes
 {

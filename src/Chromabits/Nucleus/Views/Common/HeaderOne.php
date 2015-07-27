@@ -1,8 +1,8 @@
 <?php
 
-namespace Chromabits\Nucleus\Views\Common;
+namespace Chromabits\Nucleus\View\Common;
 
-use Chromabits\Nucleus\Views\Node;
+use Chromabits\Nucleus\View\Node;
 
 class HeaderOne extends Node
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Chromabits\Nucleus\Views;
+namespace Chromabits\Nucleus\View;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
-use Chromabits\Nucleus\Views\Interfaces\Renderable;
+use Chromabits\Nucleus\View\Interfaces\Renderable;
 
 /**
  * Class Node
@@ -11,7 +11,7 @@ use Chromabits\Nucleus\Views\Interfaces\Renderable;
  * WIP
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
- * @package Chromabits\Nucleus\Views
+ * @package Chromabits\Nucleus\View
  */
 class Node
 {
