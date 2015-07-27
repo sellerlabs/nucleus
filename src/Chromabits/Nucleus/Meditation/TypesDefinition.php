@@ -59,16 +59,4 @@ abstract class TypesDefinition extends Enum
      * @return boolean
      */
     abstract public function check($typeName, $value);
-
-    /**
-     * Throw an UnknownTypeException with the provided type.
-     *
-     * @param string $typeName
-     *
-     * @throws UnknownTypeException
-     */
-    protected function throwUnknownTypeException($typeName)
-    {
-        throw new UnknownTypeException($typeName);
-    }
 }

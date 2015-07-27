@@ -16,7 +16,7 @@ if (!function_exists('rope')) {
     /**
      * Create a new instance of a rope.
      *
-     * @param $str
+     * @param string $str
      * @param null $encoding
      *
      * @return Rope
@@ -31,9 +31,9 @@ if (!function_exists('within')) {
     /**
      * Check if a value is between two other values.
      *
-     * @param $min
-     * @param $max
-     * @param $value
+     * @param integer|float $min
+     * @param integer|float $max
+     * @param integer|float $value
      *
      * @return bool
      * @throws LackOfCoffeeException
@@ -90,11 +90,25 @@ if (!function_exists('truthy')) {
     }
 }
 
+if (!function_exists('nucleus_escape_html')) {
+    /**
+     * Escape the provided input for HTML.
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    function nucleus_escape_html($string)
+    {
+        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+    }
+}
+
 if (!function_exists('mb_lcfirst')) {
     /**
      * Multi-byte version of lcfirst().
      *
-     * @param $str
+     * @param string $str
      * @param null|string $encoding
      *
      * @return string
@@ -116,7 +130,7 @@ if (!function_exists('mb_ucfirst')) {
     /**
      * Multi-byte version of ucfirst().
      *
-     * @param $str
+     * @param string $str
      * @param null|string $encoding
      *
      * @return string
@@ -138,7 +152,7 @@ if (!function_exists('mb_ctype_lower')) {
     /**
      * Multi-byte version of ctype_lower().
      *
-     * @param $text
+     * @param string $text
      * @param null|string $encoding
      *
      * @return bool
@@ -159,6 +173,15 @@ if (!function_exists('mb_ctype_lower')) {
 }
 
 if (!function_exists('mb_ucwords')) {
+    /**
+     * Multibyte version of ucwords().
+     *
+     * @param string $str
+     * @param string $delimiters
+     * @param null|string $encoding
+     *
+     * @return mixed|string
+     */
     function mb_ucwords($str, $delimiters = '', $encoding = null)
     {
         $encoding = coalesce($encoding, mb_internal_encoding());
