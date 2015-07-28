@@ -49,4 +49,16 @@ class ClassTypeConstraint extends AbstractTypeConstraint
     {
         return $this->className;
     }
+
+    /**
+     * Get the description of the constraint.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return vsprintf('The value is expected to be an instance of a %s.', [
+            $this->className
+        ]);
+    }
 }

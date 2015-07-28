@@ -36,4 +36,14 @@ abstract class AbstractConstraint
     {
         return $this->toString();
     }
+
+    /**
+     * Get the description of the constraint.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return 'The value is expected to meet the constraint.';
+    }
 }

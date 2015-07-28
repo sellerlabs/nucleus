@@ -19,4 +19,17 @@ abstract class AbstractTypeConstraint extends AbstractConstraint
     {
         return false;
     }
+
+    /**
+     * Get the description of the constraint.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return vsprintf(
+            'The value is expected to meet the type constraint: %s',
+            [$this->toString()]
+        );
+    }
 }
