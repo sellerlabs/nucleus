@@ -3,6 +3,7 @@
 namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
+use Chromabits\Nucleus\Support\Arr;
 
 /**
  * Class SpecResult
@@ -73,17 +74,15 @@ class SpecResult
     /**
      * Get the failed constrains for a specific field.
      *
+     * Dot notation is supported.
+     *
      * @param string $fieldName
      *
      * @return AbstractConstraint[]
      */
     public function getFailedForField($fieldName)
     {
-        if (array_key_exists($fieldName, $this->failed)) {
-            return $this->failed[$fieldName];
-        }
-
-        return [];
+        return Arr::dotGet($this->failed, $fieldName);
     }
 
     /**

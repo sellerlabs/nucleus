@@ -11,6 +11,8 @@
 
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Strings\Rope;
+use Chromabits\Nucleus\Support\Arr;
+use Chromabits\Nucleus\Support\Std;
 
 if (!function_exists('rope')) {
     /**
@@ -23,7 +25,7 @@ if (!function_exists('rope')) {
      */
     function rope($str, $encoding = null)
     {
-        return new Rope($str, $encoding);
+        return Std::rope($str, $encoding);
     }
 }
 
@@ -40,13 +42,7 @@ if (!function_exists('within')) {
      */
     function within($min, $max, $value)
     {
-        if ($min > $max) {
-            throw new LackOfCoffeeException(
-                'Max value is less than the min value.'
-            );
-        }
-
-        return ($min <= $value && $max >= $value);
+        return Std::within($min, $max, $value);
     }
 }
 
@@ -60,13 +56,7 @@ if (!function_exists('coalesce')) {
      */
     function coalesce(...$args)
     {
-        foreach ($args as $arg) {
-            if ($arg !== null) {
-                return $arg;
-            }
-        }
-
-        return null;
+        return Std::coalesce(...$args);
     }
 }
 
@@ -80,13 +70,7 @@ if (!function_exists('truthy')) {
      */
     function truthy(...$args)
     {
-        foreach ($args as $arg) {
-            if ($arg) {
-                return $arg;
-            }
-        }
-
-        return false;
+        return Std::truthy(...$args);
     }
 }
 
@@ -100,7 +84,7 @@ if (!function_exists('nucleus_escape_html')) {
      */
     function nucleus_escape_html($string)
     {
-        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+        return Std::escapeHtml($string);
     }
 }
 
@@ -216,5 +200,20 @@ if (!function_exists('mb_ucwords')) {
         $result = preg_replace($secondPattern, $secondReplace, $result);
 
         return $result;
+    }
+}
+
+if (!function_exists('array_get')) {
+    /**
+     * Get an item from an array using "dot" notation.
+     *
+     * @param array $array
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    function array_get($array, $key, $default = null)
+    {
+        return Arr::dotGet($array, $key, $default);
     }
 }

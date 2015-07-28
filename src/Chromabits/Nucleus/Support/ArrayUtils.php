@@ -11,14 +11,13 @@
 
 namespace Chromabits\Nucleus\Support;
 
-use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
-
 /**
  * Class ArrayUtils
  *
  * Array utility functions
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
+ * @deprecated Since 0.3.0
  * @package Chromabits\Nucleus\Support
  */
 class ArrayUtils
@@ -26,18 +25,13 @@ class ArrayUtils
     /**
      * Get array elements that are not null
      *
-     * @param $properties
+     * @param array $properties
      * @param array $allowed
      * @return array
      */
     public function filterNullValues($properties, array $allowed = null)
     {
-        // If provided, only use allowed properties
-        $properties = $this->filterKeys($properties, $allowed);
-
-        return array_filter($properties, function ($value) {
-            return !is_null($value);
-        });
+        return Arr::filterNullValues($properties, $allowed);
     }
 
     /**
@@ -45,35 +39,25 @@ class ArrayUtils
      * are set in the input array. Useful for parsing API responses into
      * entities.
      *
-     * @param $object
+     * @param object $object
      * @param array $input
      * @param array $allowed
      */
     public function callSetters($object, array $input, array $allowed = [])
     {
-        $filtered = $this->filterKeys($input, $allowed);
-
-        foreach ($filtered as $key => $value) {
-            $setterName = 'set' . Str::studly($key);
-
-            $object->$setterName($value);
-        }
+        Std::callSetters($object, $input, $allowed);
     }
 
     /**
      * Filter the keys of an array to only the allowed set
      *
-     * @param $input
+     * @param array $input
      * @param array $allowed
      * @return array
      */
     public function filterKeys($input, $allowed = [])
     {
-        if (is_null($allowed) || count($allowed) == 0) {
-            return $input;
-        }
-
-        return array_intersect_key($input, array_flip($allowed));
+        return Arr::filterKeys($input, $allowed);
     }
 
     /**
@@ -87,18 +71,6 @@ class ArrayUtils
      */
     public function exchange(array &$elements, $indexA, $indexB)
     {
-        $count = count($elements);
-
-        if (($indexA < 0 || $indexA > ($count - 1))
-            || $indexB < 0 || $indexB > ($count - 1)
-        ) {
-            throw new IndexOutOfBoundsException();
-        }
-
-        $temp = $elements[$indexA];
-
-        $elements[$indexA] = $elements[$indexB];
-
-        $elements[$indexB] = $temp;
+        Arr::exchange($elements, $indexA, $indexB);
     }
 }

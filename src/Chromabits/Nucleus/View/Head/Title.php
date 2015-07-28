@@ -2,6 +2,7 @@
 
 namespace Chromabits\Nucleus\View\Head;
 
+use Chromabits\Nucleus\View\Interfaces\Renderable;
 use Chromabits\Nucleus\View\Node;
 
 /**
