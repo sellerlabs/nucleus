@@ -39,6 +39,21 @@ class EitherConstraint extends AbstractTypeConstraint
     }
 
     /**
+     * Construct an instance of an EitherConstraint.
+     *
+     * @param AbstractConstraint $one
+     * @param AbstractConstraint $other
+     *
+     * @return static
+     */
+    public static function create(
+        AbstractConstraint $one,
+        AbstractConstraint $other
+    ) {
+        return new static($one, $other);
+    }
+
+    /**
      * Check if the constraint is met.
      *
      * @param mixed $value

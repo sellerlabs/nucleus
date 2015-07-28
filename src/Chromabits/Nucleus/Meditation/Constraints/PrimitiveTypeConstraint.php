@@ -26,6 +26,18 @@ class PrimitiveTypeConstraint extends AbstractTypeConstraint
     }
 
     /**
+     * Construct an instance of a PrimitiveConstant.
+     *
+     * @param string $typeName
+     *
+     * @return static
+     */
+    public static function forType($typeName)
+    {
+        return new static($typeName);
+    }
+
+    /**
      * Check if the constraint is met.
      *
      * @param mixed $value

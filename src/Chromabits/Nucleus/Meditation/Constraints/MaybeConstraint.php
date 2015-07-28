@@ -24,4 +24,16 @@ class MaybeConstraint extends EitherConstraint
             new PrimitiveTypeConstraint(SpecialTypes::SPECIAL_NULL)
         );
     }
+
+    /**
+     * Construct an instance of a MaybeConstraint.
+     *
+     * @param AbstractConstraint $other
+     *
+     * @return static
+     */
+    public static function forType(AbstractConstraint $other)
+    {
+        return new static($other);
+    }
 }
