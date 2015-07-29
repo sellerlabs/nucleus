@@ -24,14 +24,28 @@ class Validator
     protected $spec;
 
     /**
-     * Construct an instance of
+     * Construct an instance of a Validator.
+     *
      * @param Spec $spec
      * @param array $messages
      */
-    public function __construct(Spec $spec, array $messages)
+    public function __construct(Spec $spec, array $messages = [])
     {
         $this->spec = $spec;
         $this->messages = $messages;
+    }
+
+    /**
+     * Construct an instance of a Validator.
+     *
+     * @param Spec $spec
+     * @param array $messages
+     *
+     * @return static
+     */
+    public static function create(Spec $spec, array $messages = [])
+    {
+        return new static($spec, $messages);
     }
 
     /**

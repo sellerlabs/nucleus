@@ -36,6 +36,23 @@ class Spec
     }
 
     /**
+     * Construct an instance of a Spec.
+     *
+     * @param array $types
+     * @param array $defaults
+     * @param array $required
+     *
+     * @return static
+     */
+    public static function define(
+        array $types = [],
+        array $defaults = [],
+        array $required = []
+    ) {
+        return new static($types, $defaults, $required);
+    }
+
+    /**
      * Check that a certain input passes the spec.
      *
      * @param mixed $input
