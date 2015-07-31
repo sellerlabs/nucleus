@@ -179,4 +179,32 @@ class Std extends BaseObject
 
         return static::value($second);
     }
+
+    /**
+     * Placeholder.
+     *
+     * @param mixed $value
+     * @param int $options
+     * @param int $depth
+     *
+     * @return string
+     */
+    public static function jsonEncode($value, $options = 0, $depth = 512)
+    {
+        return json_encode($value, $options, $depth);
+    }
+
+    /**
+     * Placeholder.
+     *
+     * @param mixed $value
+     * @param int $options
+     * @param int $depth
+     *
+     * @return mixed
+     */
+    public static function jsonDecode($value, $options = 0, $depth = 512)
+    {
+        return json_decode($value, true, $options, $depth);
+    }
 }
