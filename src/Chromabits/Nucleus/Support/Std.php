@@ -12,6 +12,7 @@
 namespace Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
+use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Strings\Rope;
 use Closure;
 
@@ -23,7 +24,7 @@ use Closure;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support
  */
-class Std
+class Std extends BaseObject
 {
     /**
      * Return the default value of the given value.
@@ -42,6 +43,7 @@ class Std
      *
      * @param mixed ...$args
      *
+     * @return bool
      */
     public static function truthy(...$args)
     {
@@ -59,6 +61,7 @@ class Std
      *
      * @param mixed ...$args
      *
+     * @return null
      */
     public static function coalesce(...$args)
     {
@@ -76,6 +79,7 @@ class Std
      *
      * @param mixed ...$args
      *
+     * @return null
      */
     public static function nonempty(...$args)
     {

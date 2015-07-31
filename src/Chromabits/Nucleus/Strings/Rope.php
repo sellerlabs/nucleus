@@ -11,6 +11,8 @@
 
 namespace Chromabits\Nucleus\Strings;
 
+use Chromabits\Nucleus\Foundation\BaseObject;
+
 /**
  * Class Rope.
  *
@@ -19,7 +21,7 @@ namespace Chromabits\Nucleus\Strings;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Strings
  */
-class Rope
+class Rope extends BaseObject
 {
     protected $contents;
 

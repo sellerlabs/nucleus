@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Meditation;
 
+use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 
@@ -20,7 +21,7 @@ use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
  */
-class Arguments
+class Arguments extends BaseObject
 {
     /**
      * Constraints for the checker.
@@ -36,6 +37,8 @@ class Arguments
      */
     public function __construct(...$constraints)
     {
+        parent::__construct();
+
         $this->constraints = $constraints;
     }
 

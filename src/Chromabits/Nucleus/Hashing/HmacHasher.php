@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Hashing;
 
+use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
@@ -21,7 +22,7 @@ use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Hashing
  */
-class HmacHasher
+class HmacHasher extends BaseObject
 {
     /**
      * Algorithm to use for hashing.
@@ -37,6 +38,8 @@ class HmacHasher
      */
     public function __construct($algorithm = 'sha512')
     {
+        parent::__construct();
+
         $this->algorithm = $algorithm;
     }
 

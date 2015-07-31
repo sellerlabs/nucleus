@@ -13,6 +13,7 @@ namespace Chromabits\Nucleus\Testing;
 
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Exceptions\ResolutionException;
+use Chromabits\Nucleus\Foundation\BaseObject;
 use Closure;
 use Mockery;
 use ReflectionClass;
@@ -25,7 +26,7 @@ use ReflectionClass;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Testing
  */
-class Impersonator
+class Impersonator extends BaseObject
 {
     /**
      * List of provided mocks.

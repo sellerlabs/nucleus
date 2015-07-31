@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Meditation;
 
+use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
 use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Support\Std;
@@ -23,7 +24,7 @@ use Chromabits\Nucleus\Support\Std;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
  */
-class Validator
+class Validator extends BaseObject
 {
     protected $messages;
 
@@ -40,6 +41,8 @@ class Validator
      */
     public function __construct(Spec $spec, array $messages = [])
     {
+        parent::__construct();
+
         $this->spec = $spec;
         $this->messages = $messages;
     }

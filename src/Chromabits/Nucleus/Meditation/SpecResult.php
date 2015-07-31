@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Meditation;
 
+use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
 use Chromabits\Nucleus\Support\Arr;
 
@@ -20,7 +21,7 @@ use Chromabits\Nucleus\Support\Arr;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
  */
-class SpecResult
+class SpecResult extends BaseObject
 {
     const STATUS_PASS = 'pass';
     const STATUS_FAIL = 'fail';
@@ -55,6 +56,8 @@ class SpecResult
      */
     public function __construct($missing = [], $failed = [], $status = 'fail')
     {
+        parent::__construct();
+
         $this->missing = $missing;
         $this->failed = $failed;
         $this->status = $status;

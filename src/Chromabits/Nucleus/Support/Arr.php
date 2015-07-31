@@ -13,6 +13,7 @@ namespace Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
+use Chromabits\Nucleus\Foundation\BaseObject;
 
 /**
  * Class Arr.
@@ -20,7 +21,7 @@ use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support
  */
-class Arr
+class Arr extends BaseObject
 {
     /**
      * @param array $array

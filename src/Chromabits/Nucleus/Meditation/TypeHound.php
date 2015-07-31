@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Meditation;
 
+use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Exceptions\UnknownTypeException;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
@@ -24,7 +25,7 @@ use Chromabits\Nucleus\Meditation\Primitives\SpecialTypes;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
  */
-class TypeHound
+class TypeHound extends BaseObject
 {
     /**
      * The value being examined.
@@ -67,6 +68,8 @@ class TypeHound
      */
     public function __construct($value)
     {
+        parent::__construct();
+
         $this->value = $value;
     }
 

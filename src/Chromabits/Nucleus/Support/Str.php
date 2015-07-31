@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Strings\Rope;
 use RuntimeException;
 
@@ -22,7 +23,7 @@ use RuntimeException;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support
  */
-class Str
+class Str extends BaseObject
 {
     /**
      * Convert a value to camel case.

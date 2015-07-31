@@ -21,4 +21,5 @@ namespace Chromabits\Nucleus\View;
  */
 abstract class CachingNode extends Node
 {
+    //
 }

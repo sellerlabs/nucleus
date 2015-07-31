@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Foundation\BaseObject;
 use ReflectionClass;
 
 /**
@@ -21,7 +22,7 @@ use ReflectionClass;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support
  */
-abstract class Enum
+abstract class Enum extends BaseObject
 {
     /**
      * Get the names of possible constants in the enumeration.

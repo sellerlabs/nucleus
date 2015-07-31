@@ -12,6 +12,7 @@
 namespace Chromabits\Nucleus\View;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
+use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Spec;
 use Chromabits\Nucleus\View\Exceptions\InvalidAttributesException;
 use Chromabits\Nucleus\View\Interfaces\Renderable;
@@ -24,7 +25,7 @@ use Chromabits\Nucleus\View\Interfaces\Renderable;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View
  */
-class Node implements Renderable
+class Node extends BaseObject implements Renderable
 {
     protected $tagName = null;
 

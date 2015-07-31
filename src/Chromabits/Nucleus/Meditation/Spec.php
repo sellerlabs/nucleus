@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Meditation;
 
+use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
 
 /**
@@ -19,7 +20,7 @@ use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
  */
-class Spec
+class Spec extends BaseObject
 {
     protected $types;
 
@@ -39,6 +40,8 @@ class Spec
         array $defaults = [],
         array $required = []
     ) {
+        parent::__construct();
+
         $this->types = $types;
         $this->defaults = $defaults;
         $this->required = $required;

@@ -11,13 +11,15 @@
 
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
+use Chromabits\Nucleus\Foundation\BaseObject;
+
 /**
  * Class AbstractConstraint.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
  */
-abstract class AbstractConstraint
+abstract class AbstractConstraint extends BaseObject
 {
     /**
      * Check if the constraint is met.

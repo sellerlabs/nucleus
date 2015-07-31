@@ -22,6 +22,8 @@ use Chromabits\Nucleus\Meditation\TypeHound;
  */
 class PrimitiveTypeConstraint extends AbstractTypeConstraint
 {
+    protected $expectedType;
+
     /**
      * Construct an instance of a PrimitiveConstant.
      *
@@ -29,6 +31,8 @@ class PrimitiveTypeConstraint extends AbstractTypeConstraint
      */
     public function __construct($typeName)
     {
+        parent::__construct();
+
         // TODO: Validate the typeName field
 
         $this->expectedType = $typeName;

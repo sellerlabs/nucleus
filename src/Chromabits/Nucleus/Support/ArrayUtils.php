@@ -11,6 +11,8 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Foundation\BaseObject;
+
 /**
  * Class ArrayUtils.
  *
@@ -20,7 +22,7 @@ namespace Chromabits\Nucleus\Support;
  * @deprecated Since 0.3.0
  * @package Chromabits\Nucleus\Support
  */
-class ArrayUtils
+class ArrayUtils extends BaseObject
 {
     /**
      * Get array elements that are not null.
