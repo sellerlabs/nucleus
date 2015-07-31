@@ -14,7 +14,7 @@ namespace Chromabits\Nucleus\Exceptions;
 use Exception;
 
 /**
- * Class CoreException
+ * Class CoreException.
  *
  * A base exception class.
  *

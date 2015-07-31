@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\View\Common;
 
 use Chromabits\Nucleus\Meditation\Constraints\InArrayConstraint;
@@ -11,7 +20,7 @@ use Chromabits\Nucleus\View\Interfaces\Renderable;
 use Chromabits\Nucleus\View\Node;
 
 /**
- * Class Button
+ * Class Button.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View\Common

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Meditation\Exceptions\UnknownTypeException;
@@ -8,7 +17,7 @@ use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 use Chromabits\Nucleus\Meditation\Primitives\SpecialTypes;
 
 /**
- * Class TypeHound
+ * Class TypeHound.
  *
  * Performs some meditation on the type of a value.
  *
@@ -106,8 +115,8 @@ class TypeHound
     /**
      * Resolve the type name of the inner value.
      *
-     * @return string
      * @throws UnknownTypeException
+     * @return string
      */
     public function resolve()
     {
@@ -141,8 +150,8 @@ class TypeHound
      *
      * @param TypeHound $other
      *
-     * @return bool
      * @throws UnknownTypeException
+     * @return bool
      */
     public function matches(TypeHound $other)
     {
@@ -169,8 +178,8 @@ class TypeHound
      *
      * @param mixed $value
      *
-     * @return mixed
      * @throws UnknownTypeException
+     * @return mixed
      */
     public static function createAndResolve($value)
     {

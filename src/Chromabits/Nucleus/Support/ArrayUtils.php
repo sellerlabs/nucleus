@@ -12,7 +12,7 @@
 namespace Chromabits\Nucleus\Support;
 
 /**
- * Class ArrayUtils
+ * Class ArrayUtils.
  *
  * Array utility functions
  *
@@ -23,7 +23,7 @@ namespace Chromabits\Nucleus\Support;
 class ArrayUtils
 {
     /**
-     * Get array elements that are not null
+     * Get array elements that are not null.
      *
      * @param array $properties
      * @param array $allowed
@@ -49,7 +49,7 @@ class ArrayUtils
     }
 
     /**
-     * Filter the keys of an array to only the allowed set
+     * Filter the keys of an array to only the allowed set.
      *
      * @param array $input
      * @param array $allowed
@@ -61,7 +61,7 @@ class ArrayUtils
     }
 
     /**
-     * Exchange two elements in an array
+     * Exchange two elements in an array.
      *
      * @param array $elements
      * @param int $indexA

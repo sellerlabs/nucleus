@@ -18,7 +18,7 @@ use Mockery;
 use ReflectionClass;
 
 /**
- * Class Impersonator
+ * Class Impersonator.
  *
  * Automatically builds and injects mocks for testing.
  *
@@ -50,8 +50,8 @@ class Impersonator
      *
      * @param $target
      *
-     * @return mixed
      * @throws ResolutionException
+     * @return mixed
      */
     public function make($target)
     {
@@ -116,8 +116,8 @@ class Impersonator
      *
      * @param $target
      *
-     * @return \ReflectionParameter[]
      * @throws LackOfCoffeeException
+     * @return \ReflectionParameter[]
      */
     protected function getArgumentTypes($target)
     {
@@ -138,8 +138,8 @@ class Impersonator
      *
      * @param array $parameters
      *
-     * @return array
      * @throws ResolutionException
+     * @return array
      */
     protected function mockArguments(array $parameters)
     {

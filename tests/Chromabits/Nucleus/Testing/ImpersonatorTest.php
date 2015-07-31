@@ -24,7 +24,7 @@ use Tests\Chromabits\Nucleus\Testing\ExampleService\ExampleC;
 use Tests\Chromabits\Nucleus\Testing\ExampleService\ExampleD;
 
 /**
- * Class ImpersonatorTest
+ * Class ImpersonatorTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Testing

@@ -14,7 +14,7 @@ namespace Tests\Chromabits\Nucleus\Testing\Traits;
 use Chromabits\Nucleus\Testing\TestCase;
 
 /**
- * Class ConstructorTesterTraitTest
+ * Class ConstructorTesterTraitTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Testing\Traits

@@ -14,7 +14,7 @@ namespace Chromabits\Nucleus\Support;
 use ReflectionClass;
 
 /**
- * Class Enum
+ * Class Enum.
  *
  * An enumeration emulation.
  *

@@ -15,7 +15,7 @@ use Chromabits\Nucleus\Strings\Rope;
 use Chromabits\Nucleus\Testing\TestCase;
 
 /**
- * Class RopeTest
+ * Class RopeTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Strings

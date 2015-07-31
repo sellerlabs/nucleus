@@ -12,7 +12,7 @@
 namespace Chromabits\Nucleus\Strings;
 
 /**
- * Class Rope
+ * Class Rope.
  *
  * Like a string, but better.
  *
@@ -47,7 +47,7 @@ class Rope
     protected static $studlyCache = [];
 
     /**
-     * Replace the snake case cache
+     * Replace the snake case cache.
      *
      * @param $cache
      */
@@ -57,7 +57,7 @@ class Rope
     }
 
     /**
-     * Replace the camel case cache
+     * Replace the camel case cache.
      *
      * @param $cache
      */
@@ -67,7 +67,7 @@ class Rope
     }
 
     /**
-     * Replace the studly cache
+     * Replace the studly cache.
      *
      * @param $cache
      */

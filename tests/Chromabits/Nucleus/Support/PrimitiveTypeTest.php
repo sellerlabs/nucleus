@@ -15,7 +15,7 @@ use Chromabits\Nucleus\Support\PrimitiveType;
 use Chromabits\Nucleus\Testing\TestCase;
 
 /**
- * Class PrimitiveTypeTest
+ * Class PrimitiveTypeTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Support

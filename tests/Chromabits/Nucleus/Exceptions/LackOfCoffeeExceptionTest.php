@@ -15,7 +15,7 @@ use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Testing\TestCase;
 
 /**
- * Class LackOfCoffeeExceptionTest
+ * Class LackOfCoffeeExceptionTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Exceptions
@@ -27,7 +27,7 @@ class LackOfCoffeeExceptionTest extends TestCase
         $one = new LackOfCoffeeException();
 
         $this->assertEquals(
-            "(╯°□°）╯︵ ┻━┻ Coffee time!",
+            '(╯°□°）╯︵ ┻━┻ Coffee time!',
             $one->getMessage()
         );
 

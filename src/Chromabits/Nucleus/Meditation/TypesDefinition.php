@@ -1,12 +1,20 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Meditation;
 
-use Chromabits\Nucleus\Meditation\Exceptions\UnknownTypeException;
 use Chromabits\Nucleus\Support\Enum;
 
 /**
- * Class TypesDefinition
+ * Class TypesDefinition.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
@@ -56,7 +64,7 @@ abstract class TypesDefinition extends Enum
      * @param string $typeName
      * @param mixed $value
      *
-     * @return boolean
+     * @return bool
      */
     abstract public function check($typeName, $value);
 }

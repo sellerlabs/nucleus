@@ -1,12 +1,21 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 
 /**
- * Class Arr
+ * Class Arr.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support
@@ -169,7 +178,7 @@ class Arr
     }
 
     /**
-     * Get array elements that are not null
+     * Get array elements that are not null.
      *
      * @param array $properties
      * @param array $allowed
@@ -190,7 +199,7 @@ class Arr
     }
 
     /**
-     * Filter the keys of an array to only the allowed set
+     * Filter the keys of an array to only the allowed set.
      *
      * @param array $input
      * @param array $allowed
@@ -207,7 +216,7 @@ class Arr
     }
 
     /**
-     * Exchange two elements in an array
+     * Exchange two elements in an array.
      *
      * @param array $elements
      * @param int $indexA

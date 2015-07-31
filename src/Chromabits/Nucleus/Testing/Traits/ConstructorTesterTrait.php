@@ -14,7 +14,7 @@ namespace Chromabits\Nucleus\Testing\Traits;
 use Exception;
 
 /**
- * Trait ConstructorTesterTrait
+ * Trait ConstructorTesterTrait.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Testing\Traits
@@ -22,7 +22,7 @@ use Exception;
 trait ConstructorTesterTrait
 {
     /**
-     * Test the constructor of an object
+     * Test the constructor of an object.
      *
      * Creates a new instance by using make and optionally checks
      * if it is an instance of a set of classes and interfaces

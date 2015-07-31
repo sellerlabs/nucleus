@@ -33,12 +33,12 @@ if (!function_exists('within')) {
     /**
      * Check if a value is between two other values.
      *
-     * @param integer|float $min
-     * @param integer|float $max
-     * @param integer|float $value
+     * @param int|float $min
+     * @param int|float $max
+     * @param int|float $value
      *
-     * @return bool
      * @throws LackOfCoffeeException
+     * @return bool
      */
     function within($min, $max, $value)
     {
@@ -52,7 +52,6 @@ if (!function_exists('coalesce')) {
      *
      * @param mixed ...$args
      *
-     * @return null
      */
     function coalesce(...$args)
     {
@@ -66,7 +65,6 @@ if (!function_exists('truthy')) {
      *
      * @param mixed ...$args
      *
-     * @return null
      */
     function truthy(...$args)
     {
@@ -84,7 +82,7 @@ if (!function_exists('nucleus_escape_html')) {
      */
     function nucleus_escape_html($string)
     {
-        return Std::escapeHtml($string);
+        return Std::esc($string);
     }
 }
 

@@ -16,7 +16,7 @@ use Chromabits\Nucleus\Testing\TestCase;
 use PHPUnit_Extension_FunctionMocker as FunctionMocker;
 
 /**
- * Class StrTest
+ * Class StrTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Support

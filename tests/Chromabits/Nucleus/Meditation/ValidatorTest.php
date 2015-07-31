@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Tests\Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
@@ -13,7 +22,7 @@ use Exception;
 use stdClass;
 
 /**
- * Class ValidatorTest
+ * Class ValidatorTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Meditation
@@ -28,11 +37,11 @@ class ValidatorTest extends TestCase
             'exception' => new ClassTypeConstraint(CoreException::class),
             'exception2' => [
                 new ClassTypeConstraint(CoreException::class),
-                new ClassTypeConstraint(Exception::class)
+                new ClassTypeConstraint(Exception::class),
             ],
             'exception3' => [
                 new ClassTypeConstraint(CoreException::class),
-                new ClassTypeConstraint(Exception::class)
+                new ClassTypeConstraint(Exception::class),
             ],
         ], [], ['count']), [
             'name' => 'The name should be pretty.',

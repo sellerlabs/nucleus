@@ -12,7 +12,7 @@
 namespace Chromabits\Nucleus\Support;
 
 /**
- * Class PrimitiveType
+ * Class PrimitiveType.
  *
  * Common names for primitive types. PHPUnit and Mockery use these for type
  * assertions and expectation matching.

@@ -12,7 +12,7 @@
 namespace Tests\Chromabits\Nucleus\Testing\ExampleService;
 
 /**
- * Class ExampleD
+ * Class ExampleD.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Testing\ExampleService

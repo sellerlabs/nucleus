@@ -15,7 +15,7 @@ use Chromabits\Nucleus\Testing\TestCase;
 use Chromabits\Nucleus\Testing\Traits\ConstructorTesterTrait;
 
 /**
- * Class ConstructorTesterHelper
+ * Class ConstructorTesterHelper.
  *
  * This is not a unit test. It's merely a class for testing a trait
  *

@@ -16,7 +16,7 @@ use Chromabits\Nucleus\Testing\TestCase;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Class TestCaseTest
+ * Class TestCaseTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Testing

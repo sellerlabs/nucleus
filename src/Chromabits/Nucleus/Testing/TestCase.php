@@ -15,7 +15,7 @@ use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 
 /**
- * Class TestCase
+ * Class TestCase.
  *
  * A base test case with some extra assertions
  *

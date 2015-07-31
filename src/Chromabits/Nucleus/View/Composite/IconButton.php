@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\View\Composite;
 
 use Chromabits\Nucleus\View\Common\Button;
@@ -7,7 +16,7 @@ use Chromabits\Nucleus\View\Common\Italic;
 use Chromabits\Nucleus\View\Interfaces\Renderable;
 
 /**
- * Class IconButton
+ * Class IconButton.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View\Composite

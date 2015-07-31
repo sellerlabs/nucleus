@@ -15,7 +15,7 @@ use Chromabits\Nucleus\Testing\TestCase;
 use Chromabits\Nucleus\Testing\Traits\ConstructorTesterTrait;
 
 /**
- * Class InvalidConstructorTesterHelper
+ * Class InvalidConstructorTesterHelper.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Testing\Traits

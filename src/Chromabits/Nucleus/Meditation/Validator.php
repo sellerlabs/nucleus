@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
@@ -7,7 +16,7 @@ use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Support\Std;
 
 /**
- * Class Validator
+ * Class Validator.
  *
  * An extension of Spec, which supports displaying more user-friendly messages.
  *
@@ -76,7 +85,7 @@ class Validator
                         Std::firstBias(
                             $value instanceof AbstractConstraint,
                             function () use ($value) {
-                                /** @var AbstractConstraint $value */
+                                /* @var AbstractConstraint $value */
                                 return $value->getDescription();
                             },
                             null

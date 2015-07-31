@@ -17,7 +17,7 @@ use Chromabits\Nucleus\Testing\TestCase;
 use Mockery;
 
 /**
- * Class ArrayUtilTest
+ * Class ArrayUtilTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Support

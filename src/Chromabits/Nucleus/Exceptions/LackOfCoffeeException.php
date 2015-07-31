@@ -14,7 +14,7 @@ namespace Chromabits\Nucleus\Exceptions;
 use Exception;
 
 /**
- * Class LackOfCoffeeException
+ * Class LackOfCoffeeException.
  *
  * We all have that day. This should be thrown when a programmer error or
  * mistake is detected.
@@ -24,7 +24,7 @@ use Exception;
  */
 class LackOfCoffeeException extends CoreException
 {
-    const DEFAULT_PREFIX = "(╯°□°）╯︵ ┻━┻";
+    const DEFAULT_PREFIX = '(╯°□°）╯︵ ┻━┻';
 
     /**
      * Construct an instance of a LackOfCoffeeException.
@@ -34,11 +34,11 @@ class LackOfCoffeeException extends CoreException
      * @param Exception|null $previous
      */
     public function __construct(
-        $message = "",
+        $message = '',
         $code = 0,
         Exception $previous = null
     ) {
-        if ($message == "") {
+        if ($message == '') {
             $message = static::DEFAULT_PREFIX . ' Coffee time!';
         } else {
             $message = static::DEFAULT_PREFIX . ' ' . $message;

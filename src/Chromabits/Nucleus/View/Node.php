@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\View;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
@@ -8,7 +17,7 @@ use Chromabits\Nucleus\View\Exceptions\InvalidAttributesException;
 use Chromabits\Nucleus\View\Interfaces\Renderable;
 
 /**
- * Class Node
+ * Class Node.
  *
  * WIP
  *
@@ -65,7 +74,7 @@ class Node implements Renderable
 
         return vsprintf('%s="%s"', [
             $name,
-            nucleus_escape_html((string) $value)
+            nucleus_escape_html((string) $value),
         ]);
     }
 
@@ -84,8 +93,8 @@ class Node implements Renderable
     /**
      * Render the content of the tag.
      *
-     * @return string
      * @throws CoreException
+     * @return string
      */
     protected function renderContent()
     {
@@ -115,9 +124,9 @@ class Node implements Renderable
     /**
      * Render the Node.
      *
-     * @return string
      * @throws CoreException
      * @throws InvalidAttributesException
+     * @return string
      */
     public function render()
     {
@@ -144,7 +153,7 @@ class Node implements Renderable
                 $this->tagName,
                 $attributes,
                 $this->renderContent(),
-                $this->tagName
+                $this->tagName,
             ]
         );
     }

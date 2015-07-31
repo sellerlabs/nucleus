@@ -15,7 +15,7 @@ use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Testing\TestCase;
 
 /**
- * Class GlobalsTest
+ * Class GlobalsTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Support

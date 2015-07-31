@@ -15,7 +15,7 @@ use Chromabits\Nucleus\Strings\Rope;
 use RuntimeException;
 
 /**
- * Class Str
+ * Class Str.
  *
  * Some string utilities (from Laravel)
  *
@@ -69,8 +69,8 @@ class Str
      *
      * @param  int $length
      *
-     * @return string
      * @throws \RuntimeException
+     * @return string
      */
     public static function random($length = 16)
     {

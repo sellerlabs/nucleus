@@ -12,7 +12,7 @@
 namespace Chromabits\Nucleus\Exceptions;
 
 /**
- * Class ResolutionException
+ * Class ResolutionException.
  *
  * Thrown when an dependency cannot be resolved due to a missing type hint or
  * invalid format.

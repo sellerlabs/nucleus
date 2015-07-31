@@ -1,11 +1,20 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Meditation\Primitives;
 
 use Chromabits\Nucleus\Meditation\TypesDefinition;
 
 /**
- * Class CompoundTypes
+ * Class CompoundTypes.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Primitives
@@ -41,7 +50,7 @@ class CompoundTypes extends TypesDefinition
      * @param string $typeName
      * @param mixed $value
      *
-     * @return boolean
+     * @return bool
      */
     public function check($typeName, $value)
     {

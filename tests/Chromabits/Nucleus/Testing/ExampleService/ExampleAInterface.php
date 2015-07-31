@@ -12,7 +12,7 @@
 namespace Tests\Chromabits\Nucleus\Testing\ExampleService;
 
 /**
- * Interface ExampleAInterface
+ * Interface ExampleAInterface.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Testing\ExampleService

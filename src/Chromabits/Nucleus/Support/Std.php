@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
@@ -7,7 +16,7 @@ use Chromabits\Nucleus\Strings\Rope;
 use Closure;
 
 /**
- * Class Std
+ * Class Std.
  *
  * A standard library of functions.
  *
@@ -33,7 +42,6 @@ class Std
      *
      * @param mixed ...$args
      *
-     * @return null
      */
     public static function truthy(...$args)
     {
@@ -51,7 +59,6 @@ class Std
      *
      * @param mixed ...$args
      *
-     * @return null
      */
     public static function coalesce(...$args)
     {
@@ -69,7 +76,6 @@ class Std
      *
      * @param mixed ...$args
      *
-     * @return null
      */
     public static function nonempty(...$args)
     {
@@ -85,12 +91,12 @@ class Std
     /**
      * Check if a value is between two other values.
      *
-     * @param integer|float $min
-     * @param integer|float $max
-     * @param integer|float $value
+     * @param int|float $min
+     * @param int|float $max
+     * @param int|float $value
      *
-     * @return bool
      * @throws LackOfCoffeeException
+     * @return bool
      */
     public static function within($min, $max, $value)
     {
@@ -123,7 +129,7 @@ class Std
      *
      * @return string
      */
-    public static function escapeHtml($string)
+    public static function esc($string)
     {
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
@@ -155,7 +161,7 @@ class Std
      * Return the first value if the condition is true, otherwise, return the
      * second.
      *
-     * @param boolean $biased
+     * @param bool $biased
      * @param mixed|Closure $first
      * @param mixed|Closure $second
      *

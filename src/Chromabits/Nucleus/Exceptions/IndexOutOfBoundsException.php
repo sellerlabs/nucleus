@@ -12,7 +12,7 @@
 namespace Chromabits\Nucleus\Exceptions;
 
 /**
- * Class IndexOutOfBoundsException
+ * Class IndexOutOfBoundsException.
  *
  * Thrown when the index being accessed is not available
  * in the current context or is outside of the bounds of

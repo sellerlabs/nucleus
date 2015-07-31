@@ -1,9 +1,18 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
 /**
- * Class ClassTypeConstraint
+ * Class ClassTypeConstraint.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
@@ -58,7 +67,7 @@ class ClassTypeConstraint extends AbstractTypeConstraint
     public function getDescription()
     {
         return vsprintf('The value is expected to be an instance of a %s.', [
-            $this->className
+            $this->className,
         ]);
     }
 }
