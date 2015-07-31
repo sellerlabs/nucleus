@@ -205,6 +205,6 @@ class Std extends BaseObject
      */
     public static function jsonDecode($value, $options = 0, $depth = 512)
     {
-        return json_decode($value, true, $options, $depth);
+        return json_decode($value, true, $depth, $options);
     }
 }
