@@ -13,6 +13,7 @@ namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
+use Chromabits\Nucleus\Meditation\Interfaces\CheckableInterface;
 use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Support\Std;
 
@@ -36,10 +37,10 @@ class Validator extends BaseObject
     /**
      * Construct an instance of a Validator.
      *
-     * @param Spec $spec
+     * @param CheckableInterface $spec
      * @param array $messages
      */
-    public function __construct(Spec $spec, array $messages = [])
+    public function __construct(CheckableInterface $spec, array $messages = [])
     {
         parent::__construct();
 
@@ -50,13 +51,15 @@ class Validator extends BaseObject
     /**
      * Construct an instance of a Validator.
      *
-     * @param Spec $spec
+     * @param CheckableInterface $spec
      * @param array $messages
      *
      * @return static
      */
-    public static function create(Spec $spec, array $messages = [])
-    {
+    public static function create(
+        CheckableInterface $spec,
+        array $messages = []
+    ) {
         return new static($spec, $messages);
     }
 

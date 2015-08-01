@@ -13,6 +13,7 @@ namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
+use Chromabits\Nucleus\Meditation\Interfaces\CheckableInterface;
 
 /**
  * Class Spec.
@@ -20,7 +21,7 @@ use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
  */
-class Spec extends BaseObject
+class Spec extends BaseObject implements CheckableInterface
 {
     protected $types;
 

@@ -4,22 +4,27 @@ namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\BetweenConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClassTypeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\EitherConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\InArrayConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\MaybeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 
 /**
- * Class Cont
+ * Class Boa
  *
  * Shortcuts for defining constraints.
+ *
+ *   Constriction is a method used by various snake species to kill their prey.
+ *      - Wikipedia (2015)
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
  */
-class Cont extends BaseObject
+class Boa extends BaseObject
 {
     /**
      * @return PrimitiveTypeConstraint
@@ -100,5 +105,26 @@ class Cont extends BaseObject
     public static function instance($className)
     {
         return new ClassTypeConstraint($className);
+    }
+
+    /**
+     * @param integer|float $min
+     * @param integer|float $max
+     *
+     * @return BetweenConstraint
+     */
+    public static function between($min, $max)
+    {
+        return new BetweenConstraint($min, $max);
+    }
+
+    /**
+     * @param array $allowed
+     *
+     * @return InArrayConstraint
+     */
+    public static function in(array $allowed)
+    {
+        return new InArrayConstraint($allowed);
     }
 }

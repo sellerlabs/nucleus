@@ -14,6 +14,7 @@ namespace Chromabits\Nucleus\Support;
 use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Foundation\BaseObject;
+use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 
 /**
  * Class Arr.
@@ -241,5 +242,55 @@ class Arr extends BaseObject
         $elements[$indexA] = $elements[$indexB];
 
         $elements[$indexB] = $temp;
+    }
+
+    /**
+     * Merge a vector of arrays performantly. Borrowed from libphutil.
+     * This has the same semantics as array_merge(), so these calls are
+     * equivalent:
+     *
+     *   array_merge($a, $b, $c);
+     *   array_mergev(array($a, $b, $c));
+     *
+     * However, when you have a vector of arrays, it is vastly more performant
+     * to merge them with this function than by calling array_merge() in a loop,
+     * because using a loop generates an intermediary array on each iteration.
+     *
+     * @param array $arrayv
+     *
+     * @return array|mixed
+     * @throws InvalidArgumentException
+     */
+    public static function mergev(array $arrayv)
+    {
+        if (!$arrayv) {
+            return [];
+        }
+
+        foreach ($arrayv as $key => $item) {
+            if (!is_array($item)) {
+                throw new InvalidArgumentException(
+                    sprintf(
+                        'Expected all items passed to %s to be arrays, but '.
+                        'argument with key "%s" has type "%s".',
+                        __FUNCTION__.'()',
+                        $key,
+                        gettype($item)));
+            }
+        }
+
+        return call_user_func_array('array_merge', $arrayv);
+    }
+
+    /**
+     * Get the keys of an array.
+     *
+     * @param array $input
+     *
+     * @return array
+     */
+    public static function keys(array $input)
+    {
+        return array_keys($input);
     }
 }
