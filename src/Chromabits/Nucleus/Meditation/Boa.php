@@ -15,12 +15,14 @@ use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\BetweenConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClassTypeConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\ClosureConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\EitherConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\InArrayConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\MaybeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
+use Closure;
 
 /**
  * Class Boa.
@@ -135,5 +137,16 @@ class Boa extends BaseObject
     public static function in(array $allowed)
     {
         return new InArrayConstraint($allowed);
+    }
+
+    /**
+     * @param Closure $closure
+     * @param string|null $description
+     *
+     * @return ClosureConstraint
+     */
+    public static function inline(Closure $closure, $description = null)
+    {
+        return new ClosureConstraint($closure, $description);
     }
 }
