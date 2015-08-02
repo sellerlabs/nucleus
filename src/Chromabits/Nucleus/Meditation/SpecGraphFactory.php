@@ -46,6 +46,23 @@ class SpecGraphFactory extends BaseObject
     }
 
     /**
+     * Add a new node to the graph. (in one call)
+     *
+     * @param string $name
+     * @param string[] $dependencies
+     * @param Spec $spec
+     *
+     * @return $this
+     * @throws LackOfCoffeeException
+     */
+    public function node($name, array $dependencies, Spec $spec)
+    {
+        $this->add($name)->dependsOn($dependencies)->withSpec($spec);
+
+        return $this;
+    }
+
+    /**
      * Check that the input passes the spec graph.
      *
      * @param array $input
