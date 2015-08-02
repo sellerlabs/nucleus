@@ -73,6 +73,19 @@ class SpecGraphFactory extends BaseObject
      */
     public function check(array $input)
     {
+        return $this->done()->check($input);
+    }
+
+    /**
+     * Return the finished SpecGraph.
+     *
+     * @return SpecGraph
+     * @throws LackOfCoffeeException
+     */
+    public function done()
+    {
+        $graph = clone $this->graph;
+
         foreach ($this->nodeFactories as $factory) {
             if (!$factory->isValid()) {
                 throw new LackOfCoffeeException(
@@ -83,13 +96,13 @@ class SpecGraphFactory extends BaseObject
                 );
             }
 
-            $this->graph->add(
+            $graph->add(
                 $factory->getName(),
                 $factory->getDependencies(),
                 $factory->getSpec()
             );
         }
 
-        return $this->graph->check($input);
+        return $graph;
     }
 }
