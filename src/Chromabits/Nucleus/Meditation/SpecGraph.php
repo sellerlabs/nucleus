@@ -23,20 +23,43 @@ use Chromabits\Nucleus\Support\Arr;
  */
 class SpecGraph extends BaseObject
 {
+    /**
+     * @var Spec[]
+     */
     protected $nodes;
 
+    /**
+     * @var array
+     */
     protected $incomingEdges;
 
+    /**
+     * @var array
+     */
     protected $pending;
 
+    /**
+     * @var array
+     */
     protected $checked;
 
+    /**
+     * @var SpecResult[]
+     */
     protected $results;
 
+    /**
+     * @var bool
+     */
     protected $failed;
 
+    /**
+     * Construct an instance of a SpecGraph.
+     */
     public function __construct()
     {
+        parent::__construct();
+
         $this->nodes = [];
         $this->incomingEdges = [];
         $this->pending = [];
@@ -45,6 +68,23 @@ class SpecGraph extends BaseObject
         $this->failed = false;
     }
 
+    /**
+     * Define and create a new spec graph.
+     *
+     * @return SpecGraphFactory
+     */
+    public static function create()
+    {
+        return new SpecGraphFactory();
+    }
+
+    /**
+     * Add a node to the graph.
+     *
+     * @param string $name
+     * @param string[] $dependencies
+     * @param Spec $node
+     */
     public function add($name, array $dependencies, Spec $node)
     {
         $this->nodes[$name] = $node;
@@ -55,6 +95,12 @@ class SpecGraph extends BaseObject
         }
     }
 
+    /**
+     * Run another pass over the graph trying to run all nodes possible at the
+     * moment. The is a very simple CSP/dependency-resolution problem.
+     *
+     * @param array $input
+     */
     protected function iterate(array $input)
     {
         foreach ($this->pending as $name) {
@@ -88,6 +134,15 @@ class SpecGraph extends BaseObject
         }
     }
 
+    /**
+     * Check an input array against the SpecGraph.
+     *
+     * @param array $input
+     *
+     * @return SpecResult
+     * @throws CoreException
+     * @throws Exceptions\InvalidArgumentException
+     */
     public function check(array $input)
     {
         // Automatic reset
