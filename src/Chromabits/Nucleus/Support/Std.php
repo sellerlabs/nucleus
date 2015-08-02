@@ -61,7 +61,6 @@ class Std extends BaseObject
      *
      * @param mixed ...$args
      *
-     * @return null
      */
     public static function coalesce(...$args)
     {
@@ -79,7 +78,6 @@ class Std extends BaseObject
      *
      * @param mixed ...$args
      *
-     * @return null
      */
     public static function nonempty(...$args)
     {

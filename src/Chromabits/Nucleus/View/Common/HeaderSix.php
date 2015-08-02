@@ -15,12 +15,12 @@ use Chromabits\Nucleus\View\Interfaces\Renderable;
 use Chromabits\Nucleus\View\Node;
 
 /**
- * Class HeaderOne.
+ * Class HeaderSix.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View\Common
  */
-class HeaderOne extends Node
+class HeaderSix extends Node
 {
     /**
      * Construct an instance of a Button.
@@ -30,6 +30,6 @@ class HeaderOne extends Node
      */
     public function __construct($attributes, $content = '')
     {
-        parent::__construct('h1', $attributes, $content);
+        parent::__construct('h6', $attributes, $content);
     }
 }

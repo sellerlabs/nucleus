@@ -247,7 +247,7 @@ class Arr extends BaseObject
     /**
      * Merge a vector of arrays performantly. Borrowed from libphutil.
      * This has the same semantics as array_merge(), so these calls are
-     * equivalent:
+     * equivalent:.
      *
      *   array_merge($a, $b, $c);
      *   array_mergev(array($a, $b, $c));
@@ -258,8 +258,8 @@ class Arr extends BaseObject
      *
      * @param array $arrayv
      *
-     * @return array|mixed
      * @throws InvalidArgumentException
+     * @return array|mixed
      */
     public static function mergev(array $arrayv)
     {
@@ -271,9 +271,9 @@ class Arr extends BaseObject
             if (!is_array($item)) {
                 throw new InvalidArgumentException(
                     sprintf(
-                        'Expected all items passed to %s to be arrays, but '.
+                        'Expected all items passed to %s to be arrays, but ' .
                         'argument with key "%s" has type "%s".',
-                        __FUNCTION__.'()',
+                        __FUNCTION__ . '()',
                         $key,
                         gettype($item)));
             }

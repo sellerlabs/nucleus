@@ -15,7 +15,7 @@ use Chromabits\Nucleus\View\Interfaces\Renderable;
 use Chromabits\Nucleus\View\Node;
 
 /**
- * Class HeaderOne.
+ * Class HeaderFour.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View\Common

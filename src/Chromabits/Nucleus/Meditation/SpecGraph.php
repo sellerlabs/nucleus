@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
@@ -7,7 +16,7 @@ use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Support\Arr;
 
 /**
- * Class SpecGraph
+ * Class SpecGraph.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation

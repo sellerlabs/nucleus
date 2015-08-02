@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
@@ -14,7 +23,7 @@ use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 
 /**
- * Class Boa
+ * Class Boa.
  *
  * Shortcuts for defining constraints.
  *
@@ -108,8 +117,8 @@ class Boa extends BaseObject
     }
 
     /**
-     * @param integer|float $min
-     * @param integer|float $max
+     * @param int|float $min
+     * @param int|float $max
      *
      * @return BetweenConstraint
      */
