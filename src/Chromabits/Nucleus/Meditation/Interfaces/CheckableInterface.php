@@ -31,5 +31,5 @@ interface CheckableInterface
      *
      * @return SpecResult
      */
-    public function check($input);
+    public function check(array $input);
 }

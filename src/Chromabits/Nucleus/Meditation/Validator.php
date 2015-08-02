@@ -25,7 +25,7 @@ use Chromabits\Nucleus\Support\Std;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
  */
-class Validator extends BaseObject
+class Validator extends BaseObject implements CheckableInterface
 {
     protected $messages;
 

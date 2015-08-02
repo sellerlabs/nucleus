@@ -13,6 +13,7 @@ namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Foundation\BaseObject;
+use Chromabits\Nucleus\Meditation\Interfaces\CheckableInterface;
 use Chromabits\Nucleus\Support\Arr;
 
 /**
@@ -21,7 +22,7 @@ use Chromabits\Nucleus\Support\Arr;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
  */
-class SpecGraph extends BaseObject
+class SpecGraph extends BaseObject implements CheckableInterface
 {
     /**
      * @var Spec[]

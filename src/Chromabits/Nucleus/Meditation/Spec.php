@@ -72,7 +72,7 @@ class Spec extends BaseObject implements CheckableInterface
      *
      * @return SpecResult
      */
-    public function check($input)
+    public function check(array $input)
     {
         $input = array_merge($this->defaults, (array) $input);
 
