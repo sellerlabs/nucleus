@@ -27,5 +27,10 @@
   },
   "require": {
     "lstrojny/phpunit-function-mocker": "0.2.*"
-  }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.3-dev"
+    }
+  },
 }
