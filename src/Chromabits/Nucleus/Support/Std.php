@@ -13,8 +13,14 @@ namespace Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Foundation\BaseObject;
+use Chromabits\Nucleus\Meditation\Arguments;
+use Chromabits\Nucleus\Meditation\Boa;
+use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
+use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
+use Chromabits\Nucleus\Meditation\TypeHound;
 use Chromabits\Nucleus\Strings\Rope;
 use Closure;
+use Traversable;
 
 /**
  * Class Std.
@@ -27,15 +33,86 @@ use Closure;
 class Std extends BaseObject
 {
     /**
-     * Return the default value of the given value.
+     * Applies function fn to the argument list args. This is useful for
+     * creating a fixed-arity function from a variadic function. fn should be a
+     * bound function if context is significant. (From Ramda)
      *
-     * @param Closure|mixed $value
+     * @param callable $function
+     * @param array|Traversable $args
      *
      * @return mixed
      */
-    public static function value($value)
+    public static function apply(callable $function, $args)
     {
-        return $value instanceof Closure ? $value() : $value;
+        Arguments::contain(Boa::func(), Boa::lst())->check($function, $args);
+
+        return Std::call($function, ...$args);
+    }
+
+    /**
+     * Call the first argument with the remaining arguments.
+     *
+     * @param callable $function
+     * @param mixed ...$args
+     *
+     * @return mixed
+     */
+    public static function call(callable $function, ...$args)
+    {
+        return call_user_func($function, ...$args);
+    }
+
+    /**
+     * Concatenate the two provided values.
+     *
+     * @param string|array|Traversable $one
+     * @param string|array|Traversable $two
+     *
+     * @return mixed
+     * @throws MismatchedArgumentTypesException
+     * @throws InvalidArgumentException
+     */
+    public static function concat($one, $two)
+    {
+        Arguments::contain(
+            Boa::either(
+                Boa::lst(),
+                Boa::string()
+            ),
+            Boa::either(
+                Boa::lst(),
+                Boa::string()
+            )
+        )->check($one, $two);
+
+        $oneType = TypeHound::fetch($one);
+        $twoType = TypeHound::fetch($two);
+
+        if ($oneType !== $twoType) {
+            throw new MismatchedArgumentTypesException(
+                __FUNCTION__,
+                $one,
+                $two
+            );
+        }
+
+        if (is_string($oneType)) {
+            return $one . $two;
+        }
+
+        return $one + $two;
+    }
+
+    /**
+     * Clone the provided argument.
+     *
+     * @param mixed $one
+     *
+     * @return mixed
+     */
+    public static function duplicate($one)
+    {
+        return clone $one;
     }
 
     /**
@@ -61,6 +138,7 @@ class Std extends BaseObject
      *
      * @param mixed ...$args
      *
+     * @return null
      */
     public static function coalesce(...$args)
     {
@@ -78,6 +156,7 @@ class Std extends BaseObject
      *
      * @param mixed ...$args
      *
+     * @return null
      */
     public static function nonempty(...$args)
     {
@@ -179,6 +258,18 @@ class Std extends BaseObject
     }
 
     /**
+     * Return the default value of the given value.
+     *
+     * @param Closure|mixed $value
+     *
+     * @return mixed
+     */
+    public static function value($value)
+    {
+        return $value instanceof Closure ? $value() : $value;
+    }
+
+    /**
      * Placeholder.
      *
      * @param mixed $value
@@ -190,6 +281,55 @@ class Std extends BaseObject
     public static function jsonEncode($value, $options = 0, $depth = 512)
     {
         return json_encode($value, $options, $depth);
+    }
+
+    /**
+     * Returns a single item by iterating through the list, successively calling
+     * the iterator function and passing it an accumulator value and the current
+     * value from the array, and then passing the result to the next call.
+     * (From Ramda)
+     *
+     * @param callable $function
+     * @param mixed $initial
+     * @param array|Traversable $list
+     *
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public static function reduce(callable $function, $initial, $list)
+    {
+        Arguments::contain(Boa::func(), Boa::any(), Boa::lst())
+            ->check($function, $initial, $list);
+
+        return array_reduce($list, $function, $initial);
+    }
+
+    /**
+     * Same as reduce but it works from right to left.
+     *
+     * @param callable $function
+     * @param mixed $initial
+     * @param array|Traversable $list
+     *
+     * @return mixed
+     */
+    public static function reduceRight(callable $function, $initial, $list)
+    {
+        return static::reduce($function, $initial, static::reverse($list));
+    }
+
+    /**
+     * Return the input array but with its items reversed.
+     *
+     * @param array|Traversable $input
+     *
+     * @return array
+     */
+    public static function reverse($input)
+    {
+        Arguments::contain(Boa::lst())->check($input);
+
+        return array_reverse($input);
     }
 
     /**

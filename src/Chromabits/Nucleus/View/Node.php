@@ -27,14 +27,29 @@ use Chromabits\Nucleus\View\Interfaces\Renderable;
  */
 class Node extends BaseObject implements Renderable
 {
+    /**
+     * @var null|string
+     */
     protected $tagName = null;
 
+    /**
+     * @var string[]
+     */
     protected $attributes = [];
 
+    /**
+     * @var bool
+     */
     protected $selfClosing = false;
 
+    /**
+     * @var Renderable|Interfaces\Renderable[]|string|\string[]
+     */
     protected $content;
 
+    /**
+     * @var Spec
+     */
     protected $spec;
 
     /**
@@ -51,6 +66,8 @@ class Node extends BaseObject implements Renderable
         $content,
         $selfClosing = false
     ) {
+        parent::__construct();
+
         $this->tagName = $tagName;
         $this->attributes = $attributes;
         $this->content = $content;

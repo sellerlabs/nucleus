@@ -181,10 +181,24 @@ class TypeHound extends BaseObject
      *
      * @param mixed $value
      *
+     * @deprecated
      * @throws UnknownTypeException
      * @return mixed
      */
     public static function createAndResolve($value)
+    {
+        return static::fetch($value);
+    }
+
+    /**
+     * Creates a hound and resolves it immediately.
+     *
+     * @param mixed $value
+     *
+     * @throws UnknownTypeException
+     * @return mixed
+     */
+    public static function fetch($value)
     {
         return (new static($value))->resolve();
     }

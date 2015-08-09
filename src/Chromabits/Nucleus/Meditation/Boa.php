@@ -13,11 +13,14 @@ namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\AnyConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\BetweenConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\CallableConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClassTypeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClosureConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\EitherConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\InArrayConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\ListConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\MaybeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
@@ -37,6 +40,14 @@ use Closure;
  */
 class Boa extends BaseObject
 {
+    /**
+     * @return AnyConstraint
+     */
+    public static function any()
+    {
+        return new AnyConstraint();
+    }
+
     /**
      * @return PrimitiveTypeConstraint
      */
@@ -78,11 +89,27 @@ class Boa extends BaseObject
     }
 
     /**
+     * @return ListConstraint
+     */
+    public static function lst()
+    {
+        return new ListConstraint();
+    }
+
+    /**
      * @return PrimitiveTypeConstraint
      */
     public static function object()
     {
         return new PrimitiveTypeConstraint(CompoundTypes::COMPOUND_OBJECT);
+    }
+
+    /**
+     * @return CallableConstraint
+     */
+    public static function func()
+    {
+        return new CallableConstraint();
     }
 
     /**
