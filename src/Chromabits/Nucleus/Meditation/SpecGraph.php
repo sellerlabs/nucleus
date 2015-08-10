@@ -140,9 +140,9 @@ class SpecGraph extends BaseObject implements CheckableInterface
      *
      * @param array $input
      *
-     * @return SpecResult
      * @throws CoreException
      * @throws Exceptions\InvalidArgumentException
+     * @return SpecResult
      */
     public function check(array $input)
     {

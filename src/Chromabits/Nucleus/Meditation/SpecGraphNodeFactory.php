@@ -1,11 +1,20 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 
 /**
- * Class SpecGraphNodeFactory
+ * Class SpecGraphNodeFactory.
  *
  * A fluent factory for describing and building nodes for a SpecGraph.
  *
@@ -45,8 +54,8 @@ class SpecGraphNodeFactory
      *
      * @param string[]|string $dependencies
      *
-     * @return $this
      * @throws LackOfCoffeeException
+     * @return $this
      */
     public function dependsOn($dependencies)
     {

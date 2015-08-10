@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
@@ -8,7 +17,7 @@ use Chromabits\Nucleus\Support\Std;
 use Closure;
 
 /**
- * Class ClosureConstraint
+ * Class ClosureConstraint.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
@@ -42,8 +51,8 @@ class ClosureConstraint extends AbstractConstraint
      * @param mixed $value
      * @param array $context
      *
-     * @return mixed
      * @throws LackOfCoffeeException
+     * @return mixed
      */
     public function check($value, array $context = [])
     {

@@ -37,7 +37,7 @@ class Std extends BaseObject
     /**
      * Applies function fn to the argument list args. This is useful for
      * creating a fixed-arity function from a variadic function. fn should be a
-     * bound function if context is significant. (From Ramda)
+     * bound function if context is significant. (From Ramda).
      *
      * @param callable $function
      * @param array|Traversable $args
@@ -70,9 +70,9 @@ class Std extends BaseObject
      * @param string|array|Traversable $one
      * @param string|array|Traversable $other
      *
-     * @return mixed
      * @throws MismatchedArgumentTypesException
      * @throws InvalidArgumentException
+     * @return mixed
      */
     public static function concat($one, $other)
     {
@@ -128,7 +128,6 @@ class Std extends BaseObject
      *
      * @param mixed ...$args
      *
-     * @return null
      */
     public static function coalesce(...$args)
     {
@@ -146,7 +145,6 @@ class Std extends BaseObject
      *
      * @param mixed ...$args
      *
-     * @return null
      */
     public static function nonempty(...$args)
     {
@@ -291,14 +289,14 @@ class Std extends BaseObject
      * Returns a single item by iterating through the list, successively calling
      * the iterator function and passing it an accumulator value and the current
      * value from the array, and then passing the result to the next call.
-     * (From Ramda)
+     * (From Ramda).
      *
      * @param callable $function
      * @param mixed $initial
      * @param array|Traversable $list
      *
-     * @return mixed
      * @throws InvalidArgumentException
+     * @return mixed
      */
     public static function reduce(callable $function, $initial, $list)
     {

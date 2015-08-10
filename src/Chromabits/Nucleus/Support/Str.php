@@ -68,7 +68,7 @@ class Str extends BaseObject
     /**
      * Generate a more truly "random" alpha-numeric string.
      *
-     * @param integer $length
+     * @param int $length
      *
      * @throws RuntimeException
      * @return string
@@ -97,7 +97,7 @@ class Str extends BaseObject
      *
      * Should not be considered sufficient for cryptography, etc.
      *
-     * @param integer $length
+     * @param int $length
      * @return string
      */
     public static function quickRandom($length = 16)

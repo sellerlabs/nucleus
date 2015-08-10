@@ -1,11 +1,20 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Strings;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
 
 /**
- * Class Uuid
+ * Class Uuid.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Strings
@@ -13,7 +22,7 @@ use Chromabits\Nucleus\Foundation\BaseObject;
 class Uuid extends BaseObject
 {
     /**
-     * Generates a v4 UUID from data
+     * Generates a v4 UUID from data.
      *
      * @param string $data
      *

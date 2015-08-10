@@ -1,12 +1,21 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Foundation\BaseObject;
 
 /**
- * Class SpecGraphFactory
+ * Class SpecGraphFactory.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
@@ -46,14 +55,14 @@ class SpecGraphFactory extends BaseObject
     }
 
     /**
-     * Add a new node to the graph. (in one call)
+     * Add a new node to the graph. (in one call).
      *
      * @param string $name
      * @param string[] $dependencies
      * @param Spec $spec
      *
-     * @return $this
      * @throws LackOfCoffeeException
+     * @return $this
      */
     public function node($name, array $dependencies, Spec $spec)
     {
@@ -67,9 +76,9 @@ class SpecGraphFactory extends BaseObject
      *
      * @param array $input
      *
-     * @return SpecResult
      * @throws LackOfCoffeeException
      * @throws \Chromabits\Nucleus\Exceptions\CoreException
+     * @return SpecResult
      */
     public function check(array $input)
     {
@@ -79,8 +88,8 @@ class SpecGraphFactory extends BaseObject
     /**
      * Return the finished SpecGraph.
      *
-     * @return SpecGraph
      * @throws LackOfCoffeeException
+     * @return SpecGraph
      */
     public function done()
     {

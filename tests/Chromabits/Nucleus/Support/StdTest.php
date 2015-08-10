@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Tests\Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
@@ -9,7 +18,7 @@ use Chromabits\Nucleus\Testing\TestCase;
 use SplDoublyLinkedList;
 
 /**
- * Class StdTest
+ * Class StdTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Support
@@ -31,8 +40,8 @@ class StdTest extends TestCase
                 Std::apply(
                     Std::class . '::concat',
                     ['hello ', 'world']
-                )
-            ]
+                ),
+            ],
         ]);
     }
 
@@ -54,8 +63,8 @@ class StdTest extends TestCase
             ['hello world', Std::concat('hello ', 'world')],
             [
                 [1, 'one' => 'two', 2, 'six' => 'seven'],
-                Std::concat([1, 'one' => 'two'], [2, 'six' => 'seven'])
-            ]
+                Std::concat([1, 'one' => 'two'], [2, 'six' => 'seven']),
+            ],
         ]);
     }
 
