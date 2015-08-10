@@ -337,7 +337,7 @@ class Std extends BaseObject
     }
 
     /**
-     * Call a function on every itme in a list and return the resulting list.
+     * Call a function on every item in a list and return the resulting list.
      *
      * @param callable $function
      * @param array|Traversable $list
