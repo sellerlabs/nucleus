@@ -18,6 +18,7 @@ namespace Chromabits\Nucleus\Support;
  * assertions and expectation matching.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
+ * @deprecated Please use enums in the Meditation namespace.
  * @package Chromabits\Nucleus\Support
  */
 class PrimitiveType extends Enum

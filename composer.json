@@ -17,7 +17,8 @@
       "Chromabits\\Nucleus\\": "src/Chromabits/Nucleus"
     },
     "files": [
-      "src/Chromabits/Nucleus/Support/globals.php"
+      "src/Chromabits/Nucleus/Support/globals.php",
+      "src/Chromabits/Nucleus/Support/intl.php"
     ]
   },
   "autoload-dev": {

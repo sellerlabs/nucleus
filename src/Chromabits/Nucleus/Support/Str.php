@@ -29,7 +29,7 @@ class Str extends BaseObject
      * Convert a value to camel case.
      *
      * @param string $value
-     * @param null $encoding
+     * @param string|null $encoding
      *
      * @return string
      */
@@ -43,7 +43,7 @@ class Str extends BaseObject
      *
      * @param string $value
      * @param string $delimiter
-     * @param null $encoding
+     * @param string|null $encoding
      *
      * @return string
      */
@@ -56,7 +56,7 @@ class Str extends BaseObject
      * Convert a value to studly caps case.
      *
      * @param string $value
-     * @param null $encoding
+     * @param string|null $encoding
      *
      * @return string
      */
@@ -68,9 +68,9 @@ class Str extends BaseObject
     /**
      * Generate a more truly "random" alpha-numeric string.
      *
-     * @param  int $length
+     * @param integer $length
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @return string
      */
     public static function random($length = 16)
@@ -97,7 +97,7 @@ class Str extends BaseObject
      *
      * Should not be considered sufficient for cryptography, etc.
      *
-     * @param  int  $length
+     * @param integer $length
      * @return string
      */
     public static function quickRandom($length = 16)

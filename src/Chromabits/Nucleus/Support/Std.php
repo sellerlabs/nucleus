@@ -68,13 +68,13 @@ class Std extends BaseObject
      * Concatenate the two provided values.
      *
      * @param string|array|Traversable $one
-     * @param string|array|Traversable $two
+     * @param string|array|Traversable $other
      *
      * @return mixed
      * @throws MismatchedArgumentTypesException
      * @throws InvalidArgumentException
      */
-    public static function concat($one, $two)
+    public static function concat($one, $other)
     {
         Arguments::contain(
             Boa::either(
@@ -85,24 +85,24 @@ class Std extends BaseObject
                 Boa::lst(),
                 Boa::string()
             )
-        )->check($one, $two);
+        )->check($one, $other);
 
         $oneType = TypeHound::fetch($one);
-        $twoType = TypeHound::fetch($two);
+        $twoType = TypeHound::fetch($other);
 
         if ($oneType !== $twoType) {
             throw new MismatchedArgumentTypesException(
                 __FUNCTION__,
                 $one,
-                $two
+                $other
             );
         }
 
         if ($oneType === ScalarTypes::SCALAR_STRING) {
-            return $one . $two;
+            return $one . $other;
         }
 
-        return array_merge($one, $two);
+        return array_merge($one, $other);
     }
 
     /**
@@ -244,21 +244,21 @@ class Std extends BaseObject
      * second.
      *
      * @param bool $biased
-     * @param mixed|Closure $first
-     * @param mixed|Closure $second
+     * @param mixed|Closure $one
+     * @param mixed|Closure $other
      *
      * @return mixed
      */
-    public static function firstBias($biased, $first, $second)
+    public static function firstBias($biased, $one, $other)
     {
         Arguments::contain(Boa::boolean(), Boa::any(), Boa::any())
-            ->check($biased, $first, $second);
+            ->check($biased, $one, $other);
 
         if ($biased) {
-            return static::value($first);
+            return static::value($one);
         }
 
-        return static::value($second);
+        return static::value($other);
     }
 
     /**
@@ -325,15 +325,15 @@ class Std extends BaseObject
     /**
      * Return the input array but with its items reversed.
      *
-     * @param array|Traversable $input
+     * @param array|Traversable $list
      *
      * @return array
      */
-    public static function reverse($input)
+    public static function reverse($list)
     {
-        Arguments::contain(Boa::lst())->check($input);
+        Arguments::contain(Boa::lst())->check($list);
 
-        return array_reverse($input);
+        return array_reverse($list);
     }
 
     /**
@@ -450,7 +450,6 @@ class Std extends BaseObject
             $isFulfilled
         ) {
             $newArgs = array_merge($args, $funcArgs);
-            print_r($newArgs);
 
             if ($isFulfilled($function, $newArgs)) {
                 return static::apply($function, $newArgs);
