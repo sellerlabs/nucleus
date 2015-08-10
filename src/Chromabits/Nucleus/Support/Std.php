@@ -17,9 +17,11 @@ use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
+use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 use Chromabits\Nucleus\Meditation\TypeHound;
 use Chromabits\Nucleus\Strings\Rope;
 use Closure;
+use ReflectionFunction;
 use Traversable;
 
 /**
@@ -96,23 +98,11 @@ class Std extends BaseObject
             );
         }
 
-        if (is_string($oneType)) {
+        if ($oneType === ScalarTypes::SCALAR_STRING) {
             return $one . $two;
         }
 
-        return $one + $two;
-    }
-
-    /**
-     * Clone the provided argument.
-     *
-     * @param mixed $one
-     *
-     * @return mixed
-     */
-    public static function duplicate($one)
-    {
-        return clone $one;
+        return array_merge($one, $two);
     }
 
     /**
@@ -344,5 +334,113 @@ class Std extends BaseObject
     public static function jsonDecode($value, $options = 0, $depth = 512)
     {
         return json_decode($value, true, $depth, $options);
+    }
+
+    /**
+     * Call a function on every itme in a list and return the resulting list.
+     *
+     * @param callable $function
+     * @param array|Traversable $list
+     *
+     * @return array
+     */
+    public static function map(callable $function, $list)
+    {
+        Arguments::contain(Boa::func(), Boa::lst())->check($function, $list);
+
+        // Optimization, use array_map for arrays.
+        if (is_array($list)) {
+            return array_map($function, $list, array_keys($list));
+        }
+
+        $aggregation = [];
+
+        foreach ($list as $key => $value) {
+            $aggregation[$key] = $function($value, $key);
+        }
+
+        return $aggregation;
+    }
+
+    /**
+     * Filter a list by calling a callback on each element.
+     *
+     * If the callback returns true, then the element will be added to the
+     * resulting array. Otherwise, it will be skipped.
+     *
+     * Also, unlike array_filter, this function preserves indexes.
+     *
+     * @param callable $function
+     * @param array|Traversable $list
+     *
+     * @return array
+     */
+    public static function filter(callable $function, $list)
+    {
+        Arguments::contain(Boa::func(), Boa::lst())->check($function, $list);
+
+        $aggregation = [];
+
+        foreach ($list as $key => $value) {
+            if ($function($value, $key)) {
+                $aggregation[$key] = $value;
+            }
+        }
+
+        return $aggregation;
+    }
+
+    /**
+     * Left-curry the provided function.
+     *
+     * @param callable $function
+     * @param mixed ...$args
+     *
+     * @return Closure|mixed
+     */
+    public static function curry(callable $function, ...$args)
+    {
+        return static::curryArgs($function, $args);
+    }
+
+    /**
+     * Left-curry the provided function with the provided arry of arguments.
+     *
+     * @param callable $function
+     * @param mixed[] $args
+     *
+     * @return Closure|mixed
+     */
+    public static function curryArgs(callable $function, $args)
+    {
+        // Counts required parameters.
+        $required = function () use ($function, $args) {
+            return (new ReflectionFunction($function))
+                ->getNumberOfRequiredParameters();
+        };
+
+        $isFulfilled = function (callable $function, $args) use ($required) {
+            return count($args) >= $required($function);
+        };
+
+        if ($isFulfilled($function, $args)) {
+            return static::apply($function, $args);
+        }
+
+        return function (...$funcArgs) use (
+            $function,
+            $args,
+            $required,
+            $isFulfilled
+        ) {
+            $newArgs = array_merge($args, $funcArgs);
+            print_r($newArgs);
+
+            if ($isFulfilled($function, $newArgs)) {
+                return static::apply($function, $newArgs);
+            }
+
+            return static::curryArgs($function, $newArgs);
+        };
     }
 }
