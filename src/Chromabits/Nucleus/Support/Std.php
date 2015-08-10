@@ -52,19 +52,6 @@ class Std extends BaseObject
     }
 
     /**
-     * Call the first argument with the remaining arguments.
-     *
-     * @param callable $function
-     * @param mixed ...$args
-     *
-     * @return mixed
-     */
-    public static function call(callable $function, ...$args)
-    {
-        return call_user_func($function, ...$args);
-    }
-
-    /**
      * Concatenate the two provided values.
      *
      * @param string|array|Traversable $one
@@ -141,10 +128,28 @@ class Std extends BaseObject
     }
 
     /**
+     * Call the provided function on each element.
+     *
+     * @param callable $function
+     * @param array|Traversable $list
+     *
+     * @throws InvalidArgumentException
+     */
+    public static function each(callable $function, $list)
+    {
+        Arguments::contain(Boa::func(), Boa::lst())->check($function, $list);
+
+        foreach ($list as $key => $value) {
+            $function($key, $value);
+        }
+    }
+
+    /**
      * Return the first non-empty argument.
      *
      * @param mixed ...$args
      *
+     * @return null|mixed
      */
     public static function nonempty(...$args)
     {
@@ -286,6 +291,20 @@ class Std extends BaseObject
     }
 
     /**
+     * Same as reduce but it works from right to left.
+     *
+     * @param callable $function
+     * @param mixed $initial
+     * @param array|Traversable $list
+     *
+     * @return mixed
+     */
+    public static function reduceRight(callable $function, $initial, $list)
+    {
+        return static::reduce($function, $initial, static::reverse($list));
+    }
+
+    /**
      * Returns a single item by iterating through the list, successively calling
      * the iterator function and passing it an accumulator value and the current
      * value from the array, and then passing the result to the next call.
@@ -304,20 +323,6 @@ class Std extends BaseObject
             ->check($function, $initial, $list);
 
         return array_reduce($list, $function, $initial);
-    }
-
-    /**
-     * Same as reduce but it works from right to left.
-     *
-     * @param callable $function
-     * @param mixed $initial
-     * @param array|Traversable $list
-     *
-     * @return mixed
-     */
-    public static function reduceRight(callable $function, $initial, $list)
-    {
-        return static::reduce($function, $initial, static::reverse($list));
     }
 
     /**
@@ -455,5 +460,18 @@ class Std extends BaseObject
 
             return static::curryArgs($function, $newArgs);
         };
+    }
+
+    /**
+     * Call the first argument with the remaining arguments.
+     *
+     * @param callable $function
+     * @param mixed ...$args
+     *
+     * @return mixed
+     */
+    public static function call(callable $function, ...$args)
+    {
+        return call_user_func($function, ...$args);
     }
 }
