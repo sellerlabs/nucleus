@@ -171,6 +171,12 @@ class Std extends BaseObject
      */
     public static function within($min, $max, $value)
     {
+        Arguments::contain(
+            Boa::either(Boa::integer(), Boa::float()),
+            Boa::either(Boa::integer(), Boa::float()),
+            Boa::either(Boa::integer(), Boa::float())
+        )->check($min, $max, $value);
+
         if ($min > $max) {
             throw new LackOfCoffeeException(
                 'Max value is less than the min value.'
@@ -183,14 +189,17 @@ class Std extends BaseObject
     /**
      * Create a new instance of a rope.
      *
-     * @param string $str
+     * @param string $string
      * @param null $encoding
      *
      * @return Rope
      */
-    public static function rope($str, $encoding = null)
+    public static function rope($string, $encoding = null)
     {
-        return new Rope($str, $encoding);
+        Arguments::contain(Boa::string(), Boa::maybe(Boa::string()))
+            ->check($string, $encoding);
+
+        return new Rope($string, $encoding);
     }
 
     /**
@@ -202,6 +211,8 @@ class Std extends BaseObject
      */
     public static function esc($string)
     {
+        Arguments::contain(Boa::string())->check($string);
+
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
 
@@ -240,6 +251,9 @@ class Std extends BaseObject
      */
     public static function firstBias($biased, $first, $second)
     {
+        Arguments::contain(Boa::boolean(), Boa::any(), Boa::any())
+            ->check($biased, $first, $second);
+
         if ($biased) {
             return static::value($first);
         }
@@ -413,6 +427,8 @@ class Std extends BaseObject
      */
     public static function curryArgs(callable $function, $args)
     {
+        Arguments::contain(Boa::func(), Boa::lst())->check($function, $args);
+
         // Counts required parameters.
         $required = function () use ($function, $args) {
             return (new ReflectionFunction($function))
