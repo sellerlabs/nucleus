@@ -131,15 +131,16 @@ class Std extends BaseObject
      * Call the provided function on each element.
      *
      * @param callable $function
-     * @param array|Traversable $list
+     * @param array|Traversable $traversable
      *
      * @throws InvalidArgumentException
      */
-    public static function each(callable $function, $list)
+    public static function each(callable $function, $traversable)
     {
-        Arguments::contain(Boa::func(), Boa::lst())->check($function, $list);
+        Arguments::contain(Boa::func(), Boa::traversable())
+            ->check($function, $traversable);
 
-        foreach ($list as $key => $value) {
+        foreach ($traversable as $key => $value) {
             $function($key, $value);
         }
     }
@@ -312,29 +313,33 @@ class Std extends BaseObject
      *
      * @param callable $function
      * @param mixed $initial
-     * @param array|Traversable $list
+     * @param array|Traversable $traversable
      *
      * @throws InvalidArgumentException
      * @return mixed
      */
-    public static function reduce(callable $function, $initial, $list)
+    public static function reduce(callable $function, $initial, $traversable)
     {
-        Arguments::contain(Boa::func(), Boa::any(), Boa::lst())
-            ->check($function, $initial, $list);
+        Arguments::contain(Boa::func(), Boa::any(), Boa::traversable())
+            ->check($function, $initial, $traversable);
 
-        return array_reduce($list, $function, $initial);
+        // TODO: Support Traversables, not just arrays.
+
+        return array_reduce($traversable, $function, $initial);
     }
 
     /**
      * Return the input array but with its items reversed.
      *
-     * @param array|Traversable $list
+     * @param array $list
      *
      * @return array
      */
     public static function reverse($list)
     {
-        Arguments::contain(Boa::lst())->check($list);
+        Arguments::contain(Boa::arr())->check($list);
+
+        // TODO: Support Traversables, not just arrays.
 
         return array_reverse($list);
     }
@@ -357,22 +362,23 @@ class Std extends BaseObject
      * Call a function on every item in a list and return the resulting list.
      *
      * @param callable $function
-     * @param array|Traversable $list
+     * @param array|Traversable $traversable
      *
      * @return array
      */
-    public static function map(callable $function, $list)
+    public static function map(callable $function, $traversable)
     {
-        Arguments::contain(Boa::func(), Boa::lst())->check($function, $list);
+        Arguments::contain(Boa::func(), Boa::traversable())
+            ->check($function, $traversable);
 
         // Optimization, use array_map for arrays.
-        if (is_array($list)) {
-            return array_map($function, $list, array_keys($list));
+        if (is_array($traversable)) {
+            return array_map($function, $traversable, array_keys($traversable));
         }
 
         $aggregation = [];
 
-        foreach ($list as $key => $value) {
+        foreach ($traversable as $key => $value) {
             $aggregation[$key] = $function($value, $key);
         }
 
@@ -388,17 +394,18 @@ class Std extends BaseObject
      * Also, unlike array_filter, this function preserves indexes.
      *
      * @param callable $function
-     * @param array|Traversable $list
+     * @param array|Traversable $traversable
      *
      * @return array
      */
-    public static function filter(callable $function, $list)
+    public static function filter(callable $function, $traversable)
     {
-        Arguments::contain(Boa::func(), Boa::lst())->check($function, $list);
+        Arguments::contain(Boa::func(), Boa::traversable())
+            ->check($function, $traversable);
 
         $aggregation = [];
 
-        foreach ($list as $key => $value) {
+        foreach ($traversable as $key => $value) {
             if ($function($value, $key)) {
                 $aggregation[$key] = $value;
             }
@@ -421,7 +428,7 @@ class Std extends BaseObject
     }
 
     /**
-     * Left-curry the provided function with the provided arry of arguments.
+     * Left-curry the provided function with the provided array of arguments.
      *
      * @param callable $function
      * @param mixed[] $args
@@ -430,7 +437,7 @@ class Std extends BaseObject
      */
     public static function curryArgs(callable $function, $args)
     {
-        Arguments::contain(Boa::func(), Boa::lst())->check($function, $args);
+        Arguments::contain(Boa::func(), Boa::arr())->check($function, $args);
 
         // Counts required parameters.
         $required = function () use ($function, $args) {

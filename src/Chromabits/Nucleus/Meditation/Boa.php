@@ -21,8 +21,11 @@ use Chromabits\Nucleus\Meditation\Constraints\ClosureConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\EitherConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\InArrayConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ListConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\MapConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\MaybeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\ReadMapConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\TraversableConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 use Closure;
@@ -175,5 +178,29 @@ class Boa extends BaseObject
     public static function inline(Closure $closure, $description = null)
     {
         return new ClosureConstraint($closure, $description);
+    }
+
+    /**
+     * @return ReadMapConstraint
+     */
+    public static function readMap()
+    {
+        return new ReadMapConstraint();
+    }
+
+    /**
+     * @return MapConstraint
+     */
+    public static function map()
+    {
+        return new MapConstraint();
+    }
+
+    /**
+     * @return TraversableConstraint
+     */
+    public static function traversable()
+    {
+        return new TraversableConstraint();
     }
 }
