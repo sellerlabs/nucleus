@@ -160,16 +160,16 @@ class Node extends BaseObject implements Renderable
             throw new InvalidAttributesException($result);
         }
 
-        if ($this->selfClosing) {
-            return vsprintf(
-                '<%s%s/>',
-                [$this->tagName, $this->renderAttributes()]
-            );
-        }
-
         $attributes = $this->renderAttributes();
         if (strlen($attributes)) {
             $attributes = ' ' . $attributes;
+        }
+
+        if ($this->selfClosing) {
+            return vsprintf(
+                '<%s%s/>',
+                [$this->tagName, $attributes]
+            );
         }
 
         return vsprintf(
