@@ -139,7 +139,7 @@ class Node extends BaseObject implements Renderable
         }
 
         throw new CoreException(vsprintf(
-            'Unknown content type. Node cannot be rendered.',
+            'Unknown content type: %s. Node cannot be rendered.',
             [
                 TypeHound::fetch($this->content),
             ]
