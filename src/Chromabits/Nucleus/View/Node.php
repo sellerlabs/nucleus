@@ -15,8 +15,10 @@ use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Spec;
 use Chromabits\Nucleus\Meditation\TypeHound;
+use Chromabits\Nucleus\Support\Html;
 use Chromabits\Nucleus\View\Exceptions\InvalidAttributesException;
-use Chromabits\Nucleus\View\Interfaces\Renderable;
+use Chromabits\Nucleus\View\Interfaces\RenderableInterface;
+use Chromabits\Nucleus\View\Interfaces\SafeHtmlProducerInterface;
 
 /**
  * Class Node.
@@ -26,7 +28,9 @@ use Chromabits\Nucleus\View\Interfaces\Renderable;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View
  */
-class Node extends BaseObject implements Renderable
+class Node extends BaseObject implements
+    RenderableInterface,
+    SafeHtmlProducerInterface
 {
     /**
      * @var null|string
@@ -44,7 +48,7 @@ class Node extends BaseObject implements Renderable
     protected $selfClosing = false;
 
     /**
-     * @var Renderable|Interfaces\Renderable[]|string|\string[]
+     * @var RenderableInterface|Interfaces\RenderableInterface[]|string|string[]
      */
     protected $content;
 
@@ -58,7 +62,7 @@ class Node extends BaseObject implements Renderable
      *
      * @param string $tagName
      * @param string[] $attributes
-     * @param string|Renderable|string[]|Renderable[] $content
+     * @param string|RenderableInterface|string[]|RenderableInterface[] $content
      * @param bool $selfClosing
      */
     public function __construct(
@@ -117,16 +121,23 @@ class Node extends BaseObject implements Renderable
      */
     protected function renderContent()
     {
-        if (is_string($this->content)) {
-            return nucleus_escape_html($this->content);
-        } elseif ($this->content instanceof Renderable) {
-            return $this->content->render();
+        if (is_string($this->content)
+            || $this->content instanceof SafeHtmlWrapper
+            || $this->content instanceof SafeHtmlProducerInterface
+        ) {
+            return Html::escape($this->content);
+        } elseif ($this->content instanceof RenderableInterface) {
+            return Html::escape($this->content->render());
         } elseif (is_array($this->content)) {
             return implode('', array_map(function ($child) {
-                if (is_string($child)) {
-                    return nucleus_escape_html($child);
-                } elseif ($child instanceof Renderable) {
-                    return $child->render();
+
+                if (is_string($child)
+                    || $child instanceof SafeHtmlWrapper
+                    || $child instanceof SafeHtmlProducerInterface
+                ) {
+                    return Html::escape($child);
+                } elseif ($child instanceof RenderableInterface) {
+                    return Html::escape($child->render());
                 }
 
                 throw new CoreException(vsprintf(
@@ -181,5 +192,15 @@ class Node extends BaseObject implements Renderable
                 $this->tagName,
             ]
         );
+    }
+
+    /**
+     * Get a safe HTML version of the contents of this object.
+     *
+     * @return SafeHtmlWrapper
+     */
+    public function getSafeHtml()
+    {
+        return new SafeHtmlWrapper($this->render());
     }
 }

@@ -16,7 +16,7 @@ use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 use Chromabits\Nucleus\Meditation\Spec;
-use Chromabits\Nucleus\View\Interfaces\Renderable;
+use Chromabits\Nucleus\View\Interfaces\RenderableInterface;
 use Chromabits\Nucleus\View\Node;
 
 /**
@@ -35,7 +35,7 @@ class Button extends Node
      * Construct an instance of a Button.
      *
      * @param string[] $attributes
-     * @param string|Renderable|string[]|Renderable[] $content
+     * @param string|RenderableInterface|string[]|RenderableInterface[] $content
      */
     public function __construct($attributes, $content = '')
     {

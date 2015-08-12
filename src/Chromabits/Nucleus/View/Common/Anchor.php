@@ -2,7 +2,7 @@
 
 namespace Chromabits\Nucleus\View\Common;
 
-use Chromabits\Nucleus\View\Interfaces\Renderable;
+use Chromabits\Nucleus\View\Interfaces\RenderableInterface;
 use Chromabits\Nucleus\View\Node;
 
 /**
@@ -17,7 +17,7 @@ class Anchor extends Node
      * Construct an instance of an Anchor.
      *
      * @param string[] $attributes
-     * @param string|Renderable|string[]|Renderable[] $content
+     * @param string|RenderableInterface|string[]|RenderableInterface[] $content
      */
     public function __construct($attributes, $content = '')
     {

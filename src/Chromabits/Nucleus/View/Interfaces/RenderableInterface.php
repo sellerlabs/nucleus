@@ -12,14 +12,14 @@
 namespace Chromabits\Nucleus\View\Interfaces;
 
 /**
- * Interface Renderable.
+ * Interface RenderableInterface.
  *
  * Represents an object that can be rendered into a string.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View\Interfaces
  */
-interface Renderable
+interface RenderableInterface
 {
     /**
      * Render the object into a string.

@@ -13,7 +13,9 @@ namespace Chromabits\Nucleus\View\Composite;
 
 use Chromabits\Nucleus\View\Common\Button;
 use Chromabits\Nucleus\View\Common\Italic;
-use Chromabits\Nucleus\View\Interfaces\Renderable;
+use Chromabits\Nucleus\View\Interfaces\RenderableInterface;
+use Chromabits\Nucleus\View\Interfaces\SafeHtmlProducerInterface;
+use Chromabits\Nucleus\View\SafeHtmlWrapper;
 
 /**
  * Class IconButton.
@@ -21,17 +23,26 @@ use Chromabits\Nucleus\View\Interfaces\Renderable;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View\Composite
  */
-class IconButton implements Renderable
+class IconButton implements RenderableInterface, SafeHtmlProducerInterface
 {
+    /**
+     * @var array
+     */
     protected $attributes;
 
+    /**
+     * @var RenderableInterface|RenderableInterface[]|string|string[]
+     */
     protected $content;
 
+    /**
+     * @var string
+     */
     protected $icon;
 
     /**
      * @param string $icon
-     * @param string|Renderable|string[]|Renderable[] $content
+     * @param string|RenderableInterface|string[]|RenderableInterface[] $content
      * @param array $attributes
      */
     public function __construct($icon, $content = '', $attributes = [])
@@ -52,5 +63,15 @@ class IconButton implements Renderable
             new Italic(['class' => 'icon ' . $this->icon]),
             $this->content,
         ]))->render();
+    }
+
+    /**
+     * Get a safe HTML version of the contents of this object.
+     *
+     * @return SafeHtmlWrapper
+     */
+    public function getSafeHtml()
+    {
+        return $this->render();
     }
 }
