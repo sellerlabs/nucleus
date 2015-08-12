@@ -14,6 +14,7 @@ namespace Chromabits\Nucleus\View;
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Spec;
+use Chromabits\Nucleus\Meditation\TypeHound;
 use Chromabits\Nucleus\View\Exceptions\InvalidAttributesException;
 use Chromabits\Nucleus\View\Interfaces\Renderable;
 
@@ -128,15 +129,21 @@ class Node extends BaseObject implements Renderable
                     return $child->render();
                 }
 
-                throw new CoreException(
-                    'Unknown content type. Child item cannot be rendered.'
-                );
+                throw new CoreException(vsprintf(
+                    'Unknown content type: %s. Child item cannot be rendered.',
+                    [
+                        TypeHound::fetch($child),
+                    ]
+                ));
             }, $this->content));
         }
 
-        throw new CoreException(
-            'Unknown content type. Node cannot be rendered.'
-        );
+        throw new CoreException(vsprintf(
+            'Unknown content type. Node cannot be rendered.',
+            [
+                TypeHound::fetch($this->content),
+            ]
+        ));
     }
 
     /**
@@ -154,7 +161,7 @@ class Node extends BaseObject implements Renderable
         }
 
         if ($this->selfClosing) {
-            return sprintf(
+            return vsprintf(
                 '<%s%s/>',
                 [$this->tagName, $this->renderAttributes()]
             );
