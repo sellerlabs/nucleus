@@ -14,6 +14,7 @@ namespace Chromabits\Nucleus\Meditation;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\AnyConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\ArrayOfConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\BetweenConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\CallableConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClassTypeConstraint;
@@ -26,6 +27,7 @@ use Chromabits\Nucleus\Meditation\Constraints\MaybeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ReadMapConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\TraversableConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\TraversableOfConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 use Closure;
@@ -202,5 +204,25 @@ class Boa extends BaseObject
     public static function traversable()
     {
         return new TraversableConstraint();
+    }
+
+    /**
+     * @param AbstractConstraint $valueConstraint
+     *
+     * @return TraversableOfConstraint
+     */
+    public static function traversableOf(AbstractConstraint $valueConstraint)
+    {
+        return new TraversableOfConstraint($valueConstraint);
+    }
+
+    /**
+     * @param AbstractConstraint $valueConstraint
+     *
+     * @return ArrayOfConstraint
+     */
+    public static function arrOf(AbstractConstraint $valueConstraint)
+    {
+        return new ArrayOfConstraint($valueConstraint);
     }
 }
