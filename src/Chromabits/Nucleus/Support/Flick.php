@@ -78,7 +78,7 @@ class Flick extends BaseObject
     {
         Arguments::contain(Boa::readMap())->contain($input);
 
-        $map = new ReadMap($input);
+        $map = new ReadMap($this->functions);
 
         if ($map->has($input)) {
             /** @var callable $function */
