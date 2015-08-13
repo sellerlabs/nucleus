@@ -55,7 +55,7 @@ class TraversableOfConstraint extends AbstractConstraint
         }
 
         foreach ($value as $item) {
-            if ($this->check($item, $context) === false) {
+            if ($this->valueConstraint->check($item, $context) === false) {
                 return false;
             }
         }
