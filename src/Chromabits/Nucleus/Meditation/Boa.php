@@ -15,7 +15,6 @@ use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\AnyConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ArrayOfConstraint;
-use Chromabits\Nucleus\Meditation\Constraints\BetweenConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\CallableConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClassTypeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClosureConstraint;
@@ -30,6 +29,7 @@ use Chromabits\Nucleus\Meditation\Constraints\TraversableConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\TraversableOfConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
+use Chromabits\Nucleus\Validation\Constraints\BetweenConstraint;
 use Closure;
 
 /**

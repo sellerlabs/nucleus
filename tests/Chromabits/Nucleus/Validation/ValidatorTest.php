@@ -9,15 +9,15 @@
  * This file is part of the Nucleus package
  */
 
-namespace Tests\Chromabits\Nucleus\Meditation;
+namespace Tests\Chromabits\Nucleus\Validation;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Meditation\Constraints\ClassTypeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 use Chromabits\Nucleus\Meditation\Spec;
-use Chromabits\Nucleus\Meditation\Validator;
 use Chromabits\Nucleus\Testing\TestCase;
+use Chromabits\Nucleus\Validation\Validator;
 use Exception;
 use stdClass;
 
@@ -25,7 +25,7 @@ use stdClass;
  * Class ValidatorTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
- * @package Tests\Chromabits\Nucleus\Meditation
+ * @package Tests\Chromabits\Nucleus\Validation
  */
 class ValidatorTest extends TestCase
 {

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Support;
 
 use ArrayAccess;
@@ -12,7 +21,7 @@ use Chromabits\Nucleus\Support\Abstractors\ReadMap;
 use Traversable;
 
 /**
- * Class Flick
+ * Class Flick.
  *
  * A more functional switch block.
  *
@@ -57,7 +66,7 @@ class Flick extends BaseObject
      * Construct an instance of a Flick.
      *
      * @param array|ArrayAccess|Traversable $functions
-     * @param string|integer $default
+     * @param string|int $default
      *
      * @return Flick
      */
@@ -69,10 +78,10 @@ class Flick extends BaseObject
     /**
      * Run the flick on input.
      *
-     * @param string|integer $input
+     * @param string|int $input
      *
-     * @return mixed
      * @throws UnknownKeyException
+     * @return mixed
      */
     public function go($input)
     {

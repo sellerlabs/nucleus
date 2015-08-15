@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Support\Abstractors;
 
 use ArrayAccess;
@@ -11,7 +20,7 @@ use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 use Traversable;
 
 /**
- * Class ReadMap
+ * Class ReadMap.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support\Abstractors
@@ -51,11 +60,11 @@ class ReadMap extends AbstractAbstractor
     /**
      * Get value of a key.
      *
-     * @param string|integer $key
+     * @param string|int $key
      *
-     * @return mixed
      * @throws UnknownKeyException
      * @throws InvalidArgumentException
+     * @return mixed
      */
     public function get($key)
     {
@@ -80,10 +89,10 @@ class ReadMap extends AbstractAbstractor
     /**
      * Return whether or not a key exists on this map.
      *
-     * @param string|integer $key
+     * @param string|int $key
      *
-     * @return bool
      * @throws InvalidArgumentException
+     * @return bool
      */
     public function has($key)
     {
@@ -115,7 +124,7 @@ class ReadMap extends AbstractAbstractor
         return [
             CompoundTypes::COMPOUND_ARRAY,
             ArrayAccess::class,
-            Traversable::class
+            Traversable::class,
         ];
     }
 }

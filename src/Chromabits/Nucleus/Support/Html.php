@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
@@ -11,7 +20,7 @@ use Chromabits\Nucleus\View\Interfaces\SafeHtmlProducerInterface;
 use Chromabits\Nucleus\View\SafeHtmlWrapper;
 
 /**
- * Class Html
+ * Class Html.
  *
  * Utilities for manipulating HTML.
  *
@@ -25,9 +34,9 @@ class Html
      *
      * @param SafeHtmlWrapper|SafeHtmlProducerInterface|string $string
      *
-     * @return SafeHtmlWrapper|string
      * @throws CoreException
      * @throws InvalidArgumentException
+     * @return SafeHtmlWrapper|string
      */
     public static function escape($string)
     {

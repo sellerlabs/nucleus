@@ -9,11 +9,13 @@
  * This file is part of the Nucleus package
  */
 
-namespace Chromabits\Nucleus\Meditation;
+namespace Chromabits\Nucleus\Validation;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
 use Chromabits\Nucleus\Meditation\Interfaces\CheckableInterface;
+use Chromabits\Nucleus\Meditation\Spec;
+use Chromabits\Nucleus\Meditation\SpecResult;
 use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Support\Std;
 
@@ -23,7 +25,7 @@ use Chromabits\Nucleus\Support\Std;
  * An extension of Spec, which supports displaying more user-friendly messages.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
- * @package Chromabits\Nucleus\Meditation
+ * @package Chromabits\Nucleus\Validation
  */
 class Validator extends BaseObject implements CheckableInterface
 {
