@@ -63,10 +63,10 @@ class ValidatorTest extends TestCase
 
         $this->assertEquals(
             [
-                'name' => 'The name should be pretty.',
+                'name' => ['The name should be pretty.'],
                 'exception' => [$missingClass],
                 'exception2' => [$missingClass, $missingClass2],
-                'exception3' => 'Welp',
+                'exception3' => ['Welp'],
             ],
             $result->getFailed()
         );

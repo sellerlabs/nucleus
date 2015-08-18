@@ -86,9 +86,16 @@ class Validator extends BaseObject implements CheckableInterface
                 $result->getFailed(),
                 function ($key, $value, &$array, $path) {
                     $array[$key] = Std::coalesce(
-                        Arr::dotGet(
-                            $this->messages,
-                            Std::nonempty($path, $key)
+                        Std::firstBias(
+                            Arr::dotGet(
+                                $this->messages,
+                                Std::nonempty($path, $key)
+                            ) !== null,
+                            [Arr::dotGet(
+                                $this->messages,
+                                Std::nonempty($path, $key)
+                            )],
+                            null
                         ),
                         Std::firstBias(
                             $value instanceof AbstractConstraint,
