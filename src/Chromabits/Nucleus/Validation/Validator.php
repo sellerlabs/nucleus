@@ -57,12 +57,50 @@ class Validator extends BaseObject implements CheckableInterface
      * @param array $messages
      *
      * @return static
+     * @deprecated
      */
     public static function create(
         CheckableInterface $spec,
         array $messages = []
     ) {
         return new static($spec, $messages);
+    }
+
+    /**
+     * Construct an instance of a Validator.
+     *
+     * @param CheckableInterface $spec
+     * @param array $messages
+     *
+     * @return static
+     */
+    public static function define(
+        CheckableInterface $spec,
+        array $messages = []
+    ) {
+        return new static($spec, $messages);
+    }
+
+    /**
+     * Shortcut for defining a validator using a Spec.
+     *
+     * @param array $constraints
+     * @param array $defaults
+     * @param array $required
+     * @param array $messages
+     *
+     * @return static
+     */
+    public static function spec(
+        $constraints,
+        $defaults = [],
+        $required = [],
+        $messages = []
+    ) {
+        return new static(
+            Spec::define($constraints, $defaults, $required),
+            $messages
+        );
     }
 
     /**

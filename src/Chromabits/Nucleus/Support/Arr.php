@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Foundation\BaseObject;
@@ -292,5 +293,73 @@ class Arr extends BaseObject
     public static function keys(array $input)
     {
         return array_keys($input);
+    }
+
+    /**
+     * Extract the first element in an array.
+     *
+     * @param array $input
+     *
+     * @return mixed
+     * @throws CoreException
+     */
+    public static function head(array $input)
+    {
+        if (count($input) === 0) {
+            throw new CoreException('Empty array.');
+        }
+
+        return $input[0];
+    }
+
+    /**
+     * Extract the last element of an array.
+     *
+     * @param array $input
+     *
+     * @return array
+     * @throws CoreException
+     */
+    public static function tail(array $input)
+    {
+        if (count($input) === 0) {
+            throw new CoreException('Empty array.');
+        }
+
+        return array_slice($input, 1);
+    }
+
+    /**
+     * Extract the last element in an array.
+     *
+     * @param array $input
+     *
+     * @return mixed
+     * @throws CoreException
+     */
+    public static function last(array $input)
+    {
+        if (count($input) === 0) {
+            throw new CoreException('Empty array.');
+        }
+
+        return $input[count($input) - 1];
+    }
+
+    /**
+     * Extract all the elements of an array except the last one.
+     *
+     * @param array $input
+     *
+     * @return array
+     * @throws CoreException
+     */
+    public static function init(array $input)
+    {
+        if (count($input) === 0) {
+            throw new CoreException('Empty array.');
+        }
+
+        return array_slice($input, 0, count($input) - 1);
     }
 }

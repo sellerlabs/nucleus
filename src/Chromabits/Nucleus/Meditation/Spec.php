@@ -23,27 +23,36 @@ use Chromabits\Nucleus\Meditation\Interfaces\CheckableInterface;
  */
 class Spec extends BaseObject implements CheckableInterface
 {
-    protected $types;
+    /**
+     * @var array|\array[]|Constraints\AbstractConstraint[]
+     */
+    protected $constraints;
 
+    /**
+     * @var array
+     */
     protected $defaults;
 
+    /**
+     * @var array
+     */
     protected $required;
 
     /**
      * Construct an instance of a Spec.
      *
-     * @param array[]|AbstractConstraint[] $types
+     * @param array[]|AbstractConstraint[] $constraints
      * @param array $defaults
      * @param array $required
      */
     public function __construct(
-        array $types = [],
+        array $constraints = [],
         array $defaults = [],
         array $required = []
     ) {
         parent::__construct();
 
-        $this->types = $types;
+        $this->constraints = $constraints;
         $this->defaults = $defaults;
         $this->required = $required;
     }
@@ -51,18 +60,18 @@ class Spec extends BaseObject implements CheckableInterface
     /**
      * Construct an instance of a Spec.
      *
-     * @param array $types
+     * @param array $constraints
      * @param array $defaults
      * @param array $required
      *
      * @return static
      */
     public static function define(
-        array $types = [],
+        array $constraints = [],
         array $defaults = [],
         array $required = []
     ) {
-        return new static($types, $defaults, $required);
+        return new static($constraints, $defaults, $required);
     }
 
     /**
@@ -87,24 +96,24 @@ class Spec extends BaseObject implements CheckableInterface
 
         // TODO: Support recursive specs
         array_map(function ($key, $value) use ($input, &$invalid) {
-            if (!array_key_exists($key, $this->types)) {
+            if (!array_key_exists($key, $this->constraints)) {
                 return;
             }
 
-            if (is_array($this->types[$key])) {
+            if (is_array($this->constraints[$key])) {
                 array_map(function (
                     AbstractConstraint $constraint
                 ) use ($key, $value, $input, &$invalid) {
                     if (!$constraint->check($value, $input)) {
                         $invalid[$key][] = $constraint;
                     }
-                }, $this->types[$key]);
+                }, $this->constraints[$key]);
 
                 return;
             }
 
             /** @var AbstractConstraint $constraint */
-            $constraint = $this->types[$key];
+            $constraint = $this->constraints[$key];
             if (!$constraint->check($value, $input)) {
                 $invalid[$key] = [$constraint];
             }
