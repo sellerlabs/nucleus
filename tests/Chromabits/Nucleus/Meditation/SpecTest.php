@@ -12,6 +12,7 @@
 namespace Tests\Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
+use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Constraints\ClassTypeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
@@ -65,5 +66,36 @@ class SpecTest extends TestCase
                 'exception' => new stdClass(),
             ])->passed()],
         ]);
+    }
+
+    public function testCheckNested()
+    {
+        $instance = new Spec([
+            'name' => new PrimitiveTypeConstraint(ScalarTypes::SCALAR_STRING),
+            'count' => new PrimitiveTypeConstraint(ScalarTypes::SCALAR_INTEGER),
+            'address' => Spec::define([
+                'street' => Boa::string(),
+                'state' => Boa::string(),
+                'zip' => Boa::integer()
+            ], [], ['street', 'zip'])
+        ]);
+
+        $resultOne = $instance->check([
+            'name' => 'Doge',
+            'count' => 7,
+            'address' => []
+        ]);
+
+        $this->assertTrue($resultOne->failed());
+
+        $resultTwo = $instance->check([
+            'name' => 'Doge',
+            'count' => 7,
+            'address' => [
+                'state' => 90,
+            ]
+        ]);
+
+        $this->assertTrue($resultTwo->failed());
     }
 }

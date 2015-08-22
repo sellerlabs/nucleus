@@ -11,9 +11,11 @@
 
 namespace Chromabits\Nucleus\Meditation;
 
+use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
 use Chromabits\Nucleus\Meditation\Interfaces\CheckableInterface;
+use Chromabits\Nucleus\Support\Std;
 
 /**
  * Class Spec.
@@ -88,6 +90,42 @@ class Spec extends BaseObject implements CheckableInterface
         $missing = [];
         $invalid = [];
 
+        $check = function ($constraint, $key, $value, $input)
+            use (&$missing, &$invalid)
+        {
+            if ($constraint instanceof AbstractConstraint) {
+                if (!$constraint->check($value, $input)) {
+                    $invalid[$key][] = $constraint;
+                }
+            } elseif ($constraint instanceof CheckableInterface) {
+                $result = $constraint->check($value);
+
+                $missing += array_map(function ($subKey) use ($key) {
+                    return vsprintf('%s.%s', [$key, $subKey]);
+                }, $result->getMissing());
+
+                foreach ($result->getFailed() as $failedField => $constraints) {
+                    $fullPath = vsprintf('%s.%s', [$key, $failedField]);
+
+                    if (array_key_exists($fullPath, $invalid)) {
+                        $invalid[$fullPath] = array_merge(
+                            $invalid[$fullPath],
+                            $constraints
+                        );
+                    } else {
+                        $invalid[$fullPath] = $constraints;
+                    }
+                }
+            } else {
+                throw new CoreException(vsprintf(
+                    'Unexpected constraint type: %s.',
+                    [
+                        TypeHound::fetch($constraint)
+                    ]
+                ));
+            }
+        };
+
         array_map(function ($required) use ($input, &$missing) {
             if (!array_key_exists($required, $input)) {
                 $missing[] = $required;
@@ -95,18 +133,20 @@ class Spec extends BaseObject implements CheckableInterface
         }, $this->required);
 
         // TODO: Support recursive specs
-        array_map(function ($key, $value) use ($input, &$invalid) {
+        array_map(function ($key, $value) use ($input, &$invalid, $check) {
             if (!array_key_exists($key, $this->constraints)) {
                 return;
             }
 
             if (is_array($this->constraints[$key])) {
-                array_map(function (
-                    AbstractConstraint $constraint
-                ) use ($key, $value, $input, &$invalid) {
-                    if (!$constraint->check($value, $input)) {
-                        $invalid[$key][] = $constraint;
-                    }
+                array_map(function ($constraint) use (
+                    $key,
+                    $value,
+                    $input,
+                    &$invalid,
+                    $check
+                ) {
+                    $check($constraint, $key, $value, $input);
                 }, $this->constraints[$key]);
 
                 return;
@@ -114,9 +154,7 @@ class Spec extends BaseObject implements CheckableInterface
 
             /** @var AbstractConstraint $constraint */
             $constraint = $this->constraints[$key];
-            if (!$constraint->check($value, $input)) {
-                $invalid[$key] = [$constraint];
-            }
+            $check($constraint, $key, $value, $input);
         }, array_keys($input), $input);
 
         if (count($missing) === 0 && count($invalid) === 0) {
