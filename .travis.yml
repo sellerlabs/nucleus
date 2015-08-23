@@ -1,17 +1,16 @@
-# see http://about.travis-ci.org/docs/user/languages/php/ for more hints
 language: php
-
 php:
-  # aliased to a recent 5.6.x version
-  - 5.6
-  - nightly
-  # HHVM
-  - hhvm
-
-# execute any number of scripts before the test run, custom env's are available as variables
+- 5.6
+- nightly
+- hhvm
 before_script:
-  - composer self-update
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "hhvm" -o "$TRAVIS_PHP_VERSION" = "hhvm-nightly" ]; then composer update --ignore-platform-reqs; else composer update; fi'
-
+- composer self-update
+- sh -c 'if [ "$TRAVIS_PHP_VERSION" = "hhvm" -o "$TRAVIS_PHP_VERSION" = "hhvm-nightly"
+  ]; then composer update --ignore-platform-reqs; else composer update; fi'
 script:
-  - phpunit --coverage-text
+- phpunit --coverage-text
+env:
+  global:
+    secure: XCdqCWke9IM+TpWUFsA2uiLg4aXNleUK1eRxJTPiWY6OlrcizHnlDExiqOrWFnJnes+NwBr7MkCvs490JboSo8/NxpCIGRdqqap2N1OaSSpUdvIhICIENyuPZOErXfU2U6gdljzWwSypqKkz9Ajl7sTAa+Mdo498qI1tJxqRfSs=
+after_success:
+  - if  [ $TRAVIS_PHP_VERSION = '5.6' ] && [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then sh generate-api.sh; fi
