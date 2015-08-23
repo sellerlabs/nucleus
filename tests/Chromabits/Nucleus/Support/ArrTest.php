@@ -22,6 +22,24 @@ use Chromabits\Nucleus\Testing\TestCase;
  */
 class ArrTest extends TestCase
 {
+    public function testOnly()
+    {
+        $this->assertEqualsMatrix([
+            [[], Arr::only([1, 2, 3])],
+            [[1], Arr::only([1, 2, 3], [0])],
+            [[0 => 1, 2 => 3], Arr::only([1, 2, 3], [0, 2])],
+        ]);
+    }
+
+    public function testExcept()
+    {
+        $this->assertEqualsMatrix([
+            [[], Arr::except([1, 2, 3], [0, 1, 2])],
+            [[1 => 2], Arr::except([1, 2, 3], [0, 2])],
+            [[0 => 1, 2 => 3], Arr::except([1, 2, 3], [1])],
+        ]);
+    }
+
     public function testWalk()
     {
         $input = [

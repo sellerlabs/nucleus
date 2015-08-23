@@ -4,11 +4,18 @@ A standalone PHP utility library. Inspired heavily by similar projects like libp
 
 Requires HHVM 3.6 or PHP 5.6
 
+## Goal
+
+- Provide a consistent API for common operations.
+- Gather the most useful bits and snippets under one library.
+- Strong emphasis on strict type checking (e.g. `float !== integer`).
+
 ## Core pieces
 
 While Nucleus has a bunch of random crap in it, there are some useful classes worth mentioning:
 
-- **Spec**: Strict and extensible validation. A multi-purpose validation framework that can be easily extended.
+- **Spec**: A multi-purpose constraint checking framework that can be easily extended.
+- **Validator**: Built upon Spec, the Validator component provides an interface for generating UX-friendly messages for a SpecResult.
 - **Impersonator**: A constructor dependency automocker. Useful for testing classes that have many external dependencies and projects that heavily use container dependency injection.
 - **View**: An set of classes and utilities for generating clean and safe HTML/Text. It sort of looks like XHP without the XML or de-sugarized React.js code.
 - **Std, Arr, and others**: We all know the PHP standard library is a mess. I've created a few classes with a bunch of static aliases that attempt to improve upon it. Yes, there is a performance penalty (validation + at least one more function call), but it makes many operations more predictable and safer.

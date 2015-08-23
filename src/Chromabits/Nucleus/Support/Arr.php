@@ -15,6 +15,8 @@ use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Foundation\BaseObject;
+use Chromabits\Nucleus\Meditation\Arguments;
+use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 
 /**
@@ -26,13 +28,29 @@ use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 class Arr extends BaseObject
 {
     /**
+     * Get the resulting value of an attempt to traverse a key path.
+     *
+     * Each key in the path is separated with a dot.
+     *
+     * For example, the following snippet should return `true`:
+     * ```php
+     * Arr::dotGet([
+     *     'hello' => [
+     *         'world' => true,
+     *     ],
+     * ], 'hello.world');
+     * ```
+     *
+     * Additionally, a default value may be provided, which will be returned if
+     * the path does not yield to a value.
+     *
      * @param array $array
      * @param string $key
      * @param null|mixed $default
      *
      * @return mixed
      */
-    public static function dotGet($array, $key, $default = null)
+    public static function dotGet(array $array, $key, $default = null)
     {
         if (is_null($key)) {
             return $array;
@@ -56,13 +74,15 @@ class Arr extends BaseObject
     /**
      * Set an array element using dot notation.
      *
+     * Same as `Arr::dotGet()`, but the value is replaced instead of fetched.
+     *
      * @param array $array
      * @param string $key
      * @param mixed $value
      *
      * @throws LackOfCoffeeException
      */
-    public static function dotSet($array, $key, $value)
+    public static function dotSet(array $array, $key, $value)
     {
         $path = explode('.', $key);
         $total = count($path);
@@ -89,10 +109,27 @@ class Arr extends BaseObject
     }
 
     /**
+     * A more complicated, but flexible, version of `array_walk`.
+     *
+     * This modified version is useful for flattening arrays without losing
+     * important structure data (how the array is arranged and nested).
+     *
+     * Possible applications: flattening complex validation responses or a
+     * configuration file.
+     *
+     * Additional features:
+     * - The current path in dot notation is provided to the callback.
+     * - Leaf arrays (no nested arrays) can be optionally ignored.
+     *
+     * Callback signature:
+     * ```php
+     * $callback($key, $value, $array, $path);
+     * ```
+     *
      * @param array $array
      * @param callable $callback
      * @param bool $recurse
-     * @param string $path
+     * @param string $path - The current path prefix.
      * @param bool $considerLeaves
      *
      * @return array
@@ -163,13 +200,26 @@ class Arr extends BaseObject
     }
 
     /**
+     * Return whether or not an array contains the specified key.
+     *
+     * @param array $input
+     * @param string|integer $key
+     *
+     * @return bool
+     */
+    public static function has(array $input, $key)
+    {
+        return array_key_exists($key, $input);
+    }
+
+    /**
      * Return whether or not an array has nested arrays.
      *
      * @param array $array
      *
      * @return bool
      */
-    public static function hasNested($array)
+    public static function hasNested(array $array)
     {
         foreach ($array as $value) {
             if (is_array($value)) {
@@ -205,17 +255,62 @@ class Arr extends BaseObject
      * Filter the keys of an array to only the allowed set.
      *
      * @param array $input
-     * @param array $allowed
+     * @param array $included
      *
      * @return array
+     * @throws InvalidArgumentException
+     * @deprecated
      */
-    public static function filterKeys($input, $allowed = [])
+    public static function filterKeys(array $input, $included = [])
     {
-        if (is_null($allowed) || count($allowed) == 0) {
+        if (is_null($included) || count($included) == 0) {
             return $input;
         }
 
-        return array_intersect_key($input, array_flip($allowed));
+        return array_intersect_key($input, array_flip($included));
+    }
+
+    /**
+     * Get an array with only the specified keys of the provided array.
+     *
+     * @param array $input
+     * @param array $included
+     *
+     * @return array
+     */
+    public static function only(array $input, array $included = [])
+    {
+        Arguments::contain(Boa::arrOf(Boa::either(
+            Boa::string(),
+            Boa::integer()
+        )))->check($included);
+
+        if (is_null($included) || count($included) == 0) {
+            return [];
+        }
+
+        return array_intersect_key($input, array_flip($included));
+    }
+
+    /**
+     * Get a copy of the provided array excluding the specified keys.
+     *
+     * @param array $input
+     * @param array $excluded
+     *
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    public static function except(array $input, $excluded = [])
+    {
+        Arguments::contain(Boa::arrOf(Boa::either(
+            Boa::string(),
+            Boa::integer()
+        )))->check($excluded);
+
+        return Std::filter(function ($value, $key) use ($excluded) {
+            return !in_array($key, $excluded);
+        }, $input);
     }
 
     /**
@@ -284,7 +379,7 @@ class Arr extends BaseObject
     }
 
     /**
-     * Get the keys of an array.
+     * Get each key in an array.
      *
      * @param array $input
      *
@@ -293,6 +388,18 @@ class Arr extends BaseObject
     public static function keys(array $input)
     {
         return array_keys($input);
+    }
+
+    /**
+     * Get the value of each element in the array.
+     *
+     * @param array $input
+     *
+     * @return array
+     */
+    public static function values(array $input)
+    {
+        return array_values($input);
     }
 
     /**
