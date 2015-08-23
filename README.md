@@ -9,6 +9,7 @@ Requires HHVM 3.6 or PHP 5.6
 - Provide a consistent API for common operations.
 - Gather the most useful bits and snippets under one library.
 - Strong emphasis on strict type checking (e.g. `float !== integer`).
+- Functional programming ideas and concepts are welcome (I'm new to this).
 
 ## Core pieces
 
@@ -18,13 +19,18 @@ While Nucleus has a bunch of random crap in it, there are some useful classes wo
 - **Validator**: Built upon Spec, the Validator component provides an interface for generating UX-friendly messages for a SpecResult.
 - **Impersonator**: A constructor dependency automocker. Useful for testing classes that have many external dependencies and projects that heavily use container dependency injection.
 - **View**: An set of classes and utilities for generating clean and safe HTML/Text. It sort of looks like XHP without the XML or de-sugarized React.js code.
-- **Std, Arr, and others**: We all know the PHP standard library is a mess. I've created a few classes with a bunch of static aliases that attempt to improve upon it. Yes, there is a performance penalty (validation + at least one more function call), but it makes many operations more predictable and safer.
+- **Std, Arr, and others**: We all know the PHP standard library is a mess. There are many failed attempts to fix this out there. This is another one of those attempts. I've created a few classes with a bunch of static aliases that attempt to improve upon it. Yes, there is a performance penalty (validation + at least one more function call), but it makes many operations more predictable and safer.
 
 ## Contributing
 
-Pull Request are accepted on GitHub.
-Code Standard: PSR-2 with some additions. See https://github.com/etcinit/php-coding-standard for more details
+Pull requests are accepted on GitHub. Bug fixes and small improvements are welcome. Big ideas will be reviewed and discussed.
+
+Code Standard: PSR-2 with some additions. See https://github.com/etcinit/php-coding-standard for more details.
+
+## Security
+
+If you discover any security related issues, please email ed+security@chromabits.com instead of using the issue tracker.
 
 ## License
 
-This code is licensed under the MIT license. See LICENCE for more information.
+This code is licensed under the MIT license. See LICENSE for more information.
