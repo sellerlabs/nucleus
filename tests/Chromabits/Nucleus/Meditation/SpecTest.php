@@ -18,6 +18,7 @@ use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 use Chromabits\Nucleus\Meditation\Spec;
 use Chromabits\Nucleus\Testing\TestCase;
+use Chromabits\Nucleus\Validation\Constraints\StringLengthConstraint;
 use stdClass;
 
 /**
@@ -70,12 +71,18 @@ class SpecTest extends TestCase
 
     public function testCheckNested()
     {
-        $instance = new Spec([
-            'name' => new PrimitiveTypeConstraint(ScalarTypes::SCALAR_STRING),
-            'count' => new PrimitiveTypeConstraint(ScalarTypes::SCALAR_INTEGER),
+        $instance = Spec::define([
+            'name' => Boa::string(),
+            'count' => Boa::integer(),
             'address' => Spec::define([
-                'street' => Boa::string(),
-                'state' => Boa::string(),
+                'street' => Spec::define([
+                    'first_line' => Boa::string(),
+                    'second_line' => Boa::either(Boa::string(), Boa::integer()),
+                ], [], ['first_line']),
+                'state' => [
+                    Boa::string(),
+                    new StringLengthConstraint(2, 2),
+                ],
                 'zip' => Boa::integer()
             ], [], ['street', 'zip'])
         ]);
@@ -92,10 +99,30 @@ class SpecTest extends TestCase
             'name' => 'Doge',
             'count' => 7,
             'address' => [
+                'street' => [],
                 'state' => 90,
             ]
         ]);
 
+        $failed = $resultTwo->getFailed();
+        $missing = $resultTwo->getMissing();
+
         $this->assertTrue($resultTwo->failed());
+        $this->assertArrayHasKey('address.state', $failed);
+        $this->assertTrue(in_array('address.street.first_line', $missing));
+
+        $resultThree = $instance->check([
+            'name' => 'Doge',
+            'count' => 7,
+            'address' => [
+                'street' => [
+                    'first_line' => '1337 Hacker Way'
+                ],
+                'state' => 'GA',
+                'zip' => 13370
+            ]
+        ]);
+
+        $this->assertTrue($resultThree->passed());
     }
 }

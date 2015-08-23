@@ -100,9 +100,12 @@ class Spec extends BaseObject implements CheckableInterface
             } elseif ($constraint instanceof CheckableInterface) {
                 $result = $constraint->check($value);
 
-                $missing += array_map(function ($subKey) use ($key) {
-                    return vsprintf('%s.%s', [$key, $subKey]);
-                }, $result->getMissing());
+                $missing = Std::concat(
+                    $missing,
+                    array_map(function ($subKey) use ($key) {
+                        return vsprintf('%s.%s', [$key, $subKey]);
+                    }, $result->getMissing())
+                );
 
                 foreach ($result->getFailed() as $failedField => $constraints) {
                     $fullPath = vsprintf('%s.%s', [$key, $failedField]);
