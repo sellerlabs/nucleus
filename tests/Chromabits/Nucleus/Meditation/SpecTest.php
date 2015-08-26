@@ -83,14 +83,14 @@ class SpecTest extends TestCase
                     Boa::string(),
                     new StringLengthConstraint(2, 2),
                 ],
-                'zip' => Boa::integer()
-            ], [], ['street', 'zip'])
+                'zip' => Boa::integer(),
+            ], [], ['street', 'zip']),
         ]);
 
         $resultOne = $instance->check([
             'name' => 'Doge',
             'count' => 7,
-            'address' => []
+            'address' => [],
         ]);
 
         $this->assertTrue($resultOne->failed());
@@ -101,7 +101,7 @@ class SpecTest extends TestCase
             'address' => [
                 'street' => [],
                 'state' => 90,
-            ]
+            ],
         ]);
 
         $failed = $resultTwo->getFailed();
@@ -116,11 +116,11 @@ class SpecTest extends TestCase
             'count' => 7,
             'address' => [
                 'street' => [
-                    'first_line' => '1337 Hacker Way'
+                    'first_line' => '1337 Hacker Way',
                 ],
                 'state' => 'GA',
-                'zip' => 13370
-            ]
+                'zip' => 13370,
+            ],
         ]);
 
         $this->assertTrue($resultThree->passed());

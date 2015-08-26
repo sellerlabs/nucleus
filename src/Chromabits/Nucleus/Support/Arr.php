@@ -203,7 +203,7 @@ class Arr extends BaseObject
      * Return whether or not an array contains the specified key.
      *
      * @param array $input
-     * @param string|integer $key
+     * @param string|int $key
      *
      * @return bool
      */
@@ -257,8 +257,8 @@ class Arr extends BaseObject
      * @param array $input
      * @param array $included
      *
-     * @return array
      * @throws InvalidArgumentException
+     * @return array
      * @deprecated
      */
     public static function filterKeys(array $input, $included = [])
@@ -298,8 +298,8 @@ class Arr extends BaseObject
      * @param array $input
      * @param array $excluded
      *
-     * @return array
      * @throws InvalidArgumentException
+     * @return array
      */
     public static function except(array $input, $excluded = [])
     {
@@ -407,8 +407,8 @@ class Arr extends BaseObject
      *
      * @param array $input
      *
-     * @return mixed
      * @throws CoreException
+     * @return mixed
      */
     public static function head(array $input)
     {
@@ -424,8 +424,8 @@ class Arr extends BaseObject
      *
      * @param array $input
      *
-     * @return array
      * @throws CoreException
+     * @return array
      */
     public static function tail(array $input)
     {
@@ -441,8 +441,8 @@ class Arr extends BaseObject
      *
      * @param array $input
      *
-     * @return mixed
      * @throws CoreException
+     * @return mixed
      */
     public static function last(array $input)
     {
@@ -458,8 +458,8 @@ class Arr extends BaseObject
      *
      * @param array $input
      *
-     * @return array
      * @throws CoreException
+     * @return array
      */
     public static function init(array $input)
     {
