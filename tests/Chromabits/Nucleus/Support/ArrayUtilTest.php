@@ -29,23 +29,6 @@ class ArrayUtilTest extends TestCase
         $this->assertInstanceOf(ArrayUtils::class, new ArrayUtils());
     }
 
-    public function testFilterNull()
-    {
-        $input = [
-            'key1' => 'content',
-            'key2' => null,
-            'otherkey' => null,
-        ];
-
-        $output = [
-            'key1' => 'content',
-        ];
-
-        $utils = new ArrayUtils();
-
-        $this->assertEquals($output, $utils->filterNullValues($input));
-    }
-
     public function testFilterNullWithAllowed()
     {
         $input = [

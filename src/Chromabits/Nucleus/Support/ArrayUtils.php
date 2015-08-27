@@ -45,7 +45,7 @@ class ArrayUtils extends BaseObject
      * @param array $input
      * @param array $allowed
      */
-    public function callSetters($object, array $input, array $allowed = [])
+    public function callSetters($object, array $input, array $allowed = null)
     {
         Std::callSetters($object, $input, $allowed);
     }

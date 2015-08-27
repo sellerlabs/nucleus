@@ -233,9 +233,13 @@ class Std extends BaseObject
     public static function callSetters(
         $object,
         array $input,
-        array $allowed = []
+        array $allowed = null
     ) {
-        $filtered = Arr::only($input, $allowed);
+        if ($allowed !== null) {
+            $filtered = Arr::only($input, $allowed);
+        } else {
+            $filtered = $input;
+        }
 
         foreach ($filtered as $key => $value) {
             $setterName = 'set' . Str::studly($key);
