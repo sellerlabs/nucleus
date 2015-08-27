@@ -90,9 +90,10 @@ class Spec extends BaseObject implements CheckableInterface
         $missing = [];
         $invalid = [];
 
-        $check = function ($constraint, $key, $value, $input)
-            use (&$missing, &$invalid)
-        {
+        $check = function ($constraint, $key, $value, $input) use (
+            &$missing,
+            &$invalid
+        ) {
             if ($constraint instanceof AbstractConstraint) {
                 if (!$constraint->check($value, $input)) {
                     $invalid[$key][] = $constraint;

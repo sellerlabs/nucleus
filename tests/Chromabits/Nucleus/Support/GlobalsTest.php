@@ -55,7 +55,11 @@ class GlobalsTest extends TestCase
         $this->assertTrue(mb_ctype_lower('こんにちは世界'));
         $this->assertTrue(mb_ctype_lower('こんにちは世界-abcabcabc'));
         $this->assertFalse(mb_ctype_lower('こんにちは世界-abcabcABC'));
-        $this->assertTrue(mb_ctype_lower('hello wørld ∫∫ßß∆˙©ƒßå¬'));
-        $this->assertFalse(mb_ctype_lower('hellÔ wørld ∫∫ßß∆˙©ƒßå¬'));
+        $this->assertTrue(mb_ctype_lower(
+            'hello wørld ∫∫ßß∆˙©ƒßå¬'
+        ));
+        $this->assertFalse(mb_ctype_lower(
+            'hellÔ wørld ∫∫ßß∆˙©ƒßå¬'
+        ));
     }
 }

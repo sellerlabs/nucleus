@@ -64,7 +64,7 @@ class ClosureConstraint extends AbstractConstraint
                 vsprintf(
                     'Inner closure of constraint was expected to return a'
                     . ' boolean value. Got %s instead.',
-                    [TypeHound::createAndResolve($result)]
+                    [TypeHound::fetch($result)]
                 )
             );
         }

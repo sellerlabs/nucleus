@@ -51,7 +51,7 @@ class Rope extends BaseObject
     /**
      * Replace the snake case cache.
      *
-     * @param $cache
+     * @param string[] $cache
      */
     public static function setSnakeCache($cache)
     {
@@ -61,7 +61,7 @@ class Rope extends BaseObject
     /**
      * Replace the camel case cache.
      *
-     * @param $cache
+     * @param string[] $cache
      */
     public static function setCamelCache($cache)
     {
@@ -71,7 +71,7 @@ class Rope extends BaseObject
     /**
      * Replace the studly cache.
      *
-     * @param $cache
+     * @param string[] $cache
      */
     public static function setStudlyCache($cache)
     {
@@ -86,6 +86,8 @@ class Rope extends BaseObject
      */
     public function __construct($contents = '', $encoding = null)
     {
+        parent::__construct();
+
         $this->contents = (string) $contents;
         $this->encoding = coalesce($encoding, mb_internal_encoding());
     }

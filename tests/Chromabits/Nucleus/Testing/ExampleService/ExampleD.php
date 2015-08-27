@@ -34,7 +34,7 @@ class ExampleD
      *
      * @param ExampleAInterface $one
      * @param ExampleA $two
-     * @param $three
+     * @param mixed $three
      */
     public function __construct(
         ExampleAInterface $one,

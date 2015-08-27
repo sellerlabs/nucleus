@@ -52,6 +52,7 @@ if (!function_exists('coalesce')) {
      *
      * @param mixed ...$args
      *
+     * @return mixed
      */
     function coalesce(...$args)
     {
@@ -65,6 +66,7 @@ if (!function_exists('truthy')) {
      *
      * @param mixed ...$args
      *
+     * @return mixed
      */
     function truthy(...$args)
     {

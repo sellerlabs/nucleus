@@ -43,6 +43,8 @@ class EitherConstraint extends AbstractTypeConstraint
         AbstractConstraint $one,
         AbstractConstraint $other
     ) {
+        parent::__construct();
+
         $this->one = $one;
         $this->other = $other;
     }
@@ -98,8 +100,13 @@ class EitherConstraint extends AbstractTypeConstraint
         $one = $this->one->toString();
         $other = $this->other->toString();
 
-        $one = $this->one->isUnion() ? sprintf('(%s)', $one) : $one;
-        $other = $this->other->isUnion() ? sprintf('(%s)', $other) : $other;
+        if ($this->one instanceof AbstractTypeConstraint) {
+            $one = $this->one->isUnion() ? sprintf('(%s)', $one) : $one;
+        }
+
+        if ($this->other instanceof AbstractTypeConstraint) {
+            $other = $this->other->isUnion() ? sprintf('(%s)', $other) : $other;
+        }
 
         return sprintf('%s|%s', $one, $other);
     }

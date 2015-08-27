@@ -16,6 +16,8 @@ use Exception;
 /**
  * Trait ConstructorTesterTrait.
  *
+ * @property array constructorTypes
+ *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Testing\Traits
  */
@@ -51,8 +53,8 @@ trait ConstructorTesterTrait
     /**
      * Assert that the provided object is an instance of a class.
      *
-     * @param $expected
-     * @param $actual
+     * @param string $expected
+     * @param string $actual
      * @param string $message
      *
      * @return mixed
@@ -66,8 +68,8 @@ trait ConstructorTesterTrait
     /**
      * Assert the provided input of a certain internal (scalar) type.
      *
-     * @param $expected
-     * @param $actual
+     * @param string $expected
+     * @param string $actual
      * @param string $message
      *
      * @return mixed

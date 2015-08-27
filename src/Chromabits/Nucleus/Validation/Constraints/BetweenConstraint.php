@@ -39,6 +39,8 @@ class BetweenConstraint extends AbstractConstraint
      */
     public function __construct($min, $max)
     {
+        parent::__construct();
+
         Arguments::contain(new NumericConstraint(), new NumericConstraint())
             ->check($min, $max);
 

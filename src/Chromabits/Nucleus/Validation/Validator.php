@@ -138,7 +138,6 @@ class Validator extends BaseObject implements CheckableInterface
                         Std::firstBias(
                             $value instanceof AbstractConstraint,
                             function () use ($value) {
-                                /* @var AbstractConstraint $value */
                                 return $value->getDescription();
                             },
                             null

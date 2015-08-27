@@ -11,6 +11,8 @@
 
 namespace Tests\Chromabits\Nucleus\Testing\ExampleService;
 
+use Chromabits\Nucleus\Strings\Rope;
+
 /**
  * Class ExampleA.
  *
@@ -22,7 +24,7 @@ class ExampleA extends ExampleBase implements ExampleAInterface
     /**
      * Says hello.
      *
-     * @return \Chromabits\Nucleus\Strings\Rope
+     * @return Rope
      */
     public function sayHello()
     {

@@ -28,6 +28,8 @@ class InArrayConstraint extends AbstractConstraint
      */
     public function __construct(array $allowed)
     {
+        parent::__construct();
+
         $this->allowed = $allowed;
     }
 

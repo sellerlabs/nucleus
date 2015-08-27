@@ -13,6 +13,7 @@ namespace Tests\Chromabits\Nucleus\Testing\Traits;
 
 use Chromabits\Nucleus\Testing\TestCase;
 use Chromabits\Nucleus\Testing\Traits\ConstructorTesterTrait;
+use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * Class ConstructorTesterHelper.
@@ -30,11 +31,17 @@ class ConstructorTesterHelper extends TestCase
         'Chromabits\Nucleus\Testing\TestCase',
     ];
 
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
     protected function make()
     {
         return $this->getMockForAbstractClass(TestCase::class);
     }
 
+    /**
+     * Sets multiple types.
+     */
     public function setMultipleTypes()
     {
         $this->constructorTypes = [
@@ -43,6 +50,9 @@ class ConstructorTesterHelper extends TestCase
         ];
     }
 
+    /**
+     * Sets no types.
+     */
     public function setNoTypes()
     {
         $this->constructorTypes = [];

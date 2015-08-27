@@ -16,7 +16,9 @@ use Chromabits\Nucleus\Exceptions\ResolutionException;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Closure;
 use Mockery;
+use Mockery\MockInterface;
 use ReflectionClass;
+use ReflectionParameter;
 
 /**
  * Class Impersonator.
@@ -40,6 +42,8 @@ class Impersonator extends BaseObject
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->provided = [];
     }
 
@@ -49,7 +53,7 @@ class Impersonator extends BaseObject
      * Be aware that complex classes might not be resolved automatically.
      * For example, scalar types are currently not supported.
      *
-     * @param $target
+     * @param mixed $target
      *
      * @throws ResolutionException
      * @return mixed
@@ -104,7 +108,7 @@ class Impersonator extends BaseObject
     /**
      * A shortcut for building mocks.
      *
-     * @param $type
+     * @param string $type
      * @param Closure $closure
      */
     public function mock($type, Closure $closure)
@@ -115,10 +119,10 @@ class Impersonator extends BaseObject
     /**
      * Reflect about a class' constructor parameter types.
      *
-     * @param $target
+     * @param mixed $target
      *
      * @throws LackOfCoffeeException
-     * @return \ReflectionParameter[]
+     * @return ReflectionParameter[]
      */
     protected function getArgumentTypes($target)
     {
@@ -137,7 +141,7 @@ class Impersonator extends BaseObject
     /**
      * Attempt to automatically mock the arguments of a function.
      *
-     * @param array $parameters
+     * @param ReflectionParameter[] $parameters
      *
      * @throws ResolutionException
      * @return array
@@ -169,7 +173,7 @@ class Impersonator extends BaseObject
      *
      * @param ReflectionClass $type
      *
-     * @return Mockery\MockInterface
+     * @return MockInterface
      */
     protected function resolveMock(ReflectionClass $type)
     {
@@ -190,7 +194,7 @@ class Impersonator extends BaseObject
      *
      * @param ReflectionClass $type
      *
-     * @return Mockery\MockInterface
+     * @return MockInterface
      */
     protected function buildMock(ReflectionClass $type)
     {

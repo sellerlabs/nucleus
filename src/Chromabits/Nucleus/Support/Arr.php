@@ -241,7 +241,7 @@ class Arr extends BaseObject
     public static function filterNullValues($properties, array $allowed = null)
     {
         // If provided, only use allowed properties
-        $properties = static::filterKeys($properties, $allowed);
+        $properties = static::only($properties, $allowed);
 
         return array_filter(
             $properties,
@@ -308,7 +308,7 @@ class Arr extends BaseObject
             Boa::integer()
         )))->check($excluded);
 
-        return Std::filter(function ($value, $key) use ($excluded) {
+        return Std::filter(function ($_, $key) use ($excluded) {
             return !in_array($key, $excluded);
         }, $input);
     }

@@ -33,6 +33,8 @@ class ClassTypeConstraint extends AbstractTypeConstraint
      */
     public function __construct($className)
     {
+        parent::__construct();
+
         $this->className = $className;
     }
 

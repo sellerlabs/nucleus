@@ -115,6 +115,7 @@ class Std extends BaseObject
      *
      * @param mixed ...$args
      *
+     * @return mixed
      */
     public static function coalesce(...$args)
     {
@@ -141,7 +142,7 @@ class Std extends BaseObject
             ->check($function, $traversable);
 
         foreach ($traversable as $key => $value) {
-            $function($key, $value);
+            $function($value, $key);
         }
     }
 
@@ -234,7 +235,7 @@ class Std extends BaseObject
         array $input,
         array $allowed = []
     ) {
-        $filtered = Arr::filterKeys($input, $allowed);
+        $filtered = Arr::only($input, $allowed);
 
         foreach ($filtered as $key => $value) {
             $setterName = 'set' . Str::studly($key);
