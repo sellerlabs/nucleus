@@ -90,7 +90,9 @@ class Spec extends BaseObject implements CheckableInterface
         $missing = [];
         $invalid = [];
 
-        $check = function ($constraint, $key, $value, $input) use (&$missing, &$invalid) {
+        $check = function ($constraint, $key, $value, $input)
+            use (&$missing, &$invalid)
+        {
             if ($constraint instanceof AbstractConstraint) {
                 if (!$constraint->check($value, $input)) {
                     $invalid[$key][] = $constraint;
@@ -133,7 +135,6 @@ class Spec extends BaseObject implements CheckableInterface
             }
         }, $this->required);
 
-        // TODO: Support recursive specs
         array_map(function ($key, $value) use ($input, &$invalid, $check) {
             if (!array_key_exists($key, $this->constraints)) {
                 return;
@@ -163,5 +164,29 @@ class Spec extends BaseObject implements CheckableInterface
         }
 
         return new SpecResult($missing, $invalid, SpecResult::STATUS_FAIL);
+    }
+
+    /**
+     * @return array|array[]|AbstractConstraint[]
+     */
+    public function getConstraints()
+    {
+        return $this->constraints;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefaults()
+    {
+        return $this->defaults;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequired()
+    {
+        return $this->required;
     }
 }
