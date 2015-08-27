@@ -371,11 +371,6 @@ class Std extends BaseObject
         Arguments::contain(Boa::func(), Boa::traversable())
             ->check($function, $traversable);
 
-        // Optimization, use array_map for arrays.
-        if (is_array($traversable)) {
-            return array_map($function, $traversable, array_keys($traversable));
-        }
-
         $aggregation = [];
 
         foreach ($traversable as $key => $value) {
