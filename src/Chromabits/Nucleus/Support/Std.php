@@ -48,7 +48,7 @@ class Std extends BaseObject
     {
         Arguments::contain(Boa::func(), Boa::lst())->check($function, $args);
 
-        return Std::call($function, ...$args);
+        return static::call($function, ...$args);
     }
 
     /**

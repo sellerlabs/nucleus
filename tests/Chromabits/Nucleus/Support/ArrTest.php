@@ -29,6 +29,7 @@ class ArrTest extends TestCase
             [[], Arr::only([1, 2, 3])],
             [[1], Arr::only([1, 2, 3], [0])],
             [[0 => 1, 2 => 3], Arr::only([1, 2, 3], [0, 2])],
+            [[1, 2, 3], Arr::only([1, 2, 3], null)],
         ]);
     }
 
@@ -93,21 +94,40 @@ class ArrTest extends TestCase
 
     public function testFilterNullWithAllowed()
     {
-        $input = [
-            'key1' => 'content',
-            'key2' => null,
-            'otherkey' => null,
-            'otherkey2' => 'ishouldnotbehere',
-        ];
-
-        $output = [
-            'key1' => 'content',
-        ];
-
-        $this->assertEquals(
-            $output,
-            Arr::filterNullValues($input, ['key1'])
-        );
+        $this->assertEqualsMatrix([
+            [
+                [
+                    'key1' => 'content',
+                ],
+                Arr::filterNullValues([
+                    'key1' => 'content',
+                    'key2' => null,
+                    'otherkey' => null,
+                    'otherkey2' => 'ishouldnotbehere',
+                ], ['key1'])
+            ],
+            [
+                [
+                    'key1' => 'content',
+                    'otherkey2' => 'ishouldnotbehere',
+                ],
+                Arr::filterNullValues([
+                    'key1' => 'content',
+                    'key2' => null,
+                    'otherkey' => null,
+                    'otherkey2' => 'ishouldnotbehere',
+                ])
+            ],
+            [
+                [],
+                Arr::filterNullValues([
+                    'key1' => 'content',
+                    'key2' => null,
+                    'otherkey' => null,
+                    'otherkey2' => 'ishouldnotbehere',
+                ], [])
+            ]
+        ]);
     }
 
     public function testExchange()

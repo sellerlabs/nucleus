@@ -29,6 +29,7 @@ use Chromabits\Nucleus\Meditation\Constraints\TraversableConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\TraversableOfConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
+use Chromabits\Nucleus\Meditation\Primitives\SpecialTypes;
 use Chromabits\Nucleus\Validation\Constraints\BetweenConstraint;
 use Closure;
 
@@ -224,5 +225,25 @@ class Boa extends BaseObject
     public static function arrOf(AbstractConstraint $valueConstraint)
     {
         return new ArrayOfConstraint($valueConstraint);
+    }
+
+    /**
+     * @return PrimitiveTypeConstraint
+     */
+    public static function null()
+    {
+        return new PrimitiveTypeConstraint(
+            SpecialTypes::SPECIAL_NULL
+        );
+    }
+
+    /**
+     * @return PrimitiveTypeConstraint
+     */
+    public static function resource()
+    {
+        return new PrimitiveTypeConstraint(
+            SpecialTypes::SPECIAL_RESOURCE
+        );
     }
 }

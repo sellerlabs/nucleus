@@ -234,7 +234,7 @@ class Arr extends BaseObject
      * Get array elements that are not null.
      *
      * @param array $properties
-     * @param array $allowed
+     * @param array|null $allowed
      *
      * @return array
      */
@@ -274,18 +274,27 @@ class Arr extends BaseObject
      * Get an array with only the specified keys of the provided array.
      *
      * @param array $input
-     * @param array $included
+     * @param array|null $included
      *
      * @return array
      */
-    public static function only(array $input, array $included = [])
+    public static function only(array $input, $included = [])
     {
-        Arguments::contain(Boa::arrOf(Boa::either(
-            Boa::string(),
-            Boa::integer()
-        )))->check($included);
+        Arguments::contain(
+            Boa::either(
+                Boa::arrOf(Boa::either(
+                    Boa::string(),
+                    Boa::integer()
+                )),
+                Boa::null()
+            )
+        )->check($included);
 
-        if (is_null($included) || count($included) == 0) {
+        if (is_null($included)) {
+            return $input;
+        }
+
+        if (count($included) == 0) {
             return [];
         }
 
