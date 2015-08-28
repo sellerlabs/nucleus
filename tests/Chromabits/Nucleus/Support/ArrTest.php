@@ -11,6 +11,7 @@
 
 namespace Tests\Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
 use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Testing\TestCase;
 
@@ -88,5 +89,47 @@ class ArrTest extends TestCase
         ];
 
         $this->assertEquals($output, $input);
+    }
+
+    public function testFilterNullWithAllowed()
+    {
+        $input = [
+            'key1' => 'content',
+            'key2' => null,
+            'otherkey' => null,
+            'otherkey2' => 'ishouldnotbehere',
+        ];
+
+        $output = [
+            'key1' => 'content',
+        ];
+
+        $this->assertEquals(
+            $output,
+            Arr::filterNullValues($input, ['key1'])
+        );
+    }
+
+    public function testExchange()
+    {
+        $input = [10, 30, 20];
+
+        Arr::exchange($input, 1, 2);
+
+        $this->assertEquals(10, $input[0]);
+        $this->assertEquals(20, $input[1]);
+        $this->assertEquals(30, $input[2]);
+
+        Arr::exchange($input, 0, 1);
+        Arr::exchange($input, 0, 2);
+    }
+
+    public function testExchangeWithInvalid()
+    {
+        $input = [10, 30, 20];
+
+        $this->setExpectedException(IndexOutOfBoundsException::class);
+
+        Arr::exchange($input, 1, 99);
     }
 }

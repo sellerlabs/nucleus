@@ -23,7 +23,7 @@ use Traversable;
 /**
  * Class Flick.
  *
- * A more functional switch block.
+ * An experiment. It behaves like a switch block.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support

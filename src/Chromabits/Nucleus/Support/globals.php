@@ -21,6 +21,7 @@ if (!function_exists('rope')) {
      * @param string $str
      * @param null $encoding
      *
+     * @deprecated
      * @return Rope
      */
     function rope($str, $encoding = null)
@@ -38,6 +39,7 @@ if (!function_exists('within')) {
      * @param int|float $value
      *
      * @throws LackOfCoffeeException
+     * @deprecated
      * @return bool
      */
     function within($min, $max, $value)
@@ -52,6 +54,7 @@ if (!function_exists('coalesce')) {
      *
      * @param mixed ...$args
      *
+     * @deprecated
      * @return mixed
      */
     function coalesce(...$args)
@@ -66,6 +69,7 @@ if (!function_exists('truthy')) {
      *
      * @param mixed ...$args
      *
+     * @deprecated
      * @return mixed
      */
     function truthy(...$args)
@@ -80,6 +84,7 @@ if (!function_exists('nucleus_escape_html')) {
      *
      * @param string $string
      *
+     * @deprecated
      * @return string
      */
     function nucleus_escape_html($string)
@@ -95,6 +100,8 @@ if (!function_exists('array_get')) {
      * @param array $array
      * @param string $key
      * @param mixed $default
+     *
+     * @deprecated
      * @return mixed
      */
     function array_get($array, $key, $default = null)

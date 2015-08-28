@@ -11,6 +11,8 @@
 
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
+use Chromabits\Nucleus\Support\Std;
+
 /**
  * Class EitherConstraint.
  *
@@ -74,7 +76,7 @@ class EitherConstraint extends AbstractTypeConstraint
      */
     public function check($value, array $context = [])
     {
-        return truthy(
+        return Std::truthy(
             $this->one->check($value),
             $this->other->check($value)
         );

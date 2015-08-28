@@ -97,7 +97,7 @@ class Node extends BaseObject implements
 
         return vsprintf('%s="%s"', [
             $name,
-            nucleus_escape_html((string) $value),
+            Html::escape((string) $value),
         ]);
     }
 

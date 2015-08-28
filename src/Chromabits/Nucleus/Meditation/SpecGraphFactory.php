@@ -34,6 +34,8 @@ class SpecGraphFactory extends BaseObject
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->graph = new SpecGraph();
         $this->nodeFactories = [];
     }

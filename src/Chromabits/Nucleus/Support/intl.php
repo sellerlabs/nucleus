@@ -9,6 +9,8 @@
  * This file is part of the Nucleus package
  */
 
+use Chromabits\Nucleus\Support\Std;
+
 if (!function_exists('mb_lcfirst')) {
     /**
      * Multi-byte version of lcfirst().
@@ -20,7 +22,7 @@ if (!function_exists('mb_lcfirst')) {
      */
     function mb_lcfirst($str, $encoding = null)
     {
-        $encoding = coalesce($encoding, mb_internal_encoding());
+        $encoding = Std::coalesce($encoding, mb_internal_encoding());
 
         $first = mb_strtolower(
             mb_substr($str, 0, 1, $encoding),
@@ -42,7 +44,7 @@ if (!function_exists('mb_ucfirst')) {
      */
     function mb_ucfirst($str, $encoding = null)
     {
-        $encoding = coalesce($encoding, mb_internal_encoding());
+        $encoding = Std::coalesce($encoding, mb_internal_encoding());
 
         $first = mb_strtoupper(
             mb_substr($str, 0, 1, $encoding),
@@ -64,7 +66,7 @@ if (!function_exists('mb_ctype_lower')) {
      */
     function mb_ctype_lower($text, $encoding = null)
     {
-        $encoding = coalesce($encoding, mb_internal_encoding());
+        $encoding = Std::coalesce($encoding, mb_internal_encoding());
         $characters = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
 
         foreach ($characters as $char) {
@@ -89,7 +91,7 @@ if (!function_exists('mb_ucwords')) {
      */
     function mb_ucwords($str, $delimiters = '', $encoding = null)
     {
-        $encoding = coalesce($encoding, mb_internal_encoding());
+        $encoding = Std::coalesce($encoding, mb_internal_encoding());
 
         if (is_string($delimiters)) {
             $delimiters = str_split(str_replace(' ', '', $delimiters));

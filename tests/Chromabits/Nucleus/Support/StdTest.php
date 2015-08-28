@@ -15,6 +15,7 @@ use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 use Chromabits\Nucleus\Meditation\TypeHound;
 use Chromabits\Nucleus\Support\Std;
 use Chromabits\Nucleus\Testing\TestCase;
+use Mockery;
 use SplDoublyLinkedList;
 
 /**
@@ -217,5 +218,41 @@ class StdTest extends TestCase
         );
         $this->assertEquals(22, $eight);
         $this->assertEquals(122, $rest);
+    }
+
+    public function testCallSetters()
+    {
+        $input = [
+            'first_name' => 'content',
+            'last_name' => null,
+        ];
+
+        $mock = Mockery::mock();
+
+        $mock->shouldReceive('setFirstName');
+        $mock->shouldReceive('setLastName');
+
+        Std::callSetters($mock, $input);
+
+        $mock->shouldHaveReceived('setFirstName', ['content']);
+        $mock->shouldHaveReceived('setLastName', [null]);
+    }
+
+    public function testCallSettersWithAllowed()
+    {
+        $input = [
+            'first_name' => 'content',
+            'last_name' => null,
+        ];
+
+        $mock = Mockery::mock();
+
+        $mock->shouldReceive('setFirstName');
+        $mock->shouldReceive('setLastName');
+
+        Std::callSetters($mock, $input, ['first_name']);
+
+        $mock->shouldHaveReceived('setFirstName', ['content']);
+        $mock->shouldNotHaveReceived('setLastName');
     }
 }

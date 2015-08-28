@@ -12,6 +12,7 @@
 namespace Chromabits\Nucleus\Strings;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
+use Chromabits\Nucleus\Support\Std;
 
 /**
  * Class Rope.
@@ -89,7 +90,7 @@ class Rope extends BaseObject
         parent::__construct();
 
         $this->contents = (string) $contents;
-        $this->encoding = coalesce($encoding, mb_internal_encoding());
+        $this->encoding = Std::coalesce($encoding, mb_internal_encoding());
     }
 
     /**
