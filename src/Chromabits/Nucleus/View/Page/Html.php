@@ -30,6 +30,6 @@ class Html extends Node
      */
     public function __construct($attributes, $content = '')
     {
-        parent::__construct('node', $attributes, $content);
+        parent::__construct('html', $attributes, $content);
     }
 }
