@@ -74,11 +74,33 @@ class Node extends BaseObject implements
         parent::__construct();
 
         $this->tagName = $tagName;
-        $this->attributes = $attributes;
+        $this->attributes = array_merge(
+            $this->getDefaultAttributes(),
+            $attributes
+        );
         $this->content = $content;
         $this->selfClosing = $selfClosing;
 
         $this->spec = new Spec();
+    }
+
+    /**
+     * Get the default attributes for this node.
+     *
+     * Usually basic nodes such as <a> won't have any defaults. However, if
+     * you are using a CSS framework, it might be useful to have default classes
+     * on more complex classes.
+     *
+     * Example: On Bootstrap, Tables need to have `class='table'`. Instead of
+     * writing new Table(['class' => 'table'], [...]), we can extend the Table
+     * class and override the `getDefaultAttributes` to return
+     * `['class' => 'table']`
+     *
+     * @return array
+     */
+    public function getDefaultAttributes()
+    {
+        return [];
     }
 
     /**
@@ -93,6 +115,10 @@ class Node extends BaseObject implements
     {
         if ($value === null) {
             return $name;
+        }
+
+        if (is_array($value)) {
+            $value = implode(' ', $value);
         }
 
         return vsprintf('%s="%s"', [

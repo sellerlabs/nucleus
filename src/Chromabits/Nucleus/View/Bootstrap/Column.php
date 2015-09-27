@@ -3,6 +3,7 @@
 namespace Chromabits\Nucleus\View\Bootstrap;
 
 use Chromabits\Nucleus\Support\Arr;
+use Chromabits\Nucleus\View\Interfaces\RenderableInterface;
 use Chromabits\Nucleus\View\Node;
 
 /**
@@ -37,7 +38,7 @@ class Column extends Node
      * Construct an instance of a Container.
      *
      * @param array $attributes
-     * @param \string[] $content
+     * @param string|RenderableInterface|string[]|RenderableInterface[] $content
      */
     public function __construct(
         array $attributes,
