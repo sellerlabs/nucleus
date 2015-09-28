@@ -27,6 +27,11 @@ class DropdownFactory extends BaseObject
     protected $options;
 
     /**
+     * @var bool
+     */
+    protected $right;
+
+    /**
      * Construct an instance of a DropdownFactory.
      */
     public function __construct()
@@ -35,6 +40,7 @@ class DropdownFactory extends BaseObject
 
         $this->hash = Str::random();
         $this->options = [];
+        $this->right = false;
     }
 
     /**
@@ -42,6 +48,8 @@ class DropdownFactory extends BaseObject
      *
      * @param string $url
      * @param mixed $content
+     *
+     * @return $this
      */
     public function addOption($url, $content)
     {
@@ -52,6 +60,18 @@ class DropdownFactory extends BaseObject
             ],
             $content
         );
+
+        return $this;
+    }
+
+    /**
+     * Display the menu from the top-right corner.
+     */
+    public function fromRight()
+    {
+        $this->right = true;
+
+        return $this;
     }
 
     /**
@@ -61,6 +81,12 @@ class DropdownFactory extends BaseObject
      */
     public function make()
     {
+        $menuClasses = ['dropdown-menu'];
+
+        if ($this->right) {
+            $menuClasses[] = 'dropdown-menu-right';
+        }
+
         return new Div(['class' => 'dropdown'], [
             new Anchor(
                 [
@@ -73,7 +99,7 @@ class DropdownFactory extends BaseObject
             ),
             new Div(
                 [
-                    'class' => 'dropdown-menu',
+                    'class' => $menuClasses,
                     'aria-labelledby' => $this->hash,
                 ],
                 $this->options
