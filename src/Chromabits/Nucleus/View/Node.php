@@ -156,7 +156,6 @@ class Node extends BaseObject implements
             return Html::escape($this->content->render());
         } elseif (is_array($this->content)) {
             return implode('', array_map(function ($child) {
-
                 if (is_string($child)
                     || $child instanceof SafeHtmlWrapper
                     || $child instanceof SafeHtmlProducerInterface
