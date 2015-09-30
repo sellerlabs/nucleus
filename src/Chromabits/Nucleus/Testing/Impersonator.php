@@ -48,6 +48,14 @@ class Impersonator extends BaseObject
     }
 
     /**
+     * @return Impersonator
+     */
+    public static function define()
+    {
+        return new self();
+    }
+
+    /**
      * Attempt to build the provided class.
      *
      * Be aware that complex classes might not be resolved automatically.
@@ -83,6 +91,7 @@ class Impersonator extends BaseObject
      *
      * @param mixed $mock
      *
+     * @return $this
      * @throws LackOfCoffeeException
      */
     public function provide($mock)
@@ -103,6 +112,8 @@ class Impersonator extends BaseObject
         foreach ($parents as $parent) {
             $this->provided[$parent] = $mock;
         }
+
+        return $this;
     }
 
     /**
@@ -110,10 +121,14 @@ class Impersonator extends BaseObject
      *
      * @param string $type
      * @param Closure $closure
+     *
+     * @return $this
      */
     public function mock($type, Closure $closure)
     {
         $this->provide(Mockery::mock($type, $closure));
+
+        return $this;
     }
 
     /**

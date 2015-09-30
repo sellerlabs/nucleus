@@ -48,7 +48,7 @@ class RegexConstraint extends AbstractConstraint
      */
     public function check($value, array $context = [])
     {
-        return preg_match($this->pattern, $value) === true;
+        return preg_match($this->pattern, $value) === 1;
     }
 
     /**

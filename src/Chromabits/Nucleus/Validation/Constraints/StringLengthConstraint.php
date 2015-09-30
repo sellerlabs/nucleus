@@ -15,6 +15,7 @@ use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
+use Chromabits\Nucleus\Support\Std;
 
 /**
  * Class StringLengthConstraint.
@@ -78,15 +79,10 @@ class StringLengthConstraint extends AbstractConstraint
     {
         $length = mb_strlen($value);
 
-        if ($this->min > $length) {
-            return false;
-        }
-
-        if ($this->max !== -1 && $this->max < $length) {
-            return false;
-        }
-
-        return true;
+        return !Std::truthy(
+            ($this->min > $length),
+            ($this->max !== -1 && $this->max < $length)
+        );
     }
 
     /**

@@ -95,6 +95,8 @@ class Std extends BaseObject
     /**
      * Return the first non-false argument.
      *
+     * Default: false
+     *
      * @param mixed ...$args
      *
      * @return bool
@@ -108,6 +110,26 @@ class Std extends BaseObject
         }
 
         return false;
+    }
+
+    /**
+     * Return the first non-true argument.
+     *
+     * Default: true
+     *
+     * @param mixed ...$args
+     *
+     * @return bool
+     */
+    public static function falsy(...$args)
+    {
+        foreach ($args as $arg) {
+            if (!$arg) {
+                return $arg;
+            }
+        }
+
+        return true;
     }
 
     /**
