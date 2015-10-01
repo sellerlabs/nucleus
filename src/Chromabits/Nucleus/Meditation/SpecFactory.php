@@ -18,6 +18,11 @@ use Chromabits\Nucleus\Support\Std;
 class SpecFactory extends BaseObject
 {
     /**
+     * Name of the field reserved for global-like constraints.
+     */
+    const FIELD_SELF = '*';
+
+    /**
      * @var AbstractConstraint[]
      */
     protected $constraints;
@@ -71,7 +76,7 @@ class SpecFactory extends BaseObject
             )
         )->contain($field, $constraint);
 
-        if (!Arr::has($field, $this->constraints)) {
+        if (!Arr::has($this->constraints, $field)) {
             $this->constraints[$field] = [];
         }
 
@@ -79,12 +84,29 @@ class SpecFactory extends BaseObject
             $constraint = [$constraint];
         }
 
-        $this->constraints[$field][] = Std::concat(
-            $this->constraints,
+        $this->constraints[$field] = Std::concat(
+            $this->constraints[$field],
             $constraint
         );
 
         return $this;
+    }
+
+    /**
+     * Add a constraint that only works on the context.
+     *
+     * These are complex constraints that usually work on more than one field
+     * at a time.
+     *
+     * @param $constraint
+     *
+     * @return SpecFactory
+     */
+    public function letOnContext($constraint)
+    {
+        $this->defaultValue(static::FIELD_SELF, null);
+
+        return $this->let(static::FIELD_SELF, $constraint);
     }
 
     /**

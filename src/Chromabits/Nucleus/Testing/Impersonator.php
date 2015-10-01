@@ -113,6 +113,8 @@ class Impersonator extends BaseObject
             $this->provided[$parent] = $mock;
         }
 
+        $this->provided[get_class($mock)] = $mock;
+
         return $this;
     }
 
