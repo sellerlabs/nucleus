@@ -94,4 +94,21 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             $message
         );
     }
+
+    /**
+     * Assert that an object has all attributes in an array.
+     *
+     * @param array $attributes
+     * @param mixed $object
+     * @param string $message
+     */
+    public function assertObjectHasAttributes(
+        array $attributes,
+        $object,
+        $message = ''
+    ) {
+        foreach ($attributes as $attr) {
+            $this->assertObjectHasAttribute($attr, $object, $message);
+        }
+    }
 }
