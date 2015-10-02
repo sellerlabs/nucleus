@@ -20,6 +20,6 @@ $clean = TransformPipeline::define()
 
 On this example, the following transformations are performed on `$data`:
 
-    1. The input fields are filtered to only a few specific fields.
-    2. A custom transform is applied to hash the password of a user.
-    3. The `verified` field is added to the array.
+1. The input fields are filtered to only a few specific fields.
+2. A custom transform is applied to hash the password of a user.
+3. The `verified` field is added to the array.
