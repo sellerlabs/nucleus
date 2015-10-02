@@ -125,4 +125,35 @@ class SpecTest extends TestCase
 
         $this->assertTrue($resultThree->passed());
     }
+
+    public function testCheckWithInvalidConstraint()
+    {
+        $this->setExpectedException(
+            CoreException::class,
+            'Unexpected constraint type: array.'
+        );
+
+        $spec = new Spec([
+            'somefield' => [['invalid'], 'wow', 1337],
+        ]);
+
+        $spec->check(['somefield' => 'wowo']);
+    }
+
+    public function testAccessors()
+    {
+        $strings = Boa::string();
+
+        $spec = new Spec([
+            'name' => $strings,
+        ], [
+            'name' => 'Bobby'
+        ], ['name']);
+
+        $this->assertEqualsMatrix([
+            [$spec->getConstraints(), ['name' => $strings]],
+            [$spec->getDefaults(), ['name' => 'Bobby']],
+            [$spec->getRequired(), ['name']]
+        ]);
+    }
 }
