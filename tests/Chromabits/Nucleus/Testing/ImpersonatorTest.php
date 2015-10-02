@@ -46,7 +46,7 @@ class ImpersonatorTest extends TestCase
         /** @var ExampleC $result */
         $result = $imp->make(ExampleC::class);
 
-        $this->assertTrue($result->getOne() !== $result->getTwo());
+        $this->assertTrue($result->getOne() === $result->getTwo());
 
         $imp->provide(new ExampleA());
         $imp->provide(m::mock(ExampleAInterface::class));
