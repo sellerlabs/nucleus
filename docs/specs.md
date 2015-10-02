@@ -32,7 +32,7 @@ are more than enough for the data that you are trying to validate.
 Let's say that we wanted to create a spec that describes a User object:
 
 ```php
-$result = Spec::define([
+$spec = Spec::define([
         'first_name' => Boa::string(),
         'last_name' => Boa::string(),
         'zip' => Boa::integer(),
