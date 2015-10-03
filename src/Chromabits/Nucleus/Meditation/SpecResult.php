@@ -13,6 +13,7 @@ namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
+use Chromabits\Nucleus\Meditation\Interfaces\CheckResultInterface;
 use Chromabits\Nucleus\Support\Arr;
 
 /**
@@ -21,7 +22,7 @@ use Chromabits\Nucleus\Support\Arr;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
  */
-class SpecResult extends BaseObject
+class SpecResult extends BaseObject implements CheckResultInterface
 {
     const STATUS_PASS = 'pass';
     const STATUS_FAIL = 'fail';

@@ -26,14 +26,14 @@ class InvalidAttributesException extends CoreException
     /**
      * Construct the exception.
      *
-     * @param SpecResult $specResult
+     * @param SpecResult $checkableResult
      * @param string $message [optional] The Exception message to throw.
      * @param int $code [optional] The Exception code.
      * @param Exception $previous [optional] The previous exception used for
      * the exception chaining.
      */
     public function __construct(
-        SpecResult $specResult,
+        SpecResult $checkableResult,
         $message = 'Invalid attributes were provided.',
         $code = 0,
         Exception $previous = null
@@ -44,7 +44,7 @@ class InvalidAttributesException extends CoreException
             $previous
         );
 
-        $this->specResult = $specResult;
+        $this->specResult = $checkableResult;
     }
 
     /**
