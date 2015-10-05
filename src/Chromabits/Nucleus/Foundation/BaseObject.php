@@ -42,10 +42,11 @@ class BaseObject implements Iterator
         $argCount = func_num_args();
 
         if ($argCount > 0) {
-            throw new LackOfCoffeeException(sprintf(
-                'Called the constructor of an object that accepts 0 parameters'
-                . 'with %i parameters'
-            ), $argCount);
+            throw new LackOfCoffeeException(vsprintf(
+                'The constructor of the class %s only accepts 0 arguments,'
+                . ' however, it was called with %d arguments.',
+                [static::class, $argCount]
+            ));
         }
     }
 
