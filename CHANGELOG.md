@@ -23,7 +23,6 @@ transformations on an array.
     fields is defined in the input array.
 
 **IMPROVEMENTS**:
-- Important bug fix in BaseObject.
 - The arguments in the callback provided `Std::each` have been switched. This
  is a minor breaking change.
 - `Validator::create` was deprecated in favor of `Validator::define`
@@ -46,3 +45,4 @@ optimization, but it turns out it behaves differently since it does not keep
 array keys.
 - `EitherConstraint` had problems while generating a string version of the
 constraint if one of the provided types did not had a `isUnion` method.
+- Important bug fix in BaseObject constructor check.
