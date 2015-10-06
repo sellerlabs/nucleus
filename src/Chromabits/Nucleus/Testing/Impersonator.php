@@ -91,8 +91,8 @@ class Impersonator extends BaseObject
      *
      * @param mixed $mock
      *
-     * @return $this
      * @throws LackOfCoffeeException
+     * @return $this
      */
     public function provide($mock)
     {

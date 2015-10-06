@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
@@ -8,7 +17,7 @@ use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Support\Std;
 
 /**
- * Class SpecFactory
+ * Class SpecFactory.
  *
  * A utility class for fluently defining Specs.
  *
@@ -63,8 +72,8 @@ class SpecFactory extends BaseObject
      * @param string $field
      * @param AbstractConstraint|AbstractConstraint[] $constraint
      *
-     * @return $this
      * @throws Exceptions\MismatchedArgumentTypesException
+     * @return $this
      */
     public function let($field, $constraint)
     {
@@ -115,8 +124,8 @@ class SpecFactory extends BaseObject
      * @param string $field
      * @param mixed $value
      *
-     * @return $this
      * @throws Exceptions\InvalidArgumentException
+     * @return $this
      */
     public function defaultValue($field, $value)
     {
@@ -132,10 +141,11 @@ class SpecFactory extends BaseObject
      *
      * @param string|string[] $fields
      *
-     * @return $this
      * @throws Exceptions\InvalidArgumentException
+     * @return $this
      */
-    public function required($fields) {
+    public function required($fields)
+    {
         Arguments::contain(
             Boa::either(Boa::string(), Boa::arrOf(Boa::string()))
         )->check($fields);

@@ -147,13 +147,13 @@ class SpecTest extends TestCase
         $spec = new Spec([
             'name' => $strings,
         ], [
-            'name' => 'Bobby'
+            'name' => 'Bobby',
         ], ['name']);
 
         $this->assertEqualsMatrix([
             [$spec->getConstraints(), ['name' => $strings]],
             [$spec->getDefaults(), ['name' => 'Bobby']],
-            [$spec->getRequired(), ['name']]
+            [$spec->getRequired(), ['name']],
         ]);
     }
 }

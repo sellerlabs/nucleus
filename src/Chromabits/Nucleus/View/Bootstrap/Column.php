@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\View\Bootstrap;
 
 use Chromabits\Nucleus\Support\Arr;
@@ -7,7 +16,7 @@ use Chromabits\Nucleus\View\Interfaces\RenderableInterface;
 use Chromabits\Nucleus\View\Node;
 
 /**
- * Class Column
+ * Class Column.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View\Bootstrap
@@ -15,22 +24,22 @@ use Chromabits\Nucleus\View\Node;
 class Column extends Node
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $extraSmall;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $small;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $medium;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $large;
 

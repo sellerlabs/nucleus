@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Support\Transforms;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
@@ -9,7 +18,7 @@ use Chromabits\Nucleus\Support\Interfaces\TransformInterface;
 use Illuminate\Support\Arr;
 
 /**
- * Class OnlyTransform
+ * Class OnlyTransform.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support\Transforms

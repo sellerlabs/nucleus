@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\View\Bootstrap;
 
 use Chromabits\Nucleus\Support\Html;
@@ -15,7 +24,7 @@ use Chromabits\Nucleus\View\Interfaces\SafeHtmlProducerInterface;
 use Chromabits\Nucleus\View\SafeHtmlWrapper;
 
 /**
- * Class SimpleTable
+ * Class SimpleTable.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View\Bootstrap
@@ -62,7 +71,7 @@ class SimpleTable implements RenderableInterface, SafeHtmlProducerInterface
                 return new TableRow([], Std::map(function ($cell) {
                     return new TableCell([], $cell);
                 }, $row));
-            }, $this->rows))
+            }, $this->rows)),
         ]))->render();
     }
 

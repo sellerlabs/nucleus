@@ -104,7 +104,7 @@ class ArrTest extends TestCase
                     'key2' => null,
                     'otherkey' => null,
                     'otherkey2' => 'ishouldnotbehere',
-                ], ['key1'])
+                ], ['key1']),
             ],
             [
                 [
@@ -116,7 +116,7 @@ class ArrTest extends TestCase
                     'key2' => null,
                     'otherkey' => null,
                     'otherkey2' => 'ishouldnotbehere',
-                ])
+                ]),
             ],
             [
                 [],
@@ -125,8 +125,8 @@ class ArrTest extends TestCase
                     'key2' => null,
                     'otherkey' => null,
                     'otherkey2' => 'ishouldnotbehere',
-                ], [])
-            ]
+                ], []),
+            ],
         ]);
     }
 

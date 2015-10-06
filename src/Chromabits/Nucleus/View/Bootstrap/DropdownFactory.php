@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\View\Bootstrap;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
@@ -9,7 +18,7 @@ use Chromabits\Nucleus\View\Common\Div;
 use Chromabits\Nucleus\View\Common\Italic;
 
 /**
- * Class DropdownFactory
+ * Class DropdownFactory.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View\Bootstrap
@@ -56,7 +65,7 @@ class DropdownFactory extends BaseObject
         $this->options[] = new Anchor(
             [
                 'class' => 'dropdown-item',
-                'href' => $url
+                'href' => $url,
             ],
             $content
         );
@@ -103,7 +112,7 @@ class DropdownFactory extends BaseObject
                     'aria-labelledby' => $this->hash,
                 ],
                 $this->options
-            )
+            ),
         ]);
     }
 }

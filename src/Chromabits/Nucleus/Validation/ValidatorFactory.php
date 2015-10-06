@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Copyright 2015, Eduardo Trujillo
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * This file is part of the Nucleus package
+ */
+
 namespace Chromabits\Nucleus\Validation;
 
 use Chromabits\Nucleus\Meditation\Arguments;
@@ -8,7 +17,7 @@ use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 use Chromabits\Nucleus\Meditation\SpecFactory;
 
 /**
- * Class ValidatorFactory
+ * Class ValidatorFactory.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Validation
@@ -44,8 +53,8 @@ class ValidatorFactory extends SpecFactory
      * @param $field
      * @param $message
      *
-     * @return $this
      * @throws InvalidArgumentException
+     * @return $this
      */
     public function message($field, $message)
     {
