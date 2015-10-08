@@ -1,3 +1,20 @@
+# 0.4.1
+
+**FEATURES**:
+- New `Entity` class: It behaves mostly like an ORM model, but it is mainly
+intended to be used in-memory or during serialization. The methods `fill` and
+`toArray` make it very easy to convert from and to an array. This can greatly
+reduce the amount of boilerplate for API clients.
+- Two new interfaces related to entities: `ArrayableInterface` and
+`FillableInterface`.
+
+**IMPROVEMENTS**:
+- `Arr` now has `exceptValues` for excluding items based on their value, not
+their key.
+
+**BUGS**:
+There were no bug fixes on this release.
+
 # 0.4.0
 
 First release we track changes
