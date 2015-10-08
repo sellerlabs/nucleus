@@ -323,6 +323,27 @@ class Arr extends BaseObject
     }
 
     /**
+     * Get a copy of the provided array excluding the specified values.
+     *
+     * @param array $input
+     * @param array $excluded
+     *
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    public static function exceptValues(array $input, $excluded = [])
+    {
+        Arguments::contain(Boa::arrOf(Boa::either(
+            Boa::string(),
+            Boa::integer()
+        )))->check($excluded);
+
+        return Std::filter(function ($value, $_) use ($excluded) {
+            return !in_array($value, $excluded);
+        }, $input);
+    }
+
+    /**
      * Exchange two elements in an array.
      *
      * @param array $elements
