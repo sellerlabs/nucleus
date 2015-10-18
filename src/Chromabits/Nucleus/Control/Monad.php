@@ -4,7 +4,6 @@ namespace Chromabits\Nucleus\Control;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Control\Interfaces\MonadInterface;
-use Closure;
 
 /**
  * Class Monad
@@ -14,6 +13,11 @@ use Closure;
  */
 abstract class Monad extends BaseObject implements MonadInterface
 {
+    /**
+     * The wrapped value.
+     *
+     * @var mixed
+     */
     protected $value;
 
     /**
@@ -28,6 +32,13 @@ abstract class Monad extends BaseObject implements MonadInterface
         $this->value = $value;
     }
 
+    /**
+     * Wrap value inside a monadic value.
+     *
+     * @param $value
+     *
+     * @return static
+     */
     public static function unit($value)
     {
         if ($value instanceof static) {

@@ -3,6 +3,8 @@
 namespace Tests\Chromabits\Nucleus\Control;
 
 use Chromabits\Nucleus\Control\MaybeMonad;
+use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
+use Chromabits\Nucleus\Support\Str;
 use Chromabits\Nucleus\Testing\TestCase;
 
 /**
@@ -66,19 +68,87 @@ class MaybeMonadTest extends TestCase
     public function testRightIdentity()
     {
         // TODO: Ensure this is the right way to test this.
-        $m = MaybeMonad::unit('doge');
+        $just = MaybeMonad::unit('doge');
+        $nothing = MaybeMonad::nothing();
 
         $this->assertEquals(
-            $m->bind(function ($x) {
+            $just->bind(function ($x) {
                 return MaybeMonad::unit($x);
             }),
-            $m
+            $just
         );
 
-        $this->assertTrue(
-            $m->bind(function ($x) {
+        $this->assertEquals(
+            $nothing->bind(function ($x) {
                 return MaybeMonad::unit($x);
-            }) == $m
+            }),
+            $nothing
         );
+    }
+
+    public function testAssociativity()
+    {
+        // TODO: Ensure this is the right way to test this.
+        $lowerCase = function ($string) {
+            return MaybeMonad::just(strtolower($string));
+        };
+
+        $camelCase = function ($string) {
+            return MaybeMonad::just('Camelcase: ' . Str::camel($string));
+        };
+
+        $this->assertEquals(
+            MaybeMonad::just('OMG_WHAT_IS_THIS')
+                ->bind($lowerCase)
+                ->bind($camelCase),
+            MaybeMonad::just('OMG_WHAT_IS_THIS')
+                ->bind(function ($x) use ($lowerCase, $camelCase) {
+                    return $lowerCase($x)->bind($camelCase);
+                })
+        );
+
+        $this->assertEquals(
+            MaybeMonad::nothing()
+                ->bind($lowerCase)
+                ->bind($camelCase),
+            MaybeMonad::nothing()
+                ->bind(function ($x) use ($lowerCase, $camelCase) {
+                    return $lowerCase($x)->bind($camelCase);
+                })
+        );
+
+        $this->assertEquals(
+            MaybeMonad::fromJust(
+                MaybeMonad::just('OMG_WHAT_IS_THIS')
+                    ->bind($lowerCase)
+                    ->bind($camelCase)
+            ),
+            'Camelcase: omgWhatIsThis'
+        );
+    }
+
+    public function testFromMaybe()
+    {
+        $just = MaybeMonad::unit('doge');
+        $nothing = MaybeMonad::nothing();
+
+        $this->assertEqualsMatrix([
+            ['doge', MaybeMonad::fromMaybe('default', $just)],
+            ['default', MaybeMonad::fromMaybe('default', $nothing)],
+        ]);
+    }
+
+    public function testFromJustWithInvalid()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+
+        MaybeMonad::fromJust(MaybeMonad::nothing());
+    }
+
+    public function testJustWithInvalid()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+
+        MaybeMonad::just(null);
     }
 }

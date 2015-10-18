@@ -2,7 +2,6 @@
 
 namespace Chromabits\Nucleus\Control;
 
-use Chromabits\Nucleus\Control\Interfaces\MonadInterface;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 use Closure;
 
@@ -51,7 +50,7 @@ class MaybeMonad extends Monad
      *
      * @param Closure $closure
      *
-     * @return MonadInterface
+     * @return MaybeMonad
      */
     public function bind(Closure $closure)
     {

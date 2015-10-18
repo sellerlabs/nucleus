@@ -22,7 +22,7 @@ interface MonadInterface
     public function bind(Closure $closure);
 
     /**
-     * return
+     * return/mreturn/unit
      *
      * @param $value
      *
