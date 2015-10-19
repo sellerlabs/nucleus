@@ -2,6 +2,7 @@
 
 namespace Chromabits\Nucleus\Control;
 
+use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 use Closure;
 
@@ -11,16 +12,16 @@ use Closure;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Monads
  */
-class MaybeMonad extends Monad
+class Maybe extends Monad implements FunctorInterface
 {
     /**
      * Nothing constructor.
      *
-     * @return MaybeMonad
+     * @return Maybe
      */
     public static function nothing()
     {
-        return static::unit(null);
+        return static::of(null);
     }
 
     /**
@@ -28,7 +29,7 @@ class MaybeMonad extends Monad
      *
      * @param mixed $value
      *
-     * @return MaybeMonad
+     * @return Maybe
      * @throws InvalidArgumentException
      */
     public static function just($value)
@@ -42,7 +43,7 @@ class MaybeMonad extends Monad
             );
         }
 
-        return static::unit($value);
+        return static::of($value);
     }
 
     /**
@@ -50,12 +51,12 @@ class MaybeMonad extends Monad
      *
      * @param Closure $closure
      *
-     * @return MaybeMonad
+     * @return Maybe
      */
     public function bind(Closure $closure)
     {
         if ($this->isJust()) {
-            return static::unit($closure($this->value));
+            return static::of($closure($this->value));
         }
 
         return static::nothing();
@@ -84,12 +85,12 @@ class MaybeMonad extends Monad
     /**
      * Extracts the element out of a Just.
      *
-     * @param MaybeMonad $maybe
+     * @param Maybe $maybe
      *
      * @return mixed
      * @throws InvalidArgumentException
      */
-    public static function fromJust(MaybeMonad $maybe)
+    public static function fromJust(Maybe $maybe)
     {
         if ($maybe->isNothing()) {
             throw new InvalidArgumentException();
@@ -104,16 +105,32 @@ class MaybeMonad extends Monad
      * it returns the value contained in the Maybe.
      *
      * @param mixed $default
-     * @param MaybeMonad $maybe
+     * @param Maybe $maybe
      *
      * @return mixed
      */
-    public static function fromMaybe($default, MaybeMonad $maybe)
+    public static function fromMaybe($default, Maybe $maybe)
     {
         if ($maybe->isNothing()) {
             return $default;
         }
 
         return $maybe->value;
+    }
+
+    /**
+     * Apply a function to this functor.
+     *
+     * @param Closure $closure
+     *
+     * @return FunctorInterface
+     */
+    public function fmap(Closure $closure)
+    {
+        if ($this->isNothing()) {
+            return static::nothing();
+        }
+
+        return static::just($closure($this->value));
     }
 }

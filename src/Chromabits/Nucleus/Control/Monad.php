@@ -2,8 +2,8 @@
 
 namespace Chromabits\Nucleus\Control;
 
-use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Control\Interfaces\MonadInterface;
+use Chromabits\Nucleus\Control\Traits\ChainTrait;
 
 /**
  * Class Monad
@@ -11,8 +11,10 @@ use Chromabits\Nucleus\Control\Interfaces\MonadInterface;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Monads
  */
-abstract class Monad extends BaseObject implements MonadInterface
+abstract class Monad extends Applicative implements MonadInterface
 {
+    use ChainTrait;
+
     /**
      * The wrapped value.
      *
@@ -39,7 +41,7 @@ abstract class Monad extends BaseObject implements MonadInterface
      *
      * @return static
      */
-    public static function unit($value)
+    public static function of($value)
     {
         if ($value instanceof static) {
             return $value;

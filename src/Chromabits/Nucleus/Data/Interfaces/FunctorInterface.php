@@ -14,5 +14,12 @@ use Closure;
  */
 interface FunctorInterface
 {
-    public function fmap(Closure $closure, FunctorInterface $functor);
+    /**
+     * Apply a function to this functor.
+     *
+     * @param Closure $closure
+     *
+     * @return FunctorInterface
+     */
+    public function fmap(Closure $closure);
 }

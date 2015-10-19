@@ -2,7 +2,7 @@
 
 namespace Tests\Chromabits\Nucleus\Control;
 
-use Chromabits\Nucleus\Control\MaybeMonad;
+use Chromabits\Nucleus\Control\Maybe;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 use Chromabits\Nucleus\Support\Str;
 use Chromabits\Nucleus\Testing\TestCase;
@@ -13,26 +13,26 @@ use Chromabits\Nucleus\Testing\TestCase;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Tests\Chromabits\Nucleus\Control
  */
-class MaybeMonadTest extends TestCase
+class MaybeTest extends TestCase
 {
     public function testBind()
     {
         $getUser = function ($id) {
             if ($id === 5) {
-                return MaybeMonad::just([
+                return Maybe::just([
                     'first_name' => 'Bob',
                 ]);
             }
 
-            return MaybeMonad::nothing();
+            return Maybe::nothing();
         };
 
         $getFirstName = function (array $user) {
-            return MaybeMonad::just($user['first_name']);
+            return Maybe::just($user['first_name']);
         };
 
         $lowerCase = function ($string) {
-            return MaybeMonad::just(strtolower($string));
+            return Maybe::just(strtolower($string));
         };
 
         $result1 = $getUser(5)->bind($getFirstName);
@@ -44,23 +44,23 @@ class MaybeMonadTest extends TestCase
         $this->assertTrue($result2->isNothing());
         $this->assertTrue($result3->isJust());
         $this->assertTrue($result4->isNothing());
-        $this->assertEquals('Bob', MaybeMonad::fromJust($result1));
-        $this->assertEquals('bob', MaybeMonad::fromJust($result3));
+        $this->assertEquals('Bob', Maybe::fromJust($result1));
+        $this->assertEquals('bob', Maybe::fromJust($result3));
     }
 
     public function testLeftIdentity()
     {
         // TODO: Ensure this is the right way to test this.
         $lowerCase = function ($string) {
-            return MaybeMonad::just(strtolower($string));
+            return Maybe::just(strtolower($string));
         };
 
         $this->assertEquals(
-            MaybeMonad::unit('SomeValue')->bind($lowerCase),
+            Maybe::of('SomeValue')->bind($lowerCase),
             $lowerCase('SomeValue')
         );
         $this->assertEquals(
-            MaybeMonad::unit(null)->bind($lowerCase),
+            Maybe::of(null)->bind($lowerCase),
             $lowerCase(null)
         );
     }
@@ -68,19 +68,19 @@ class MaybeMonadTest extends TestCase
     public function testRightIdentity()
     {
         // TODO: Ensure this is the right way to test this.
-        $just = MaybeMonad::unit('doge');
-        $nothing = MaybeMonad::nothing();
+        $just = Maybe::of('doge');
+        $nothing = Maybe::nothing();
 
         $this->assertEquals(
             $just->bind(function ($x) {
-                return MaybeMonad::unit($x);
+                return Maybe::of($x);
             }),
             $just
         );
 
         $this->assertEquals(
             $nothing->bind(function ($x) {
-                return MaybeMonad::unit($x);
+                return Maybe::of($x);
             }),
             $nothing
         );
@@ -90,36 +90,36 @@ class MaybeMonadTest extends TestCase
     {
         // TODO: Ensure this is the right way to test this.
         $lowerCase = function ($string) {
-            return MaybeMonad::just(strtolower($string));
+            return Maybe::just(strtolower($string));
         };
 
         $camelCase = function ($string) {
-            return MaybeMonad::just('Camelcase: ' . Str::camel($string));
+            return Maybe::just('Camelcase: ' . Str::camel($string));
         };
 
         $this->assertEquals(
-            MaybeMonad::just('OMG_WHAT_IS_THIS')
+            Maybe::just('OMG_WHAT_IS_THIS')
                 ->bind($lowerCase)
                 ->bind($camelCase),
-            MaybeMonad::just('OMG_WHAT_IS_THIS')
+            Maybe::just('OMG_WHAT_IS_THIS')
                 ->bind(function ($x) use ($lowerCase, $camelCase) {
                     return $lowerCase($x)->bind($camelCase);
                 })
         );
 
         $this->assertEquals(
-            MaybeMonad::nothing()
+            Maybe::nothing()
                 ->bind($lowerCase)
                 ->bind($camelCase),
-            MaybeMonad::nothing()
+            Maybe::nothing()
                 ->bind(function ($x) use ($lowerCase, $camelCase) {
                     return $lowerCase($x)->bind($camelCase);
                 })
         );
 
         $this->assertEquals(
-            MaybeMonad::fromJust(
-                MaybeMonad::just('OMG_WHAT_IS_THIS')
+            Maybe::fromJust(
+                Maybe::just('OMG_WHAT_IS_THIS')
                     ->bind($lowerCase)
                     ->bind($camelCase)
             ),
@@ -129,12 +129,12 @@ class MaybeMonadTest extends TestCase
 
     public function testFromMaybe()
     {
-        $just = MaybeMonad::unit('doge');
-        $nothing = MaybeMonad::nothing();
+        $just = Maybe::of('doge');
+        $nothing = Maybe::nothing();
 
         $this->assertEqualsMatrix([
-            ['doge', MaybeMonad::fromMaybe('default', $just)],
-            ['default', MaybeMonad::fromMaybe('default', $nothing)],
+            ['doge', Maybe::fromMaybe('default', $just)],
+            ['default', Maybe::fromMaybe('default', $nothing)],
         ]);
     }
 
@@ -142,13 +142,29 @@ class MaybeMonadTest extends TestCase
     {
         $this->setExpectedException(InvalidArgumentException::class);
 
-        MaybeMonad::fromJust(MaybeMonad::nothing());
+        Maybe::fromJust(Maybe::nothing());
     }
 
     public function testJustWithInvalid()
     {
         $this->setExpectedException(InvalidArgumentException::class);
 
-        MaybeMonad::just(null);
+        Maybe::just(null);
+    }
+
+    public function testFmap()
+    {
+        $just = Maybe::just('DOGE');
+        $nothing = Maybe::nothing();
+
+        $lowerCase = function ($string) {
+            return Maybe::just(strtolower($string));
+        };
+
+        $result1 = $just->fmap($lowerCase);
+        $result2 = $nothing->fmap($lowerCase);
+
+        $this->assertTrue($result1->isJust());
+        $this->assertTrue($result2->isNothing());
     }
 }

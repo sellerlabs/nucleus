@@ -10,7 +10,7 @@ use Closure;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Monads\Interfaces
  */
-interface MonadInterface
+interface MonadInterface extends ApplyInterface, ChainInterface
 {
     /**
      * >>==
@@ -28,5 +28,5 @@ interface MonadInterface
      *
      * @return MonadInterface
      */
-    public static function unit($value);
+    public static function of($value);
 }
