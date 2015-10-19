@@ -3,8 +3,12 @@
 namespace Chromabits\Nucleus\Control;
 
 use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
+use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
+use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
+use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 use Closure;
+use Mockery\Matcher\Not;
 
 /**
  * Class MaybeMonad
@@ -12,7 +16,7 @@ use Closure;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Monads
  */
-class Maybe extends Monad implements FunctorInterface
+abstract class Maybe extends Monad implements FunctorInterface, MonoidInterface
 {
     /**
      * Nothing constructor.
@@ -21,7 +25,7 @@ class Maybe extends Monad implements FunctorInterface
      */
     public static function nothing()
     {
-        return static::of(null);
+        return new Nothing(null);
     }
 
     /**
@@ -30,20 +34,22 @@ class Maybe extends Monad implements FunctorInterface
      * @param mixed $value
      *
      * @return Maybe
-     * @throws InvalidArgumentException
      */
     public static function just($value)
     {
-        if ($value === null) {
-            throw new InvalidArgumentException(
-                'You are providing a null to a Just constructor. Consider ' .
-                'revising your application logic so that the value passed ' .
-                'to the constructor is never null, or use the Nothing ' .
-                'constructor.'
-            );
+        return new Just($value);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function of($value)
+    {
+        if ($value instanceof static) {
+            return $value;
         }
 
-        return static::of($value);
+        return static::just($value);
     }
 
     /**
@@ -67,20 +73,14 @@ class Maybe extends Monad implements FunctorInterface
      *
      * @return bool
      */
-    public function isJust()
-    {
-        return $this->value !== null;
-    }
+    abstract public function isJust();
 
     /**
      * Returns whether or not the contained value is Nothing.
      *
      * @return bool
      */
-    public function isNothing()
-    {
-        return $this->value === null;
-    }
+    abstract public function isNothing();
 
     /**
      * Extracts the element out of a Just.
@@ -116,5 +116,22 @@ class Maybe extends Monad implements FunctorInterface
         }
 
         return $maybe->value;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function zero()
+    {
+        return static::nothing();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function append(SemigroupInterface $other, callable $callback)
+    {
+        // TODO: Implement append() method.
+        throw new LackOfCoffeeException('Not implemented');
     }
 }

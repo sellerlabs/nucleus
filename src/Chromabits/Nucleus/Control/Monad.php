@@ -36,6 +36,20 @@ abstract class Monad extends Applicative implements MonadInterface
     }
 
     /**
+     * Apply a function.
+     *
+     * @param Closure $closure
+     *
+     * @return MonadInterface
+     */
+    public function fmap(Closure $closure)
+    {
+        return $this->bind(function ($a) use ($closure) {
+            return $this->of($closure($a));
+        });
+    }
+
+    /**
      * Wrap value inside a monadic value.
      *
      * @param $value
@@ -49,19 +63,5 @@ abstract class Monad extends Applicative implements MonadInterface
         }
 
         return new static($value);
-    }
-
-    /**
-     * Apply a function.
-     *
-     * @param Closure $closure
-     *
-     * @return MonadInterface
-     */
-    public function fmap(Closure $closure)
-    {
-        return $this->bind(function ($a) use ($closure) {
-            return $this->of($closure($a));
-        });
     }
 }

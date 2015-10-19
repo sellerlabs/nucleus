@@ -145,13 +145,6 @@ class MaybeTest extends TestCase
         Maybe::fromJust(Maybe::nothing());
     }
 
-    public function testJustWithInvalid()
-    {
-        $this->setExpectedException(InvalidArgumentException::class);
-
-        Maybe::just(null);
-    }
-
     public function testFmap()
     {
         $just = Maybe::just('DOGE');
