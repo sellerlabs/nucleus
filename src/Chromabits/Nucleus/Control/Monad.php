@@ -4,6 +4,7 @@ namespace Chromabits\Nucleus\Control;
 
 use Chromabits\Nucleus\Control\Interfaces\MonadInterface;
 use Chromabits\Nucleus\Control\Traits\ChainTrait;
+use Closure;
 
 /**
  * Class Monad
@@ -48,5 +49,19 @@ abstract class Monad extends Applicative implements MonadInterface
         }
 
         return new static($value);
+    }
+
+    /**
+     * Apply a function.
+     *
+     * @param Closure $closure
+     *
+     * @return MonadInterface
+     */
+    public function fmap(Closure $closure)
+    {
+        return $this->bind(function ($a) use ($closure) {
+            return $this->of($closure($a));
+        });
     }
 }

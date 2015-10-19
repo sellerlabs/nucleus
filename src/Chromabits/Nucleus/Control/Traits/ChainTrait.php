@@ -21,7 +21,7 @@ trait ChainTrait
      */
     public function ap(ApplyInterface $other)
     {
-        return $this->chain(function (Closure $closure) use ($other) {
+        return $this->bind(function (Closure $closure) use ($other) {
             return $other->fmap($closure);
         });
     }

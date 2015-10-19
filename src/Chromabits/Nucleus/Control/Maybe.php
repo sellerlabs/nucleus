@@ -117,20 +117,4 @@ class Maybe extends Monad implements FunctorInterface
 
         return $maybe->value;
     }
-
-    /**
-     * Apply a function to this functor.
-     *
-     * @param Closure $closure
-     *
-     * @return FunctorInterface
-     */
-    public function fmap(Closure $closure)
-    {
-        if ($this->isNothing()) {
-            return static::nothing();
-        }
-
-        return static::just($closure($this->value));
-    }
 }
