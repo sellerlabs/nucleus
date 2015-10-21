@@ -38,11 +38,11 @@ abstract class Monad extends Applicative implements MonadInterface
     /**
      * Apply a function.
      *
-     * @param Closure $closure
+     * @param callable|Closure $closure
      *
      * @return MonadInterface
      */
-    public function fmap(Closure $closure)
+    public function fmap(callable $closure)
     {
         return $this->bind(function ($a) use ($closure) {
             return $this->of($closure($a));

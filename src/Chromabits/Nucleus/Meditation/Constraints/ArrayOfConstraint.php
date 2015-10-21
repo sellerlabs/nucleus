@@ -19,7 +19,7 @@ use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
  */
-class ArrayOfConstraint extends TraversableOfConstraint
+class ArrayOfConstraint extends LeftFoldableOfConstraint
 {
     /**
      * Check the type of the traversable container.

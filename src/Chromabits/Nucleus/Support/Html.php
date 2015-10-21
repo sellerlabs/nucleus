@@ -12,6 +12,7 @@
 namespace Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
+use Chromabits\Nucleus\Foundation\StaticObject;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
@@ -27,7 +28,7 @@ use Chromabits\Nucleus\View\SafeHtmlWrapper;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support
  */
-class Html
+class Html extends StaticObject
 {
     /**
      * Escape the provided string.

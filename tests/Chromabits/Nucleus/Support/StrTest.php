@@ -30,28 +30,22 @@ class StrTest extends TestCase
 
     public function testCamel()
     {
-        $str = new Str();
-
-        $this->assertEquals('snakeCaseStuff', $str->camel('snake_case_stuff'));
-        $this->assertEquals('studlyCaseStuff', $str->camel('StudlyCaseStuff'));
+        $this->assertEquals('snakeCaseStuff', Str::camel('snake_case_stuff'));
+        $this->assertEquals('studlyCaseStuff', Str::camel('StudlyCaseStuff'));
     }
 
     public function testStudly()
     {
-        $str = new Str();
-
-        $this->assertEquals('SnakeCaseStuff', $str->studly('snake_case_stuff'));
-        $this->assertEquals('CamelCaseStuff', $str->studly('camelCaseStuff'));
+        $this->assertEquals('SnakeCaseStuff', Str::studly('snake_case_stuff'));
+        $this->assertEquals('CamelCaseStuff', Str::studly('camelCaseStuff'));
     }
 
     public function testSnake()
     {
-        $str = new Str();
-
-        $this->assertEquals('camel_case_stuff', $str->snake('camelCaseStuff'));
+        $this->assertEquals('camel_case_stuff', Str::snake('camelCaseStuff'));
         $this->assertEquals(
             'studly_case_stuff',
-            $str->snake('StudlyCaseStuff')
+            Str::snake('StudlyCaseStuff')
         );
     }
 
@@ -59,14 +53,12 @@ class StrTest extends TestCase
     {
         $someInteger = mt_rand(1, 100);
 
-        $str = new Str();
-
         $this->assertEquals(
             $someInteger,
-            strlen($str->quickRandom($someInteger))
+            strlen(Str::quickRandom($someInteger))
         );
-        $this->assertInternalType('string', $str->quickRandom());
-        $this->assertEquals(16, strlen($str->quickRandom()));
+        $this->assertInternalType('string', Str::quickRandom());
+        $this->assertEquals(16, strlen(Str::quickRandom()));
     }
 
     /**
@@ -74,13 +66,11 @@ class StrTest extends TestCase
      */
     public function testRandom()
     {
-        $str = new Str();
-
-        $this->assertEquals(16, strlen($str->random()));
+        $this->assertEquals(16, strlen(Str::random()));
 
         $someInteger = mt_rand(1, 100);
-        $this->assertEquals($someInteger, strlen($str->random($someInteger)));
-        $this->assertInternalType('string', $str->random());
+        $this->assertEquals($someInteger, strlen(Str::random($someInteger)));
+        $this->assertInternalType('string', Str::random());
     }
 
     /**
@@ -99,9 +89,7 @@ class StrTest extends TestCase
             ->method('function_exists')
             ->will($this->returnValue(false));
 
-        $str = new Str();
-
-        $str->random();
+        Str::random();
     }
 
     /**
@@ -125,8 +113,6 @@ class StrTest extends TestCase
             ->method('openssl_random_pseudo_bytes')
             ->will($this->returnValue(false));
 
-        $str = new Str();
-
-        $str->random();
+        Str::random();
     }
 }

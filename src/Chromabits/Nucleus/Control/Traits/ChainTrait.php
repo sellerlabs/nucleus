@@ -4,7 +4,6 @@ namespace Chromabits\Nucleus\Control\Traits;
 
 use Chromabits\Nucleus\Control\Interfaces\ApplyInterface;
 use Chromabits\Nucleus\Control\Interfaces\ChainInterface;
-use Closure;
 
 /**
  * Class ChainTrait
@@ -21,7 +20,7 @@ trait ChainTrait
      */
     public function ap(ApplyInterface $other)
     {
-        return $this->bind(function (Closure $closure) use ($other) {
+        return $this->bind(function (callable $closure) use ($other) {
             return $other->fmap($closure);
         });
     }

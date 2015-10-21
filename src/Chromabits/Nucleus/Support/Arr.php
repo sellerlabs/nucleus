@@ -14,7 +14,7 @@ namespace Chromabits\Nucleus\Support;
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Exceptions\IndexOutOfBoundsException;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
-use Chromabits\Nucleus\Foundation\BaseObject;
+use Chromabits\Nucleus\Foundation\StaticObject;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
@@ -25,7 +25,7 @@ use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support
  */
-class Arr extends BaseObject
+class Arr extends StaticObject
 {
     /**
      * Get the resulting value of an attempt to traverse a key path.
@@ -109,6 +109,33 @@ class Arr extends BaseObject
     }
 
     /**
+     * Like walk() but it uses a copy of the array instead.
+     *
+     * @param array $array
+     * @param callable $callback
+     * @param bool $recurse
+     * @param string $path
+     * @param bool $considerLeaves
+     *
+     * @return array
+     */
+    public static function walkCopy(
+        array $array,
+        callable $callback,
+        $recurse = false,
+        $path = '',
+        $considerLeaves = true
+    ) {
+        return static::walk(
+            $array,
+            $callback,
+            $recurse,
+            $path,
+            $considerLeaves
+        );
+    }
+
+    /**
      * A more complicated, but flexible, version of `array_walk`.
      *
      * This modified version is useful for flattening arrays without losing
@@ -173,46 +200,6 @@ class Arr extends BaseObject
     }
 
     /**
-     * Like walk() but it uses a copy of the array instead.
-     *
-     * @param array $array
-     * @param callable $callback
-     * @param bool $recurse
-     * @param string $path
-     * @param bool $considerLeaves
-     *
-     * @return array
-     */
-    public static function walkCopy(
-        array $array,
-        callable $callback,
-        $recurse = false,
-        $path = '',
-        $considerLeaves = true
-    ) {
-        return static::walk(
-            $array,
-            $callback,
-            $recurse,
-            $path,
-            $considerLeaves
-        );
-    }
-
-    /**
-     * Return whether or not an array contains the specified key.
-     *
-     * @param array $input
-     * @param string|int $key
-     *
-     * @return bool
-     */
-    public static function has(array $input, $key)
-    {
-        return array_key_exists($key, $input);
-    }
-
-    /**
      * Return whether or not an array has nested arrays.
      *
      * @param array $array
@@ -228,6 +215,19 @@ class Arr extends BaseObject
         }
 
         return false;
+    }
+
+    /**
+     * Return whether or not an array contains the specified key.
+     *
+     * @param array $input
+     * @param string|int $key
+     *
+     * @return bool
+     */
+    public static function has(array $input, $key)
+    {
+        return array_key_exists($key, $input);
     }
 
     /**
@@ -249,25 +249,6 @@ class Arr extends BaseObject
                 return !is_null($value);
             }
         );
-    }
-
-    /**
-     * Filter the keys of an array to only the allowed set.
-     *
-     * @param array $input
-     * @param array $included
-     *
-     * @throws InvalidArgumentException
-     * @return array
-     * @deprecated
-     */
-    public static function filterKeys(array $input, $included = [])
-    {
-        if (is_null($included) || count($included) == 0) {
-            return $input;
-        }
-
-        return array_intersect_key($input, array_flip($included));
     }
 
     /**
@@ -302,6 +283,25 @@ class Arr extends BaseObject
     }
 
     /**
+     * Filter the keys of an array to only the allowed set.
+     *
+     * @param array $input
+     * @param array $included
+     *
+     * @throws InvalidArgumentException
+     * @return array
+     * @deprecated
+     */
+    public static function filterKeys(array $input, $included = [])
+    {
+        if (is_null($included) || count($included) == 0) {
+            return $input;
+        }
+
+        return array_intersect_key($input, array_flip($included));
+    }
+
+    /**
      * Get a copy of the provided array excluding the specified keys.
      *
      * @param array $input
@@ -319,7 +319,8 @@ class Arr extends BaseObject
 
         return Std::filter(function ($_, $key) use ($excluded) {
             return !in_array($key, $excluded);
-        }, $input);
+        },
+            $input);
     }
 
     /**
@@ -340,7 +341,8 @@ class Arr extends BaseObject
 
         return Std::filter(function ($value, $_) use ($excluded) {
             return !in_array($value, $excluded);
-        }, $input);
+        },
+            $input);
     }
 
     /**
@@ -498,5 +500,78 @@ class Arr extends BaseObject
         }
 
         return array_slice($input, 0, count($input) - 1);
+    }
+
+    /**
+     * Return the provided array with all its elements in the inverse order.
+     *
+     * @param array $input
+     *
+     * @return array
+     */
+    public static function reverse(array $input)
+    {
+        return array_reverse($input);
+    }
+
+    /**
+     * Returns the suffix of element after the first N elements.
+     *
+     * @param array $input
+     * @param integer $count
+     *
+     * @return array
+     */
+    public static function drop(array $input, $count)
+    {
+        return array_slice($input, $count);
+    }
+
+    /**
+     * Returns the index of the first occurrence of a value in the provided
+     * array.
+     *
+     * If the value is not found, false is returned.
+     *
+     * @param array $input
+     * @param mixed $value
+     *
+     * @return integer|bool
+     */
+    public static function indexOf(array $input, $value)
+    {
+        foreach ($input as $key => $inputValue) {
+            if ($inputValue === $value) {
+                return $key;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the suffix of elements before the first N elements
+     *
+     * @param array $input
+     * @param integer $count
+     *
+     * @return array
+     */
+    public static function take(array $input, $count)
+    {
+        return array_slice($input, 0, $count);
+    }
+
+    /**
+     * Merge two arrays together.
+     *
+     * @param array $base
+     * @param array $extension
+     *
+     * @return array
+     */
+    public static function merge(array $base, array $extension)
+    {
+        return array_merge($base, $extension);
     }
 }

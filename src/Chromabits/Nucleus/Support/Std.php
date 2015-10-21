@@ -11,8 +11,10 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
+use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
-use Chromabits\Nucleus\Foundation\BaseObject;
+use Chromabits\Nucleus\Foundation\StaticObject;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
@@ -21,6 +23,7 @@ use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 use Chromabits\Nucleus\Meditation\TypeHound;
 use Chromabits\Nucleus\Strings\Rope;
 use Closure;
+use Exception;
 use ReflectionFunction;
 use Traversable;
 
@@ -32,7 +35,7 @@ use Traversable;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support
  */
-class Std extends BaseObject
+class Std extends StaticObject
 {
     /**
      * Applies function fn to the argument list args. This is useful for
@@ -154,18 +157,18 @@ class Std extends BaseObject
      * Call the provided function on each element.
      *
      * @param callable $function
-     * @param array|Traversable $traversable
+     * @param array|Traversable|LeftFoldableInterface $foldable
      *
      * @throws InvalidArgumentException
      */
-    public static function each(callable $function, $traversable)
+    public static function each(callable $function, $foldable)
     {
-        Arguments::contain(Boa::func(), Boa::traversable())
-            ->check($function, $traversable);
+        Arguments::contain(Boa::func(), Boa::foldable())
+            ->check($function, $foldable);
 
-        foreach ($traversable as $key => $value) {
+        static::foldl(function ($accumulator, $value, $key) use ($function) {
             $function($value, $key);
-        }
+        }, null, $foldable);
     }
 
     /**
@@ -319,7 +322,30 @@ class Std extends BaseObject
     }
 
     /**
-     * Same as reduce but it works from right to left.
+     * Same as foldl but it works from right to left.
+     *
+     * @param callable $function
+     * @param mixed $initial
+     * @param array|FoldableInterface $foldable
+     *
+     * @return mixed
+     */
+    public static function foldr(callable $function, $initial, $foldable)
+    {
+        Arguments::contain(Boa::func(), Boa::any(), Boa::foldable())
+            ->check($function, $initial, $foldable);
+
+        // Foldables have their own/efficient implementation.
+        if ($foldable instanceof FoldableInterface) {
+            return $foldable->foldr($function, $initial);
+        }
+
+        // Arrays can be reversed and thrown into foldl.
+        return static::foldl($function, $initial, static::reverse($foldable));
+    }
+
+    /**
+     * Alias of foldr.
      *
      * @param callable $function
      * @param mixed $initial
@@ -329,7 +355,7 @@ class Std extends BaseObject
      */
     public static function reduceRight(callable $function, $initial, $list)
     {
-        return static::reduce($function, $initial, static::reverse($list));
+        return static::foldr($function, $initial, $list);
     }
 
     /**
@@ -340,19 +366,48 @@ class Std extends BaseObject
      *
      * @param callable $function
      * @param mixed $initial
-     * @param array|Traversable $traversable
+     * @param array|Traversable $foldable
      *
      * @throws InvalidArgumentException
      * @return mixed
      */
+    public static function foldl(callable $function, $initial, $foldable)
+    {
+        Arguments::contain(Boa::func(), Boa::any(), Boa::foldable())
+            ->check($function, $initial, $foldable);
+
+        // Arrays can use their native function.
+        if (is_array($foldable)) {
+            return array_reduce($foldable, $function, $initial);
+        }
+
+        // LeftFoldable types have their own/efficient implementation.
+        if ($foldable instanceof LeftFoldableInterface) {
+            return $foldable->foldl($function, $initial);
+        }
+
+        // This is the slow-ish implementation. It works on Traversable types.
+        $accumulator = $initial;
+
+        foreach ($foldable as $key => $value) {
+            $accumulator = static::call($function, $accumulator, $value, $key);
+        }
+
+        return $accumulator;
+    }
+
+    /**
+     * Alias of foldl.
+     *
+     * @param callable $function
+     * @param mixed $initial
+     * @param array|Traversable $traversable
+     *
+     * @return mixed
+     */
     public static function reduce(callable $function, $initial, $traversable)
     {
-        Arguments::contain(Boa::func(), Boa::any(), Boa::traversable())
-            ->check($function, $initial, $traversable);
-
-        // TODO: Support Traversables, not just arrays.
-
-        return array_reduce($traversable, $function, $initial);
+        return static::foldl($function, $initial, $traversable);
     }
 
     /**
@@ -366,7 +421,7 @@ class Std extends BaseObject
     {
         Arguments::contain(Boa::arr())->check($list);
 
-        // TODO: Support Traversables, not just arrays.
+        // TODO: Support Lists, not just arrays.
 
         return array_reverse($list);
     }
@@ -502,5 +557,51 @@ class Std extends BaseObject
     public static function call(callable $function, ...$args)
     {
         return call_user_func($function, ...$args);
+    }
+
+    /**
+     * Call a function N times.
+     *
+     * This covers one of the most frequent case for using for-loops.
+     *
+     * @param callable $function
+     * @param $times
+     */
+    public static function poll(callable $function, $times)
+    {
+        Arguments::contain(Boa::func(), Boa::integer())
+            ->check($function, $times);
+
+        for ($ii = 0; $ii < $times; $ii++) {
+            static::call($function);
+        }
+    }
+
+    /**
+     * Attempt call the provided function a number of times until it no longer
+     * throws an exception.
+     *
+     * @param callable $function
+     * @param integer $attempts
+     *
+     * @return mixed|null
+     * @throws InvalidArgumentException
+     */
+    public static function retry(callable $function, $attempts)
+    {
+        Arguments::contain(Boa::func(), Boa::integer())
+            ->check($function, $attempts);
+
+        for ($ii = 0; $ii < $attempts; $ii++) {
+            try {
+                $result = static::call($function);
+
+                return $result;
+            } catch (Exception $e) {
+                continue;
+            }
+        }
+
+        return null;
     }
 }

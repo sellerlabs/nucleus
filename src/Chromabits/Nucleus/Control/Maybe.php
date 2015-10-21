@@ -5,10 +5,9 @@ namespace Chromabits\Nucleus\Control;
 use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
 use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
-use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
+use Chromabits\Nucleus\Exceptions\MindTheGapException;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 use Closure;
-use Mockery\Matcher\Not;
 
 /**
  * Class MaybeMonad
@@ -18,70 +17,6 @@ use Mockery\Matcher\Not;
  */
 abstract class Maybe extends Monad implements FunctorInterface, MonoidInterface
 {
-    /**
-     * Nothing constructor.
-     *
-     * @return Maybe
-     */
-    public static function nothing()
-    {
-        return new Nothing(null);
-    }
-
-    /**
-     * Just constructor.
-     *
-     * @param mixed $value
-     *
-     * @return Maybe
-     */
-    public static function just($value)
-    {
-        return new Just($value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function of($value)
-    {
-        if ($value instanceof static) {
-            return $value;
-        }
-
-        return static::just($value);
-    }
-
-    /**
-     * >>==
-     *
-     * @param Closure $closure
-     *
-     * @return Maybe
-     */
-    public function bind(Closure $closure)
-    {
-        if ($this->isJust()) {
-            return static::of($closure($this->value));
-        }
-
-        return static::nothing();
-    }
-
-    /**
-     * Returns whether or not the contained value is in the form Just _.
-     *
-     * @return bool
-     */
-    abstract public function isJust();
-
-    /**
-     * Returns whether or not the contained value is Nothing.
-     *
-     * @return bool
-     */
-    abstract public function isNothing();
-
     /**
      * Extracts the element out of a Just.
      *
@@ -98,6 +33,13 @@ abstract class Maybe extends Monad implements FunctorInterface, MonoidInterface
 
         return $maybe->value;
     }
+
+    /**
+     * Returns whether or not the contained value is Nothing.
+     *
+     * @return bool
+     */
+    abstract public function isNothing();
 
     /**
      * The fromMaybe function takes a default value and and Maybe value.
@@ -127,11 +69,67 @@ abstract class Maybe extends Monad implements FunctorInterface, MonoidInterface
     }
 
     /**
+     * >>==
+     *
+     * @param callable|Closure $closure
+     *
+     * @return Maybe
+     */
+    public function bind(callable $closure)
+    {
+        if ($this->isJust()) {
+            return static::of($closure($this->value));
+        }
+
+        return static::nothing();
+    }
+
+    /**
+     * Returns whether or not the contained value is in the form Just _.
+     *
+     * @return bool
+     */
+    abstract public function isJust();
+
+    /**
      * @inheritDoc
      */
-    public function append(SemigroupInterface $other, callable $callback)
+    public static function of($value)
     {
-        // TODO: Implement append() method.
-        throw new LackOfCoffeeException('Not implemented');
+        if ($value instanceof static) {
+            return $value;
+        }
+
+        return static::just($value);
+    }
+
+    /**
+     * Just constructor.
+     *
+     * @param mixed $value
+     *
+     * @return Maybe
+     */
+    public static function just($value)
+    {
+        return new Just($value);
+    }
+
+    /**
+     * Nothing constructor.
+     *
+     * @return Maybe
+     */
+    public static function nothing()
+    {
+        return new Nothing(null);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function append(SemigroupInterface $other)
+    {
+        throw new MindTheGapException();
     }
 }

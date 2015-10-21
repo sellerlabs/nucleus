@@ -11,16 +11,16 @@
 
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
+use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
-use Traversable;
 
 /**
- * Class TraversableConstraint.
+ * Class FoldableConstraint
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
  */
-class TraversableConstraint extends EitherConstraint
+class FoldableConstraint extends EitherConstraint
 {
     /**
      * Construct an instance of a TraversableConstraint.
@@ -28,7 +28,7 @@ class TraversableConstraint extends EitherConstraint
     public function __construct()
     {
         parent::__construct(
-            new ClassTypeConstraint(Traversable::class),
+            new ClassTypeConstraint(FoldableInterface::class),
             new PrimitiveTypeConstraint(CompoundTypes::COMPOUND_ARRAY)
         );
     }

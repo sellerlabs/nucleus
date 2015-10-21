@@ -31,7 +31,7 @@ abstract class Enum extends BaseObject
      */
     public static function getKeys()
     {
-        return array_keys(static::getValues());
+        return Arr::keys(static::getValues());
     }
 
     /**

@@ -71,7 +71,7 @@ class TransformPipeline extends BaseObject implements TransformInterface
      */
     public function run(array $input)
     {
-        return Std::reduce(function ($current, TransformInterface $input) {
+        return Std::foldl(function ($current, TransformInterface $input) {
             return $input->run($current);
         }, $input, $this->transforms);
     }

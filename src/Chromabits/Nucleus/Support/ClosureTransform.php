@@ -48,6 +48,6 @@ class ClosureTransform implements TransformInterface
      */
     public function run(array $input)
     {
-        return call_user_func($this->inner, $input);
+        return Std::call($this->inner, $input);
     }
 }

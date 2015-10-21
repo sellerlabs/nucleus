@@ -3,6 +3,7 @@
 namespace Chromabits\Nucleus\Control;
 
 use Chromabits\Nucleus\Control\Interfaces\ApplicativeInterface;
+use Chromabits\Nucleus\Control\Interfaces\ApplyInterface;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Closure;
 
@@ -15,11 +16,11 @@ use Closure;
 abstract class Applicative extends BaseObject implements ApplicativeInterface
 {
     /**
-     * @param Closure $closure
+     * @param callable|Closure $closure
      *
-     * @return Interfaces\ApplyInterface
+     * @return ApplyInterface
      */
-    public function fmap(Closure $closure)
+    public function fmap(callable $closure)
     {
         return static::of($closure)->ap($this);
     }

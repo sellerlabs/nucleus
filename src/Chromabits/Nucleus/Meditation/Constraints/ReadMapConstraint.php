@@ -25,7 +25,7 @@ class ReadMapConstraint extends EitherConstraint
     public function __construct()
     {
         parent::__construct(
-            new TraversableConstraint(),
+            new LeftFoldableConstraint(),
             new MapConstraint()
         );
     }

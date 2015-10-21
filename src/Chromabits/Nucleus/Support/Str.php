@@ -11,7 +11,7 @@
 
 namespace Chromabits\Nucleus\Support;
 
-use Chromabits\Nucleus\Foundation\BaseObject;
+use Chromabits\Nucleus\Foundation\StaticObject;
 use Chromabits\Nucleus\Strings\Rope;
 use RuntimeException;
 
@@ -23,7 +23,7 @@ use RuntimeException;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Support
  */
-class Str extends BaseObject
+class Str extends StaticObject
 {
     /**
      * Convert a value to camel case.
@@ -98,6 +98,7 @@ class Str extends BaseObject
      * Should not be considered sufficient for cryptography, etc.
      *
      * @param int $length
+     *
      * @return string
      */
     public static function quickRandom($length = 16)

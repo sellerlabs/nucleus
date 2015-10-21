@@ -29,7 +29,7 @@ class StdTest extends TestCase
     public function testApply()
     {
         $sum = function (...$nums) {
-            return Std::reduce(function ($acc, $value) {
+            return Std::foldl(function ($acc, $value) {
                 return $acc + $value;
             }, 0, $nums);
         };
@@ -102,8 +102,8 @@ class StdTest extends TestCase
         };
 
         $this->assertEqualsMatrix([
-            [28, Std::reduce($sum, 0, [1, 2, 3, 4, 5, 6, 7])],
-            ['hello world', Std::reduce($concat, '', ['hello ', 'world'])],
+            [28, Std::foldl($sum, 0, [1, 2, 3, 4, 5, 6, 7])],
+            ['hello world', Std::foldl($concat, '', ['hello ', 'world'])],
         ]);
     }
 
@@ -129,8 +129,8 @@ class StdTest extends TestCase
         };
 
         $this->assertEqualsMatrix([
-            [28, Std::reduceRight($sum, 0, [1, 2, 3, 4, 5, 6, 7])],
-            ['worldhello ', Std::reduceRight($concat, '', ['hello ', 'world'])],
+            [28, Std::foldr($sum, 0, [1, 2, 3, 4, 5, 6, 7])],
+            ['worldhello ', Std::foldr($concat, '', ['hello ', 'world'])],
         ]);
     }
 
@@ -178,12 +178,12 @@ class StdTest extends TestCase
             return $a + $b + $c + $d;
         };
         $variadicAdder = function (...$args) {
-            return Std::reduce(function ($acc, $cur) {
+            return Std::foldl(function ($acc, $cur) {
                 return $acc + $cur;
             }, 0, $args);
         };
         $partiallyVariadicAdder = function ($a, $b, $c, ...$args) use (&$rest) {
-            $rest = Std::reduce(function ($acc, $cur) {
+            $rest = Std::foldl(function ($acc, $cur) {
                 return $acc + $cur;
             }, 0, $args);
 

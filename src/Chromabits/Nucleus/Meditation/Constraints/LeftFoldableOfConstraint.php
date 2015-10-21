@@ -17,7 +17,7 @@ namespace Chromabits\Nucleus\Meditation\Constraints;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
  */
-class TraversableOfConstraint extends AbstractConstraint
+class LeftFoldableOfConstraint extends AbstractConstraint
 {
     /**
      * @var AbstractConstraint
@@ -46,7 +46,7 @@ class TraversableOfConstraint extends AbstractConstraint
      */
     protected function checkContainerType($value, $context = [])
     {
-        return (new TraversableConstraint())->check($value, $context);
+        return (new LeftFoldableConstraint())->check($value, $context);
     }
 
     /**

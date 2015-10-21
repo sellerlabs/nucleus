@@ -17,9 +17,9 @@ interface FunctorInterface
     /**
      * Apply a function to this functor.
      *
-     * @param Closure $closure
+     * @param callable|Closure $closure
      *
      * @return FunctorInterface
      */
-    public function fmap(Closure $closure);
+    public function fmap(callable $closure);
 }

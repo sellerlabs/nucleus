@@ -19,14 +19,15 @@ use Chromabits\Nucleus\Meditation\Constraints\CallableConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClassTypeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClosureConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\EitherConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\FoldableConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\InArrayConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ListConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\MapConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\MaybeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ReadMapConstraint;
-use Chromabits\Nucleus\Meditation\Constraints\TraversableConstraint;
-use Chromabits\Nucleus\Meditation\Constraints\TraversableOfConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\LeftFoldableConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\LeftFoldableOfConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 use Chromabits\Nucleus\Meditation\Primitives\SpecialTypes;
@@ -200,21 +201,47 @@ class Boa extends BaseObject
     }
 
     /**
-     * @return TraversableConstraint
+     * @return LeftFoldableConstraint
+     */
+    public static function foldable()
+    {
+        return new FoldableConstraint();
+    }
+
+    /**
+     * @return LeftFoldableConstraint
+     */
+    public static function leftFoldable()
+    {
+        return new LeftFoldableConstraint();
+    }
+
+    /**
+     * @return LeftFoldableConstraint
      */
     public static function traversable()
     {
-        return new TraversableConstraint();
+        return static::leftFoldable();
     }
 
     /**
      * @param AbstractConstraint $valueConstraint
      *
-     * @return TraversableOfConstraint
+     * @return LeftFoldableOfConstraint
      */
     public static function traversableOf(AbstractConstraint $valueConstraint)
     {
-        return new TraversableOfConstraint($valueConstraint);
+        return static::leftFoldableOf($valueConstraint);
+    }
+
+    /**
+     * @param AbstractConstraint $valueConstraint
+     *
+     * @return LeftFoldableOfConstraint
+     */
+    public static function leftFoldableOf(AbstractConstraint $valueConstraint)
+    {
+        return new LeftFoldableOfConstraint($valueConstraint);
     }
 
     /**

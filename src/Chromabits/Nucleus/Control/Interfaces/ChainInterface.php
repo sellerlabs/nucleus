@@ -13,9 +13,9 @@ use Closure;
 interface ChainInterface extends ApplyInterface
 {
     /**
-     * @param Closure $closure
+     * @param callable|Closure $closure
      *
      * @return ChainInterface
      */
-    public function bind(Closure $closure);
+    public function bind(callable $closure);
 }
