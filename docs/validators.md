@@ -12,25 +12,27 @@ be useful for generating an API response or flashing validation messages to a
 user.
 
 ```php
+<?php
+
 $spec = Validator::define([
-        'first_name' => [
-            Boa::string(),
-            new StringLengthConstraint(1, 60)
-        ],
-        'last_name' => [
-            Boa::string(),
-            new StringLengthConstraint(1, 60)
-        ],
-        'zip' => [
-            Boa::integer(),
-            Boa::between(10000, 99999)
-        ],
-        'subscribed' => Boa::boolean(),
-    ], [
-        'subscribed' => false,
-    ], ['first_name', 'last_name', 'phone'], [
-        'first_name' => 'Please provide your first name (max 60 chars).',
-        'last_name' => 'Please provide your last name (max 60 chars).',
-        'zip' => 'Please provide a valid ZIP code.',
-    ]);
+    'first_name' => [
+        Boa::string(),
+        new StringLengthConstraint(1, 60)
+    ],
+    'last_name' => [
+        Boa::string(),
+        new StringLengthConstraint(1, 60)
+    ],
+    'zip' => [
+        Boa::integer(),
+        Boa::between(10000, 99999)
+    ],
+    'subscribed' => Boa::boolean(),
+], [
+    'subscribed' => false,
+], ['first_name', 'last_name', 'phone'], [
+    'first_name' => 'Please provide your first name (max 60 chars).',
+    'last_name' => 'Please provide your last name (max 60 chars).',
+    'zip' => 'Please provide a valid ZIP code.',
+]);
 ```

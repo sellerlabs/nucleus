@@ -32,6 +32,8 @@ are more than enough for the data that you are trying to validate.
 Let's say that we wanted to create a spec that describes a User object:
 
 ```php
+<?php
+
 $spec = Spec::define([
         'first_name' => Boa::string(),
         'last_name' => Boa::string(),
@@ -51,6 +53,8 @@ As you can see, the constructor of Spec takes three arrays:
 A check can be performed by calling `->check()`:
 
 ```php
+<?php
+
 $result = $spec->check([
     'first_name' => 'Lisbeth',
     'last_name' => 'Salander',
@@ -63,6 +67,8 @@ $result->passes(); // --> true
 When a constraint fails, we can get more information:
 
 ```php
+<?php
+
 $result = $spec->check([
     'first_name' => null,
     'subscribed' => new Exception(),
@@ -90,6 +96,8 @@ quickly defining a Spec. For example, we can take our Spec for Users and write
 it using the factory:
 
 ```php
+<?php
+
 $result = SpecFactory::define()
     ->let('first_name', Boa::string())
     ->let('last_name', Boa::string())

@@ -297,7 +297,13 @@ source_parsers = {
 }
 
 primary_domain = 'php'
-
-# Enable highlighting for PHP code not between ``<?php ... ?>`` by default
-lexers['php'] = PhpLexer(startinline=True)
-lexers['php-annotations'] = PhpLexer(startinline=True)
+highlight_language = 'php'
+highlight_options = {
+    'startinline': True,
+    'php': {
+        'startinline': True,
+    },
+    'php-annotations': {
+        'startinline': True,
+    }
+}

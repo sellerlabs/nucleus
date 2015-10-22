@@ -9,6 +9,8 @@ a handy class which makes this process easier to read: _Transform Pipelines_.
 **Example:**
 
 ```php
+<?php
+
 $clean = TransformPipeline::define()
     ->add(new OnlyTransform([
         'first_name', 'last_name', 'email', 'password', 'phone'
