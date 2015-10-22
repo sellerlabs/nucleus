@@ -167,9 +167,7 @@ class Std extends StaticObject
         Arguments::contain(Boa::func(), Boa::foldable())
             ->check($function, $foldable);
 
-        static::foldl(function ($accumulator, $value, $key) use ($function) {
-            $function($value, $key);
-        }, null, $foldable);
+        static::map($function, $foldable);
     }
 
     /**
