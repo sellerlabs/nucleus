@@ -1,2 +1,2 @@
 recommonmark==0.2.0
-sphinx-php==1.0
+-e git+https://github.com/fabpot/sphinx-php.git#egg=sphinx-php
