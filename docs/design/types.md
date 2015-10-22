@@ -42,12 +42,14 @@ As the name implies, they have special behaviors.
 There are many collection-ish types in PHP. Here I try to compare them so we
 can build better tools around them:
 
+```
 | Type         | getKey | setKey | hasKey | foldl | foldr | getKeys |
 | ------------ | ------ | ------ | ------ | ----- | ----- | ------- |
 | array        | Yes    | Yes    | Yes    | Yes   | Loop  | Yes     |
 | ArrayObject  | Yes    | Yes    | Yes    | Yes   | Loop  | Yes     |
 | ArrayAccess  | Yes    | Yes    | Yes    | No    | No    | No      |
 | Traversable  | Loop   | No     | Loop   | Yes   | Slow  | Loop    |
+```
 
 *Loop* meaning that is possible to emulate the behavior by traversing the data
 structure at least once (`O(n)`), generate an in-memory representation, and run
