@@ -2,15 +2,18 @@
 
 namespace Chromabits\Nucleus\Data;
 
-use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
+use Chromabits\Nucleus\Control\Interfaces\ApplicativeInterface;
+use Chromabits\Nucleus\Control\Interfaces\ApplyInterface;
 use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
+use Chromabits\Nucleus\Data\Interfaces\ListInterface;
+use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
-use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
+use Chromabits\Nucleus\Data\Traits\SameTypeTrait;
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
+use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Support\Std;
-use Closure;
 
 /**
  * Class ArrayList
@@ -22,8 +25,10 @@ use Closure;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Data
  */
-class ArrayList implements MonoidInterface, FoldableInterface, LeftFoldableInterface
+class ArrayList implements ListInterface, MapInterface
 {
+    use SameTypeTrait;
+
     /**
      * @var array
      */
@@ -40,6 +45,16 @@ class ArrayList implements MonoidInterface, FoldableInterface, LeftFoldableInter
     }
 
     /**
+     * Get an empty monoid.
+     *
+     * @return MonoidInterface
+     */
+    public static function zero()
+    {
+        return new static();
+    }
+
+    /**
      * Append another semigroup and return the result.
      *
      * @param SemigroupInterface $other
@@ -50,26 +65,12 @@ class ArrayList implements MonoidInterface, FoldableInterface, LeftFoldableInter
      */
     public function append(SemigroupInterface $other)
     {
-        if (!$other instanceof static) {
-            throw new CoreException(
-                'ArrayList can only be appended by another ArrayList.'
-            );
-        }
+        $this->assertSameType($other);
 
         return new static(Std::concat(
             $this->value,
             $other->value
         ));
-    }
-
-    /**
-     * Get an empty monoid.
-     *
-     * @return MonoidInterface
-     */
-    public static function zero()
-    {
-        return new static();
     }
 
     /**
@@ -94,9 +95,7 @@ class ArrayList implements MonoidInterface, FoldableInterface, LeftFoldableInter
      */
     public function foldr(callable $closure, $initial)
     {
-        return new static(
-            Std::foldr($closure, $initial, $this->value)
-        );
+        return array_reduce(Arr::reverse($this->value), $closure, $initial);
     }
 
     /**
@@ -109,8 +108,107 @@ class ArrayList implements MonoidInterface, FoldableInterface, LeftFoldableInter
      */
     public function foldl(callable $closure, $initial)
     {
-        return new static(
-            Std::foldl($closure, $initial, $this->value)
-        );
+        return array_reduce($this->value, $closure, $initial);
+    }
+
+    /**
+     * @param mixed $input
+     *
+     * @return ApplicativeInterface
+     */
+    public static function of(...$input)
+    {
+        return new static($input);
+    }
+
+    /**
+     * @param ApplyInterface $other
+     *
+     * @return ApplyInterface
+     */
+    public function ap(ApplyInterface $other)
+    {
+        $this->assertSameType($other);
+
+        /** @var ArrayList $other */
+        $result = [];
+
+        Std::poll(function ($ii) use (&$result, &$other) {
+            Std::poll(function ($jj) use (&$result, &$other, $ii) {
+                $result[] = Std::call(
+                    $this->value[$ii],
+                    $other->value[$jj]
+                );
+            }, count($other->value));
+        }, count($this->value));
+
+        return $result;
+    }
+
+    /**
+     * Get the value of the provided key.
+     *
+     * @param string $key
+     *
+     * @return static
+     * @throws CoreException
+     */
+    public function lookup($key)
+    {
+        if (!$this->member($key)) {
+            throw new CoreException(vsprintf(
+                'The key "%s" is not a member of this Map.',
+                [$key]
+            ));
+        }
+
+        return $this->value[$key];
+    }
+
+    /**
+     * Return a new Map of the same type containing the added key.
+     *
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return static
+     */
+    public function insert($key, $value)
+    {
+        $cloned = array_merge($this->value);
+
+        $cloned[$key] = $value;
+
+        return new static($cloned);
+    }
+
+    /**
+     * Return a new Map of the same type without the specified key.
+     *
+     * @param string $key
+     *
+     * @return static
+     * @internal param mixed $value
+     *
+     */
+    public function delete($key)
+    {
+        $cloned = array_merge($this->value);
+
+        unset($cloned[$key]);
+
+        return new static($cloned);
+    }
+
+    /**
+     * Return whether or not the map contains the specified key.
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function member($key)
+    {
+        return array_key_exists($key, $this->value);
     }
 }

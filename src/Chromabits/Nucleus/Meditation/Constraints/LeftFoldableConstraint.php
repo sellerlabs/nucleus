@@ -12,7 +12,7 @@
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
 use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
-use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
+use Iterator;
 use Traversable;
 
 /**
@@ -29,11 +29,11 @@ class LeftFoldableConstraint extends EitherConstraint
     public function __construct()
     {
         parent::__construct(
+            new ClassTypeConstraint(LeftFoldableInterface::class),
             new EitherConstraint(
-                new ClassTypeConstraint(Traversable::class),
-                new ClassTypeConstraint(LeftFoldableInterface::class)
-            ),
-            new PrimitiveTypeConstraint(CompoundTypes::COMPOUND_ARRAY)
+                new ListConstraint(),
+                new ClassTypeConstraint(Traversable::class)
+            )
         );
     }
 }

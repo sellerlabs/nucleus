@@ -11,28 +11,27 @@
 
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
-use ArrayObject;
-use Chromabits\Nucleus\Data\Interfaces\ListInterface;
-use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
+use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
+use Traversable;
 
 /**
- * Class ListConstraint.
+ * Class TraversableConstraint.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
  */
-class ListConstraint extends EitherConstraint
+class FunctorConstraint extends EitherConstraint
 {
     /**
-     * Construct an instance of a ListConstraint.
+     * Construct an instance of a TraversableConstraint.
      */
     public function __construct()
     {
         parent::__construct(
-            new ClassTypeConstraint(ListInterface::class),
+            new ClassTypeConstraint(FunctorInterface::class),
             new EitherConstraint(
-                new ClassTypeConstraint(ArrayObject::class),
-                new PrimitiveTypeConstraint(CompoundTypes::COMPOUND_ARRAY)
+                new ListConstraint(),
+                new ClassTypeConstraint(Traversable::class)
             )
         );
     }

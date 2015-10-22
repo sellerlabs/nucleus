@@ -12,7 +12,7 @@
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
 use ArrayAccess;
-use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
+use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 
 /**
  * Class MapConstraint.
@@ -23,13 +23,16 @@ use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 class MapConstraint extends EitherConstraint
 {
     /**
-     * Construct an instance of a ListConstraint.
+     * Construct an instance of a MapConstraint.
      */
     public function __construct()
     {
         parent::__construct(
-            new ClassTypeConstraint(ArrayAccess::class),
-            new PrimitiveTypeConstraint(CompoundTypes::COMPOUND_ARRAY)
+            new ClassTypeConstraint(MapInterface::class),
+            new EitherConstraint(
+                new ListConstraint(),
+                new ClassTypeConstraint(ArrayAccess::class)
+            )
         );
     }
 }

@@ -1,3 +1,8 @@
+> WARNING: This article is a big work in progress and should not be relied on.
+It is still an exploration on how types in PHP can be normalized into something
+that is easier to understand (although perhaps more complex) and less error
+prone.
+
 # Primitive Types
 
 In PHP, anything that is not a class is probably a primitive type. They are
@@ -37,48 +42,103 @@ As the name implies, they have special behaviors.
 There are many collection-ish types in PHP. Here I try to compare them so we
 can build better tools around them:
 
-| Type         | Get by key | Set by key | Exists by index | Traversable | Get keys |
-| ------------ | ---------- | ---------- | --------------- | ----------- | -------- |
-| array        | Yes        | Yes        | Yes             | Yes         | Yes      |
-| ArrayObject  | Yes        | Yes        | Yes             | Yes         | Yes      |
-| ArrayAccess  | Yes        | Yes        | Yes             | No          | No       |
-| Traversable  | Loop       | No         | Loop            | Yes         | Loop     |
-| Iterator     | Loop       | No         | Loop            | Yes         | Loop     |
+| Type         | getKey | setKey | hasKey | foldl | foldr | getKeys |
+| ------------ | ------ | ------ | ------ | ----- | ----- | ------- |
+| array        | Yes    | Yes    | Yes    | Yes   | Loop  | Yes     |
+| ArrayObject  | Yes    | Yes    | Yes    | Yes   | Loop  | Yes     |
+| ArrayAccess  | Yes    | Yes    | Yes    | No    | No    | No      |
+| Traversable  | Loop   | No     | Loop   | Yes   | Slow  | Loop    |
 
 *Loop* meaning that is possible to emulate the behavior by traversing the data
-structure at least once.
+structure at least once (`O(n)`), generate an in-memory representation, and run
+the operation on that representation.
 
-## Proposal (for Nucleus):
+## Nucleus' handling of collection types
 
-In order to keep the type constraints in Nucleus as simple and consistent and
-possible, the library will define the following types constraints on top of what
-PHP already defines. They are not new types (classes or interfaces), they are
-just constraints that the Nucleus code (and its users) will use to identify
-behaviors of types.
+### Data Types
 
-- **ListConstraint**: Anything that has __complete__ array-like behavior:
-array, ArrayObject (not ArrayAccess)
-- **ReadMapConstraint**: Anything that can map a key to a value: array,
-ArrayObject, ArrayAccess, Traversable (loop), Iterator (loop). Here we don't
-care about how we get the key value map, as long as we can get one. So loop
-(`O(n)`) implementations are acceptable.
-- **MapConstraint**: Anything that can map a key to a value and define new
-key-value pairs
-- **TraversableConstraint**: Anything that can be put on a foreach loop: array,
-ArrayObject, Traversable, Iterator. The reason we need to redefine this as a
-constraint is that PHP's idea of Traversable only covers classes, but `array`s
-also exhibits the same behavior.
+This is a non-comprehensive list of some of the data types interfaces available
+in Nucleus. Each concrete implementation can implement one or more of these.
 
-In Nucleus, each one of these type constraint will also probably have a
-related utility class to abstract users away from the actual PHP types.
+The design tries to follow FP/Haskell as much as the language allows. It won't
+be possible to have a one-to-one mapping, but the concepts should help a lot
+in organizing behaviors and functionality:
 
-### Definitions
+- **List:** `List`s are usually backed by `array`s or `\ArrayObject`s. They can
+also behave like `Map`s, since in PHP all arrays are associative.
+- **Map:** Any `List` or something implementing something similar to
+`ArrayAccess`.
+- **Foldable:** Anything that can be reduced/folded from right to left.
+- **LeftFoldable:** Anything that can be reduced/folded from left to right.
+This is the most common type since its easier to traverse from left to right on
+PHP.
+- **KeyFoldable:** Same as `Foldable`, but the key is also provided while
+folding.
+- **LeftKeyFoldable:** Same as `LeftFoldable`, but the key is also provided
+while folding.
+- **Functor**
+- **Monoid**
+- **Semigroup**
+- **Traversable** (Not to be confused with PHP's Traversable)
 
-The type constraints mentioned above can be easily defined as type unions.
-Types that belong to PHP will be preceded with a `\`. Primitive types will
-just start with a lowercase letter.
+and a few more...
 
-`ListConstraint = array|\ArrayObject`
-`TraversableConstraint = array|\Traversable`
-`MapConstraint = array|\ArrayAccess`
-`ReadMapConstraint = MapConstraint|TraversableConstraint`
+### Immutability
+
+The wrapper classes and any other classes that implement the interfaces above
+should be immutable.
+
+### Normalization
+
+PHP's collection types are all over the place, so are the standard library's
+function for dealing with them.
+
+Collection types in PHP are "normalized" in Nucleus by wrapping them in special
+classes that implement the interfaces above, having these wrapper allows
+functions in library classes such as `Std` to operate on these collection
+without having to implement a different handler for every type or dealing with
+PHP's oddly-named functions.
+
+However, the wrappers are still required to deal with these sort of functions,
+but at least they can attempt to provide the faster or more optimal
+implementation for a certain function.
+
+**Mappings:**
+
+Components in Nucleus will attempt to use the `ComplexFactory` class. This
+class is responsible for taking a primitive collection value and wrapping it in
+something the rest of Nucleus can easily understand:
+
+- `array` --> `ArrayList`
+- `ArrayObject` --> `ArrayList`
+- `ArrayAccess` --> `ArrayAccessMap`
+- `Traversable` --> `TraversableLeftFoldable`
+- `Iterator` --> `TraversableLeftFoldable`.
+
+**Location:**
+Wrapper classes can be found on the `Chromabits\Nucleus\Data` namespace.
+
+### Constraints:
+
+Some of the interfaces defined above should also have a matching constraint
+rule so that input can be validated using the `Arguments` or `Spec` classes:
+
+- ListConstraint
+- ReadMapConstraint
+- MapConstraint
+- FoldableConstraint
+- LeftFoldableConstraint
+
+### Looping
+
+As mentioned above, some operations require looping which takes O(n) time (and
+O(n) space in some cases).
+
+In most cases, Nucleus should attempt to emulate the requested operation
+through looping. The affected function should contain documentation warning
+about possible performance issues.
+
+Other operations might be skipped or unsupported if they are very resource
+intensive.
+
+This behavior is mainly defined inside the wrapper classes.

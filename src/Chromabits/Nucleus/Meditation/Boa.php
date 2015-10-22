@@ -20,6 +20,7 @@ use Chromabits\Nucleus\Meditation\Constraints\ClassTypeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClosureConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\EitherConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\FoldableConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\FunctorConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\InArrayConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ListConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\MapConstraint;
@@ -272,5 +273,13 @@ class Boa extends BaseObject
         return new PrimitiveTypeConstraint(
             SpecialTypes::SPECIAL_RESOURCE
         );
+    }
+
+    /**
+     * @return FunctorConstraint
+     */
+    public static function functor()
+    {
+        return new FunctorConstraint();
     }
 }

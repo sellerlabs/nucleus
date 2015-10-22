@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Data\Factories\ComplexFactory;
 use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
@@ -335,13 +336,8 @@ class Std extends StaticObject
         Arguments::contain(Boa::func(), Boa::any(), Boa::foldable())
             ->check($function, $initial, $foldable);
 
-        // Foldables have their own/efficient implementation.
-        if ($foldable instanceof FoldableInterface) {
-            return $foldable->foldr($function, $initial);
-        }
-
-        // Arrays can be reversed and thrown into foldl.
-        return static::foldl($function, $initial, static::reverse($foldable));
+        return ComplexFactory::toFoldable($foldable)
+            ->foldr($function, $initial);
     }
 
     /**
@@ -373,27 +369,11 @@ class Std extends StaticObject
      */
     public static function foldl(callable $function, $initial, $foldable)
     {
-        Arguments::contain(Boa::func(), Boa::any(), Boa::foldable())
+        Arguments::contain(Boa::func(), Boa::any(), Boa::leftFoldable())
             ->check($function, $initial, $foldable);
 
-        // Arrays can use their native function.
-        if (is_array($foldable)) {
-            return array_reduce($foldable, $function, $initial);
-        }
-
-        // LeftFoldable types have their own/efficient implementation.
-        if ($foldable instanceof LeftFoldableInterface) {
-            return $foldable->foldl($function, $initial);
-        }
-
-        // This is the slow-ish implementation. It works on Traversable types.
-        $accumulator = $initial;
-
-        foreach ($foldable as $key => $value) {
-            $accumulator = static::call($function, $accumulator, $value, $key);
-        }
-
-        return $accumulator;
+        return ComplexFactory::toLeftFoldable($foldable)
+            ->foldl($function, $initial);
     }
 
     /**
@@ -573,7 +553,7 @@ class Std extends StaticObject
             ->check($function, $times);
 
         for ($ii = 0; $ii < $times; $ii++) {
-            static::call($function);
+            static::call($function, $ii);
         }
     }
 
@@ -594,7 +574,7 @@ class Std extends StaticObject
 
         for ($ii = 0; $ii < $attempts; $ii++) {
             try {
-                $result = static::call($function);
+                $result = static::call($function, $ii);
 
                 return $result;
             } catch (Exception $e) {

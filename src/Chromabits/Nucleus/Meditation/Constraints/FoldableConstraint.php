@@ -12,7 +12,6 @@
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
 use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
-use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
 
 /**
  * Class FoldableConstraint
@@ -29,7 +28,7 @@ class FoldableConstraint extends EitherConstraint
     {
         parent::__construct(
             new ClassTypeConstraint(FoldableInterface::class),
-            new PrimitiveTypeConstraint(CompoundTypes::COMPOUND_ARRAY)
+            new ListConstraint()
         );
     }
 }
