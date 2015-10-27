@@ -95,7 +95,7 @@ class ComplexFactory extends BaseObject
             return $input;
         }
 
-        return ArrayList::of(...$input);
+        return ArrayList::of($input);
     }
 
     /**

@@ -116,7 +116,7 @@ class ArrayList implements ListInterface, MapInterface
      *
      * @return ApplicativeInterface
      */
-    public static function of(...$input)
+    public static function of($input)
     {
         return new static($input);
     }
