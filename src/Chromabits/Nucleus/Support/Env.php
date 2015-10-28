@@ -27,21 +27,23 @@ class Env extends StaticObject
     {
         $value = static::getRaw($key, $default);
 
-        // Convert some common values into their scalar types.
-        switch (strtolower($value)) {
-            case 'true':
-                return true;
+        if (is_string($value)) {
+            // Convert some common values into their scalar types.
+            switch (strtolower($value)) {
+                case 'true':
+                    return true;
 
-            case 'false':
-                return false;
+                case 'false':
+                    return false;
 
-            case 'null':
-                return null;
-        }
+                case 'null':
+                    return null;
+            }
 
-        // Strip "" if the string is wrapped in them.
-        if (Str::beginsWith($value, '"') && Str::endsWith($value, '"')) {
-            return substr($value, 1, -1);
+            // Strip "" if the string is wrapped in them.
+            if (Str::beginsWith($value, '"') && Str::endsWith($value, '"')) {
+                return substr($value, 1, -1);
+            }
         }
 
         return $value;
