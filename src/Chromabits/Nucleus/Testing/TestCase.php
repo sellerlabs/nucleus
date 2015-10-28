@@ -61,7 +61,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     public static function assertEqualsMatrix(array $comparisons)
     {
-        foreach ($comparisons as $comparison) {
+        $total = count($comparisons);
+
+        foreach ($comparisons as $index => $comparison) {
             if (count($comparison) < 2) {
                 throw new LackOfCoffeeException('Comparison entry is invalid.');
             }
@@ -70,6 +72,11 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
             if (array_key_exists(2, $comparison)) {
                 $message = $comparison[2];
+            } else {
+                $message = vsprintf(
+                    'Comparison %d (of %d) is expected to be equal.',
+                    [$index + 1, $total]
+                );
             }
 
             static::assertEquals(

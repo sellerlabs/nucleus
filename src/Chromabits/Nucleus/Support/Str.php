@@ -12,6 +12,9 @@
 namespace Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Foundation\StaticObject;
+use Chromabits\Nucleus\Meditation\Arguments;
+use Chromabits\Nucleus\Meditation\Boa;
+use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 use Chromabits\Nucleus\Strings\Rope;
 use RuntimeException;
 
@@ -107,5 +110,52 @@ class Str extends StaticObject
             . 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
         return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
+    }
+
+    /**
+     * Return whether or not the provided subject beings with the prefix.
+     *
+     * @param string $subject
+     * @param string $prefix
+     *
+     * @return bool
+     * @throws InvalidArgumentException
+     */
+    public static function beginsWith($subject, $prefix)
+    {
+        Arguments::contain(Boa::string(), Boa::string())
+            ->check($subject, $prefix);
+
+        return $prefix === '' || strpos($subject, $prefix) === 0;
+    }
+
+    /**
+     * Return whether or not the provided subject ends with suffix.
+     *
+     * @param string $subject
+     * @param string $suffix
+     *
+     * @return bool
+     * @throws InvalidArgumentException
+     */
+    public static function endsWith($subject, $suffix)
+    {
+        Arguments::contain(Boa::string(), Boa::string())
+            ->check($subject, $suffix);
+
+        return $suffix === '' || $suffix === substr($subject, -strlen($suffix));
+    }
+
+    /**
+     * Return whether or not the subject contains the inner string.
+     *
+     * @param string $subject
+     * @param string $inner
+     *
+     * @return bool
+     */
+    public static function contains($subject, $inner)
+    {
+        return strpos($subject, $inner) !== false;
     }
 }

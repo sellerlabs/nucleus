@@ -115,4 +115,24 @@ class StrTest extends TestCase
 
         Str::random();
     }
+
+    public function testBeginsWith()
+    {
+        $this->assertEqualsMatrix([
+            [true, Str::beginsWith('hello world', 'hello')],
+            [true, Str::beginsWith('hello world', '')],
+            [false, Str::beginsWith('hello world', 'omg')],
+            [false, Str::beginsWith('hello world', 'hello world ')],
+        ]);
+    }
+
+    public function testEndsWith()
+    {
+        $this->assertEqualsMatrix([
+            [true, Str::endsWith('hello world', 'world')],
+            [true, Str::endsWith('hello world', '')],
+            [false, Str::endsWith('hello world', 'omg')],
+            [false, Str::endsWith('hello world', 'hello world ')],
+        ]);
+    }
 }
