@@ -109,9 +109,5 @@ class EnvTest extends TestCase
             ['omg php', getenv('NUCLEUS_GET')],
             ['why', getenv('nucleus_get')],
         ]);
-
-        $output = shell_exec('env');
-
-        $this->assertTrue(Str::contains($output, 'NUCLEUS_GET'));
     }
 }
