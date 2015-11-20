@@ -50,7 +50,7 @@ class Std extends StaticObject
      */
     public static function apply(callable $function, $args)
     {
-        Arguments::contain(Boa::func(), Boa::lst())->check($function, $args);
+        Arguments::define(Boa::func(), Boa::lst())->check($function, $args);
 
         return static::call($function, ...$args);
     }
@@ -67,7 +67,7 @@ class Std extends StaticObject
      */
     public static function concat($one, $other)
     {
-        Arguments::contain(
+        Arguments::define(
             Boa::either(
                 Boa::lst(),
                 Boa::string()
@@ -155,6 +155,18 @@ class Std extends StaticObject
     }
 
     /**
+     * Return the first non-null argument with support for thunks.
+     *
+     * @param mixed ...$args
+     *
+     * @return mixed
+     */
+    public static function coalesceThunk(...$args)
+    {
+        return static::thunk(static::coalesce(...$args));
+    }
+
+    /**
      * Call the provided function on each element.
      *
      * @param callable $function
@@ -164,7 +176,7 @@ class Std extends StaticObject
      */
     public static function each(callable $function, $foldable)
     {
-        Arguments::contain(Boa::func(), Boa::foldable())
+        Arguments::define(Boa::func(), Boa::foldable())
             ->check($function, $foldable);
 
         static::map($function, $foldable);
@@ -200,7 +212,7 @@ class Std extends StaticObject
      */
     public static function within($min, $max, $value)
     {
-        Arguments::contain(
+        Arguments::define(
             Boa::either(Boa::integer(), Boa::float()),
             Boa::either(Boa::integer(), Boa::float()),
             Boa::either(Boa::integer(), Boa::float())
@@ -225,7 +237,7 @@ class Std extends StaticObject
      */
     public static function rope($string, $encoding = null)
     {
-        Arguments::contain(Boa::string(), Boa::maybe(Boa::string()))
+        Arguments::define(Boa::string(), Boa::maybe(Boa::string()))
             ->check($string, $encoding);
 
         return new Rope($string, $encoding);
@@ -240,7 +252,7 @@ class Std extends StaticObject
      */
     public static function esc($string)
     {
-        Arguments::contain(Boa::string())->check($string);
+        Arguments::define(Boa::string())->check($string);
 
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
     }
@@ -284,14 +296,14 @@ class Std extends StaticObject
      */
     public static function firstBias($biased, $one, $other)
     {
-        Arguments::contain(Boa::boolean(), Boa::any(), Boa::any())
+        Arguments::define(Boa::boolean(), Boa::any(), Boa::any())
             ->check($biased, $one, $other);
 
         if ($biased) {
-            return static::value($one);
+            return static::thunk($one);
         }
 
-        return static::value($other);
+        return static::thunk($other);
     }
 
     /**
@@ -301,9 +313,22 @@ class Std extends StaticObject
      *
      * @return mixed
      */
-    public static function value($value)
+    public static function thunk($value)
     {
         return $value instanceof Closure ? $value() : $value;
+    }
+
+    /**
+     * Return the default value of the given value.
+     *
+     * @param Closure|mixed $value
+     *
+     * @deprecated See Std::thunk
+     * @return mixed
+     */
+    public static function value($value)
+    {
+        return static::thunk($value);
     }
 
     /**
@@ -313,11 +338,12 @@ class Std extends StaticObject
      * @param int $options
      * @param int $depth
      *
+     * @deprecated See Json::encode
      * @return string
      */
     public static function jsonEncode($value, $options = 0, $depth = 512)
     {
-        return json_encode($value, $options, $depth);
+        return Json::encode($value, $options, $depth);
     }
 
     /**
@@ -331,7 +357,7 @@ class Std extends StaticObject
      */
     public static function foldr(callable $function, $initial, $foldable)
     {
-        Arguments::contain(Boa::func(), Boa::any(), Boa::foldable())
+        Arguments::define(Boa::func(), Boa::any(), Boa::foldable())
             ->check($function, $initial, $foldable);
 
         return ComplexFactory::toFoldable($foldable)
@@ -367,7 +393,7 @@ class Std extends StaticObject
      */
     public static function foldl(callable $function, $initial, $foldable)
     {
-        Arguments::contain(Boa::func(), Boa::any(), Boa::leftFoldable())
+        Arguments::define(Boa::func(), Boa::any(), Boa::leftFoldable())
             ->check($function, $initial, $foldable);
 
         return ComplexFactory::toLeftFoldable($foldable)
@@ -397,7 +423,7 @@ class Std extends StaticObject
      */
     public static function reverse($list)
     {
-        Arguments::contain(Boa::arr())->check($list);
+        Arguments::define(Boa::arr())->check($list);
 
         // TODO: Support Lists, not just arrays.
 
@@ -411,11 +437,12 @@ class Std extends StaticObject
      * @param int $options
      * @param int $depth
      *
+     * @deprecated See Json::decode
      * @return mixed
      */
     public static function jsonDecode($value, $options = 0, $depth = 512)
     {
-        return json_decode($value, true, $depth, $options);
+        return Json::decode($value, $options, $depth);
     }
 
     /**
@@ -428,7 +455,7 @@ class Std extends StaticObject
      */
     public static function map(callable $function, $traversable)
     {
-        Arguments::contain(Boa::func(), Boa::traversable())
+        Arguments::define(Boa::func(), Boa::traversable())
             ->check($function, $traversable);
 
         $aggregation = [];
@@ -455,7 +482,7 @@ class Std extends StaticObject
      */
     public static function filter(callable $function, $traversable)
     {
-        Arguments::contain(Boa::func(), Boa::traversable())
+        Arguments::define(Boa::func(), Boa::traversable())
             ->check($function, $traversable);
 
         $aggregation = [];
@@ -492,7 +519,7 @@ class Std extends StaticObject
      */
     public static function curryArgs(callable $function, $args)
     {
-        Arguments::contain(Boa::func(), Boa::arr())->check($function, $args);
+        Arguments::define(Boa::func(), Boa::arr())->check($function, $args);
 
         // Counts required parameters.
         $required = function () use ($function, $args) {
@@ -543,11 +570,11 @@ class Std extends StaticObject
      * This covers one of the most frequent case for using for-loops.
      *
      * @param callable $function
-     * @param $times
+     * @param integer $times
      */
     public static function poll(callable $function, $times)
     {
-        Arguments::contain(Boa::func(), Boa::integer())
+        Arguments::define(Boa::func(), Boa::integer())
             ->check($function, $times);
 
         for ($ii = 0; $ii < $times; $ii++) {
@@ -567,7 +594,7 @@ class Std extends StaticObject
      */
     public static function retry(callable $function, $attempts)
     {
-        Arguments::contain(Boa::func(), Boa::integer())
+        Arguments::define(Boa::func(), Boa::integer())
             ->check($function, $attempts);
 
         for ($ii = 0; $ii < $attempts; $ii++) {

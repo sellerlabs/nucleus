@@ -15,7 +15,8 @@ use Chromabits\Nucleus\Support\Str;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Foundation
  */
-abstract class Entity extends BaseObject implements ArrayableInterface,
+abstract class Entity extends BaseObject implements
+    ArrayableInterface,
     FillableInterface
 {
     /**
@@ -55,6 +56,7 @@ abstract class Entity extends BaseObject implements ArrayableInterface,
      *
      * @param array $input
      *
+     * @return $this
      * @throws LackOfCoffeeException
      */
     public function fill(array $input)
@@ -75,6 +77,8 @@ abstract class Entity extends BaseObject implements ArrayableInterface,
             $camel = Str::camel($key);
             $this->$camel = $value;
         }
+
+        return $this;
     }
 
     /**

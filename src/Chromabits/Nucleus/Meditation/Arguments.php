@@ -47,9 +47,22 @@ class Arguments extends BaseObject
      *
      * @param AbstractConstraint ...$constraints
      *
+     * @deprecated See Arguments::define
      * @return static
      */
     public static function contain(...$constraints)
+    {
+        return new static(...$constraints);
+    }
+
+    /**
+     * Construct an instance of an Argument.
+     *
+     * @param AbstractConstraint ...$constraints
+     *
+     * @return static
+     */
+    public static function define(...$constraints)
     {
         return new static(...$constraints);
     }

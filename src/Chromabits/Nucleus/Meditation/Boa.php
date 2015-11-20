@@ -144,6 +144,72 @@ class Boa extends BaseObject
     }
 
     /**
+     * @return MaybeConstraint
+     */
+    public static function maybeString()
+    {
+        return static::maybe(static::string());
+    }
+
+    /**
+     * @return MaybeConstraint
+     */
+    public static function maybeInteger()
+    {
+        return static::maybe(static::integer());
+    }
+
+    /**
+     * @return MaybeConstraint
+     */
+    public static function maybeBoolean()
+    {
+        return static::maybe(static::boolean());
+    }
+
+    /**
+     * @return MaybeConstraint
+     */
+    public static function maybeFloat()
+    {
+        return static::maybe(static::float());
+    }
+
+    /**
+     * @return MaybeConstraint
+     */
+    public static function maybeList()
+    {
+        return static::maybe(static::lst());
+    }
+
+    /**
+     * @return MaybeConstraint
+     */
+    public static function maybeArray()
+    {
+        return static::maybe(static::arr());
+    }
+
+    /**
+     * @return MaybeConstraint
+     */
+    public static function maybeObject()
+    {
+        return static::maybe(static::object());
+    }
+
+    /**
+     * @param string $of
+     *
+     * @return MaybeConstraint
+     */
+    public static function maybeInstance($of)
+    {
+        return static::maybe(static::instance($of));
+    }
+
+    /**
      * @param string $className
      *
      * @return ClassTypeConstraint
