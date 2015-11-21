@@ -11,21 +11,43 @@
 
 namespace Chromabits\Nucleus\Strings;
 
+use Chromabits\Nucleus\Data\ArrayList;
+use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
+use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
+use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
 use Chromabits\Nucleus\Foundation\BaseObject;
+use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Support\Std;
+use Closure;
 
 /**
  * Class Rope.
  *
  * Like a string, but better.
  *
+ * - Rope is a wrapper of a PHP string.
+ * - Most operations should be safe for international strings.
+ * - Operations are immutable; They will return a new instance of a Rope.
+ *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Strings
  */
-class Rope extends BaseObject
+class Rope extends BaseObject implements FunctorInterface, MonoidInterface
 {
+    const ENCODING_UTF8 = 'UTF-8';
+
+    /**
+     * Internal string.
+     *
+     * @var string
+     */
     protected $contents;
 
+    /**
+     * Name of the encoding to use.
+     *
+     * @var string
+     */
     protected $encoding;
 
     /**
@@ -83,7 +105,7 @@ class Rope extends BaseObject
      * Construct an instance of a Rope.
      *
      * @param string $contents
-     * @param null $encoding
+     * @param null|string $encoding
      */
     public function __construct($contents = '', $encoding = null)
     {
@@ -91,6 +113,29 @@ class Rope extends BaseObject
 
         $this->contents = (string) $contents;
         $this->encoding = Std::coalesce($encoding, mb_internal_encoding());
+    }
+
+    /**
+     * Get the encoding used for this Rope.
+     *
+     * @return string
+     */
+    public function getEncoding()
+    {
+        return $this->encoding;
+    }
+
+    /**
+     * Construct an instance of a Rope.
+     *
+     * @param string $contents
+     * @param null|string $encoding
+     *
+     * @return static
+     */
+    public static function of($contents = '', $encoding = null)
+    {
+        return new static($contents, $encoding);
     }
 
     /**
@@ -187,6 +232,7 @@ class Rope extends BaseObject
 
         $value = mb_ucwords(
             str_replace(['-', '_'], ' ', $this->contents),
+            " \t\r\n\f\v",
             $this->encoding
         );
 
@@ -194,5 +240,236 @@ class Rope extends BaseObject
             static::$studlyCache[$hash] = str_replace(' ', '', $value),
             $this->encoding
         );
+    }
+
+    /**
+     * Get the string with the first character in lower-case.
+     *
+     * @return Rope
+     */
+    public function lowerFirst()
+    {
+        return static::of(
+            mb_lcfirst($this->contents, $this->encoding),
+            $this->encoding
+        );
+    }
+
+    /**
+     * Get the string with the first character in upper-case.
+     *
+     * @return Rope
+     */
+    public function upperFirst()
+    {
+        return static::of(
+            mb_ucfirst($this->contents, $this->encoding),
+            $this->encoding
+        );
+    }
+
+    /**
+     * Returns true if all the characters in the string are lower-case.
+     *
+     * @return bool
+     */
+    public function isLower()
+    {
+        return mb_ctype_lower($this->contents, $this->encoding);
+    }
+
+    /**
+     * Return the string with all the words in upper case.
+     *
+     * Delimiters are used to determine what is a word.
+     *
+     * @param string $delimiters
+     *
+     * @return Rope
+     */
+    public function upperWords($delimiters = " \t\r\n\f\v")
+    {
+        return static::of(
+            mb_ucwords($this->contents, $delimiters, $this->encoding),
+            $this->encoding
+        );
+    }
+
+    /**
+     * Split the string into smaller chunks.
+     *
+     * @param int $splitLength
+     *
+     * @return string[]
+     * @throws \Exception
+     */
+    public function split($splitLength = 1)
+    {
+        return mb_str_split($this->contents, $splitLength, $this->encoding);
+    }
+
+    /**
+     * Get the length of the string.
+     *
+     * @return int
+     */
+    public function length()
+    {
+        return mb_strlen($this->contents, $this->encoding);
+    }
+
+    /**
+     * Trim characters at the ends of the string.
+     *
+     * @param string $characterMask
+     *
+     * @return Rope
+     */
+    public function trim($characterMask = " \t\n\r\0\x0B")
+    {
+        return static::of(
+            trim($this->contents, $characterMask),
+            $this->encoding
+        );
+    }
+
+    /**
+     * Returns true if the string begins with the provided string.
+     *
+     * @param string|Rope $prefix
+     *
+     * @return bool
+     */
+    public function beginsWith($prefix)
+    {
+        return $prefix === ''
+            || mb_strpos(
+                $this->contents,
+                (string) $prefix,
+                null,
+                $this->encoding
+            ) === 0;
+    }
+
+    /**
+     * Returns true if the string ends with the provided string.
+     *
+     * @param string|Rope $suffix
+     *
+     * @return bool
+     */
+    public function endsWith($suffix)
+    {
+        return $suffix === ''
+            || $suffix === mb_substr(
+                $this->contents,
+                -strlen((string) $suffix),
+                null,
+                $this->encoding
+            );
+    }
+
+    /**
+     * Returns true if the string contains the provided string.
+     *
+     * @param string|Rope $inner
+     *
+     * @return bool
+     */
+    public function contains($inner)
+    {
+        return mb_strpos(
+            $this->contents,
+            (string) $inner,
+            null,
+            $this->encoding
+        ) !== false;
+    }
+
+    /**
+     * Concatenate with other strings.
+     *
+     * @param string ...$others
+     *
+     * @return Rope
+     */
+    public function concat(...$others)
+    {
+        return static::of(Std::foldr(
+            function ($carry, $part) {
+                return $carry . (string) $part;
+            },
+            $this->contents,
+            $others
+        ), $this->encoding);
+    }
+
+    /**
+     * Return the string with all its characters reversed.
+     *
+     * @return Rope
+     */
+    public function reverse()
+    {
+        return static::of(
+            implode('', Arr::reverse($this->split())),
+            $this->encoding
+        );
+    }
+
+    /**
+     * Get a List containing the characters of this string.
+     *
+     * @return ArrayList
+     */
+    public function toList()
+    {
+        return new ArrayList($this->split());
+    }
+
+    /**
+     * Get Rope containing the same string but use a different encoding.
+     *
+     * @param string $encoding
+     *
+     * @return Rope
+     */
+    public function toEncoding($encoding)
+    {
+        return static::of($this->toString(), $encoding);
+    }
+
+    /**
+     * Apply a function to this functor.
+     *
+     * @param callable|Closure $closure
+     *
+     * @return FunctorInterface
+     */
+    public function fmap(callable $closure)
+    {
+        return $this->toList()->fmap($closure);
+    }
+
+    /**
+     * Get an empty monoid.
+     *
+     * @return MonoidInterface
+     */
+    public static function zero()
+    {
+        return static::of();
+    }
+
+    /**
+     * Append another semigroup and return the result.
+     *
+     * @param SemigroupInterface $other
+     *
+     * @return SemigroupInterface
+     */
+    public function append(SemigroupInterface $other)
+    {
+        return $this->concat($other);
     }
 }

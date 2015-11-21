@@ -9,6 +9,7 @@
  * This file is part of the Nucleus package
  */
 
+use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Support\Std;
 
 if (!function_exists('mb_lcfirst')) {
@@ -89,38 +90,57 @@ if (!function_exists('mb_ucwords')) {
      *
      * @return mixed|string
      */
-    function mb_ucwords($str, $delimiters = '', $encoding = null)
+    function mb_ucwords($str, $delimiters = " \t\r\n\f\v", $encoding = null)
     {
         $encoding = Std::coalesce($encoding, mb_internal_encoding());
 
-        if (is_string($delimiters)) {
-            $delimiters = str_split(str_replace(' ', '', $delimiters));
+        $delimitersArray = mb_str_split($delimiters, 1, $encoding);
+        $upper = true;
+        $result = '';
+
+        for ($ii = 0; $ii < mb_strlen($str, $encoding); $ii++) {
+            $char = mb_substr($str, $ii, 1, $encoding);
+
+            if ($upper) {
+                $char = mb_convert_case($char, MB_CASE_UPPER, $encoding);
+                $upper = false;
+            } elseif (Arr::in($delimitersArray, $char)) {
+                $upper = true;
+            }
+
+            $result .= $char;
         }
 
-        $firstPattern = [];
-        $firstReplace = [];
-        $secondPattern = [];
-        $secondReplace = [];
+        return $result;
+    }
+}
 
-        foreach ($delimiters as $delimiter) {
-            $id = uniqid();
-            $firstPattern[] = '/' . preg_quote($delimiter) . '/';
-            $firstReplace[] = $delimiter . $id . ' ';
-            $secondPattern[] = '/' . preg_quote($delimiter . $id . ' ') . '/';
-            $secondReplace[] = $delimiter;
+if (!function_exists('mb_str_split')) {
+    /**
+     * @param string $string
+     * @param int $splitLength
+     * @param string $encoding
+     * @return array
+     * @throws Exception
+     */
+    function mb_str_split($string, $splitLength = 1, $encoding = null)
+    {
+        if ($splitLength == 0) {
+            throw new Exception(
+                'The length of each segment must be greater than zero'
+            );
         }
 
-        $result = preg_replace($firstPattern, $firstReplace, $str);
+        $result = [];
+        $len = mb_strlen($string, $encoding);
 
-        $words = explode(' ', $result);
-
-        foreach ($words as $index => $word) {
-            $words[$index] = mb_ucfirst($word, $encoding);
+        for ($ii = 0; $ii < $len; $ii += $splitLength) {
+            $result[] = mb_substr($string, $ii, $splitLength, $encoding);
         }
 
-        $result = implode(' ', $words);
-
-        $result = preg_replace($secondPattern, $secondReplace, $result);
+        if (!$result) {
+            return [''];
+        }
 
         return $result;
     }

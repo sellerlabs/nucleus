@@ -62,7 +62,7 @@ class Arr extends StaticObject
 
         foreach (explode('.', $key) as $segment) {
             if (!is_array($array) || !array_key_exists($segment, $array)) {
-                return Std::value($default);
+                return Std::thunk($default);
             }
 
             $array = $array[$segment];
@@ -261,7 +261,7 @@ class Arr extends StaticObject
      */
     public static function only(array $input, $included = [])
     {
-        Arguments::contain(
+        Arguments::define(
             Boa::either(
                 Boa::arrOf(Boa::either(
                     Boa::string(),
@@ -312,7 +312,7 @@ class Arr extends StaticObject
      */
     public static function except(array $input, $excluded = [])
     {
-        Arguments::contain(Boa::arrOf(Boa::either(
+        Arguments::define(Boa::arrOf(Boa::either(
             Boa::string(),
             Boa::integer()
         )))->check($excluded);
@@ -334,7 +334,7 @@ class Arr extends StaticObject
      */
     public static function exceptValues(array $input, $excluded = [])
     {
-        Arguments::contain(Boa::arrOf(Boa::either(
+        Arguments::define(Boa::arrOf(Boa::either(
             Boa::string(),
             Boa::integer()
         )))->check($excluded);
@@ -573,5 +573,18 @@ class Arr extends StaticObject
     public static function merge(array $base, array $extension)
     {
         return array_merge($base, $extension);
+    }
+
+    /**
+     * Check if an array contains the provided value.
+     *
+     * @param array $input
+     * @param mixed $value
+     *
+     * @return bool
+     */
+    public static function in(array $input, $value)
+    {
+        return in_array($value, $input);
     }
 }

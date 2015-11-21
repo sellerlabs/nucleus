@@ -117,16 +117,13 @@ class Str extends StaticObject
      *
      * @param string $subject
      * @param string $prefix
+     * @param null|string $encoding
      *
      * @return bool
-     * @throws InvalidArgumentException
      */
-    public static function beginsWith($subject, $prefix)
+    public static function beginsWith($subject, $prefix, $encoding = null)
     {
-        Arguments::contain(Boa::string(), Boa::string())
-            ->check($subject, $prefix);
-
-        return $prefix === '' || strpos($subject, $prefix) === 0;
+        return Rope::of($subject, $encoding)->beginsWith($prefix);
     }
 
     /**
@@ -134,16 +131,14 @@ class Str extends StaticObject
      *
      * @param string $subject
      * @param string $suffix
+     * @param null|string $encoding
      *
      * @return bool
      * @throws InvalidArgumentException
      */
-    public static function endsWith($subject, $suffix)
+    public static function endsWith($subject, $suffix, $encoding = null)
     {
-        Arguments::contain(Boa::string(), Boa::string())
-            ->check($subject, $suffix);
-
-        return $suffix === '' || $suffix === substr($subject, -strlen($suffix));
+        return Rope::of($subject, $encoding)->endsWith($suffix);
     }
 
     /**
@@ -151,11 +146,12 @@ class Str extends StaticObject
      *
      * @param string $subject
      * @param string $inner
+     * @param null|string $encoding
      *
      * @return bool
      */
-    public static function contains($subject, $inner)
+    public static function contains($subject, $inner, $encoding = null)
     {
-        return strpos($subject, $inner) !== false;
+        return Rope::of($subject, $encoding)->contains($inner);
     }
 }

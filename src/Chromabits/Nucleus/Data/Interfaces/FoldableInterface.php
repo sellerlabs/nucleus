@@ -2,8 +2,6 @@
 
 namespace Chromabits\Nucleus\Data\Interfaces;
 
-use Closure;
-
 /**
  * Interface FoldableInterface
  *

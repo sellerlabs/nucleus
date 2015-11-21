@@ -24,50 +24,55 @@ class RopeTest extends TestCase
 {
     public function testCamel()
     {
-        $this->assertEquals(
-            'snakeCaseStuff',
-            rope('snake_case_stuff')->toCamel()->toString()
-        );
-        $this->assertEquals(
-            '今日は',
-            rope('今日は')->toCamel()->toString()
-        );
-        $this->assertEquals(
-            'studlyCaseStuff',
-            rope('StudlyCaseStuff')->toCamel()->toString()
-        );
+        $this->assertEqualsMatrix([
+            ['snakeCaseWoo', (string) Rope::of('snake_case_woo')->toCamel()],
+            ['今日は', Rope::of('今日は')->toCamel()],
+            ['studlyCaseStuff', Rope::of('StudlyCaseStuff')->toCamel()],
+        ]);
     }
 
     public function testStudly()
     {
-        $this->assertEquals(
-            'SnakeCaseStuff',
-            rope('snake_case_stuff')->toStudly()->toString()
-        );
-        $this->assertEquals(
-            '今日は',
-            rope('今日は')->toStudly()->toString()
-        );
-        $this->assertEquals(
-            'CamelCaseStuff',
-            rope('camelCaseStuff')->toStudly()->toString()
-        );
+        $this->assertEqualsMatrix([
+            [
+                'SnakeCaseStuff',
+                Rope::of('snake_case_stuff')->toStudly()->toString()
+            ],
+            [
+                '今日は',
+                Rope::of('今日は')->toStudly()->toString()
+            ],
+            [
+                'CamelCaseStuff',
+                Rope::of('camelCaseStuff')->toStudly()->toString()
+            ],
+            [
+                'ImageUri',
+                Rope::of('imageUri')->toStudly()->toString()
+            ],
+            [
+                'ImageUri',
+                Rope::of('image_uri')->toStudly()->toString()
+            ],
+        ]);
     }
 
     public function testSnake()
     {
-        $this->assertEquals(
-            'camel_case_stuff',
-            rope('camelCaseStuff')->toSnake()->toString()
-        );
-        $this->assertEquals(
-            '今日は_wow_o_m_g',
-            rope('今日はWowOMG')->toSnake()->toString()
-        );
-        $this->assertEquals(
-            'studly_case_stuff',
-            rope('StudlyCaseStuff')->toSnake()->toString()
-        );
+        $this->assertEqualsMatrix([
+            [
+                'camel_case_stuff',
+                Rope::of('camelCaseStuff')->toSnake()->toString()
+            ],
+            [
+                '今日は_wow_o_m_g',
+                Rope::of('今日はWowOMG')->toSnake()->toString()
+            ],
+            [
+                'studly_case_stuff',
+                Rope::of('StudlyCaseStuff')->toSnake()->toString()
+            ],
+        ]);
     }
 
     public function testCamelCache()
@@ -78,7 +83,7 @@ class RopeTest extends TestCase
 
         $this->assertEquals(
             'This is cached',
-            rope('this_is_cached')->toCamel()->toString()
+            Rope::of('this_is_cached')->toCamel()->toString()
         );
     }
 
@@ -90,7 +95,7 @@ class RopeTest extends TestCase
 
         $this->assertEquals(
             'This is cached',
-            rope('this_is_cached')->toStudly()->toString()
+            Rope::of('this_is_cached')->toStudly()->toString()
         );
     }
 
@@ -102,7 +107,47 @@ class RopeTest extends TestCase
 
         $this->assertEquals(
             'This is cached',
-            rope('thisIsCached')->toSnake()->toString()
+            Rope::of('thisIsCached')->toSnake()->toString()
         );
+    }
+
+    public function testGetEncoding()
+    {
+        $this->assertEquals(
+            Rope::ENCODING_UTF8,
+            Rope::of('hello world', Rope::ENCODING_UTF8)->getEncoding()
+        );
+    }
+
+    public function testLowerFirst()
+    {
+        $this->assertEqualsMatrix([
+            ['omg', Rope::of('omg')->lowerFirst()->toString()],
+            ['lower今日は', Rope::of('Lower今日は')->lowerFirst()->toString()],
+        ]);
+    }
+
+    public function testUpperFirst()
+    {
+        $this->assertEqualsMatrix([
+            ['Omg', Rope::of('omg')->upperFirst()->toString()],
+            ['Lower今日は', Rope::of('Lower今日は')->upperFirst()->toString()],
+        ]);
+    }
+
+    public function testIsLower()
+    {
+        $this->assertEqualsMatrix([
+            [true, Rope::of('omg')->isLower()],
+            [false, Rope::of('Lower今日は')->isLower()],
+        ]);
+    }
+
+    public function testUpperWords()
+    {
+        $this->assertEqualsMatrix([
+            ['Omg Words', Rope::of('omg words')->upperWords()->toString()],
+            ['Lower 今日は', Rope::of('Lower 今日は')->upperWords()->toString()],
+        ]);
     }
 }
