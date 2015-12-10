@@ -104,6 +104,22 @@ class Validator extends BaseObject implements CheckableInterface
     }
 
     /**
+     * @return string[]
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    /**
+     * @return Spec
+     */
+    public function getSpec()
+    {
+        return $this->spec;
+    }
+
+    /**
      * Check that the spec matches and overlay help messaged.
      *
      * The resulting SpecResult instance should have more user-friendly
