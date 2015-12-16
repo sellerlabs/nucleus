@@ -136,9 +136,9 @@ class Impersonator extends BaseObject
     {
         Arguments::define(
             Boa::string(),
-            Boa::arrOf(
-                Boa::either(Boa::func(), Boa::instance(CallExpectation::class))
-            )
+            Boa::either(Boa::func(), Boa::arrOf(
+                Boa::instance(CallExpectation::class)
+            ))
         )->check($type, $definition);
 
         if (is_array($definition)) {
