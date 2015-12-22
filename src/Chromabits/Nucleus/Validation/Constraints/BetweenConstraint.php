@@ -25,8 +25,31 @@ use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
  */
 class BetweenConstraint extends AbstractConstraint
 {
+    /**
+     * @var float|int
+     */
     protected $min;
+
+    /**
+     * @var float|int
+     */
     protected $max;
+
+    /**
+     * @return float|int
+     */
+    public function getMin()
+    {
+        return $this->min;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getMax()
+    {
+        return $this->max;
+    }
 
     /**
      * Construct an instance of a BetweenConstraint.

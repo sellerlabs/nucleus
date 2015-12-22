@@ -19,7 +19,18 @@ namespace Chromabits\Nucleus\Meditation\Constraints;
  */
 class InArrayConstraint extends AbstractConstraint
 {
+    /**
+     * @var array
+     */
     protected $allowed;
+
+    /**
+     * @return array
+     */
+    public function getAllowed()
+    {
+        return $this->allowed;
+    }
 
     /**
      * Construct an instance of a InArrayConstraint.

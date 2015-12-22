@@ -36,6 +36,22 @@ class StringLengthConstraint extends AbstractConstraint
     protected $max;
 
     /**
+     * @return int
+     */
+    public function getMin()
+    {
+        return $this->min;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMax()
+    {
+        return $this->max;
+    }
+
+    /**
      * Construct an instance of a StringLengthConstraint.
      *
      * @param int $min
