@@ -30,6 +30,6 @@ class Meta extends Node
      */
     public function __construct($attributes, $content = '')
     {
-        parent::__construct('meta', $attributes, $content);
+        parent::__construct('meta', $attributes, $content, true);
     }
 }
