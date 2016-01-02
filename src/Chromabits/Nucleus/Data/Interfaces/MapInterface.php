@@ -10,21 +10,23 @@ namespace Chromabits\Nucleus\Data\Interfaces;
  */
 interface MapInterface extends ReadMapInterface
 {
+    //
     /**
-     * Get the value of the provided key.
+     * Return a new Map of the same type containing the added key.
+     *
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return static
+     */
+    public function insert($key, $value);
+
+    /**
+     * Return a new Map of the same type without the specified key.
      *
      * @param string $key
      *
      * @return static
      */
-    public function lookup($key);
-
-    /**
-     * Return whether or not the map contains the specified key.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function member($key);
+    public function delete($key);
 }

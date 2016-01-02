@@ -6,6 +6,7 @@ use ArrayAccess;
 use ArrayObject;
 use Chromabits\Nucleus\Data\ArrayAccessMap;
 use Chromabits\Nucleus\Data\ArrayList;
+use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
 use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
@@ -39,7 +40,7 @@ class ComplexFactory extends BaseObject
      */
     public static function toLeftFoldable($input)
     {
-        Arguments::contain(Boa::leftFoldable())->check($input);
+        Arguments::define(Boa::leftFoldable())->check($input);
 
         if ($input instanceof LeftFoldableInterface) {
             return $input;
@@ -66,7 +67,7 @@ class ComplexFactory extends BaseObject
      */
     public static function toFunctor($input)
     {
-        Arguments::contain(Boa::leftFoldable())->check($input);
+        Arguments::define(Boa::leftFoldable())->check($input);
 
         if ($input instanceof FunctorInterface) {
             return $input;
@@ -89,7 +90,7 @@ class ComplexFactory extends BaseObject
      */
     public static function toList($input)
     {
-        Arguments::contain(Boa::lst())->check($input);
+        Arguments::define(Boa::lst())->check($input);
 
         if ($input instanceof ListInterface) {
             return $input;
@@ -109,7 +110,7 @@ class ComplexFactory extends BaseObject
      */
     public static function toFoldable($input)
     {
-        Arguments::contain(Boa::foldable())->check($input);
+        Arguments::define(Boa::foldable())->check($input);
 
         if ($input instanceof FoldableInterface) {
             return $input;
@@ -133,7 +134,7 @@ class ComplexFactory extends BaseObject
      */
     public static function toReadMap($input)
     {
-        Arguments::contain(Boa::readMap())->check($input);
+        Arguments::define(Boa::readMap())->check($input);
 
         if ($input instanceof ReadMapInterface) {
             return $input;
@@ -164,14 +165,14 @@ class ComplexFactory extends BaseObject
      */
     public static function toMap($input)
     {
-        Arguments::contain(Boa::map())->check($input);
+        Arguments::define(Boa::map())->check($input);
 
         if ($input instanceof MapInterface) {
             return $input;
         }
 
         if (is_array($input) || $input instanceof ArrayObject) {
-            return static::toList($input);
+            return new ArrayMap($input);
         }
 
         if ($input instanceof ArrayAccess) {
