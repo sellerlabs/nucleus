@@ -16,7 +16,6 @@ use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
 use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
 use Chromabits\Nucleus\Foundation\BaseObject;
-use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Support\Std;
 use Closure;
 
@@ -412,7 +411,7 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     public function reverse()
     {
         return static::of(
-            implode('', Arr::reverse($this->split())),
+            ArrayList::of($this->split())->reverse()->join(),
             $this->encoding
         );
     }

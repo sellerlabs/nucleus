@@ -2,23 +2,23 @@
 
 /**
  * Copyright 2015, Eduardo Trujillo
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
  * This file is part of the Nucleus package
  */
 
 namespace Chromabits\Nucleus\Meditation;
 
+use Chromabits\Nucleus\Control\Maybe;
+use Chromabits\Nucleus\Data\ArrayList;
+use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
-use Chromabits\Nucleus\Support\Arr;
-use Chromabits\Nucleus\Support\Std;
+use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
+use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
 
 /**
  * Class SpecFactory.
- *
  * A utility class for fluently defining Specs.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
@@ -32,17 +32,17 @@ class SpecFactory extends BaseObject
     const FIELD_SELF = '*';
 
     /**
-     * @var AbstractConstraint[]
+     * @var ArrayMap
      */
     protected $constraints;
 
     /**
-     * @var array
+     * @var ArrayMap
      */
     protected $defaults;
 
     /**
-     * @var string[]
+     * @var ArrayList
      */
     protected $required;
 
@@ -53,9 +53,9 @@ class SpecFactory extends BaseObject
     {
         parent::__construct();
 
-        $this->constraints = [];
-        $this->defaults = [];
-        $this->required = [];
+        $this->constraints = new ArrayMap();
+        $this->defaults = new ArrayMap();
+        $this->required = new ArrayList();
     }
 
     /**
@@ -67,43 +67,7 @@ class SpecFactory extends BaseObject
     }
 
     /**
-     * Add one or more constraints to a field.
-     *
-     * @param string $field
-     * @param AbstractConstraint|AbstractConstraint[] $constraint
-     *
-     * @throws Exceptions\MismatchedArgumentTypesException
-     * @return $this
-     */
-    public function let($field, $constraint)
-    {
-        Arguments::define(
-            Boa::string(),
-            Boa::either(
-                Boa::instance(AbstractConstraint::class),
-                Boa::arrOf(Boa::instance(AbstractConstraint::class))
-            )
-        )->check($field, $constraint);
-
-        if (!Arr::has($this->constraints, $field)) {
-            $this->constraints[$field] = [];
-        }
-
-        if (!is_array($constraint)) {
-            $constraint = [$constraint];
-        }
-
-        $this->constraints[$field] = Std::concat(
-            $this->constraints[$field],
-            $constraint
-        );
-
-        return $this;
-    }
-
-    /**
      * Add a constraint that only works on the context.
-     *
      * These are complex constraints that usually work on more than one field
      * at a time.
      *
@@ -124,14 +88,55 @@ class SpecFactory extends BaseObject
      * @param string $field
      * @param mixed $value
      *
-     * @throws Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return $this
      */
     public function defaultValue($field, $value)
     {
         Arguments::define(Boa::string(), Boa::any())->check($field, $value);
 
-        $this->defaults[$field] = $value;
+        $this->defaults = $this->defaults->insert($field, $value);
+
+        return $this;
+    }
+
+    /**
+     * Add one or more constraints to a field.
+     *
+     * @param string $field
+     * @param AbstractConstraint|AbstractConstraint[] $constraint
+     *
+     * @throws MismatchedArgumentTypesException
+     * @return $this
+     */
+    public function let($field, $constraint)
+    {
+        Arguments::define(
+            Boa::string(),
+            Boa::either(
+                Boa::instance(AbstractConstraint::class),
+                Boa::arrOf(Boa::instance(AbstractConstraint::class))
+            )
+        )->check($field, $constraint);
+
+        if (!$this->constraints->member($field)) {
+            $this->constraints = $this->constraints->insert(
+                $field,
+                ArrayList::zero()
+            );
+        }
+
+        if (!is_array($constraint)) {
+            $constraint = [$constraint];
+        }
+
+        $this->constraints = $this->constraints->insert(
+            $field,
+            Maybe::fromMaybe(
+                ArrayList::zero(),
+                $this->constraints->lookup($field)
+            )->append(ArrayList::of($constraint))
+        );
 
         return $this;
     }
@@ -141,7 +146,7 @@ class SpecFactory extends BaseObject
      *
      * @param string|string[] $fields
      *
-     * @throws Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      * @return $this
      */
     public function required($fields)
@@ -154,7 +159,7 @@ class SpecFactory extends BaseObject
             $fields = [$fields];
         }
 
-        $this->required = array_merge($this->required, $fields);
+        $this->required = $this->required->append(ArrayList::of($fields));
 
         return $this;
     }
@@ -166,6 +171,10 @@ class SpecFactory extends BaseObject
      */
     public function make()
     {
-        return new Spec($this->constraints, $this->defaults, $this->required);
+        return new Spec(
+            $this->constraints->toArray(),
+            $this->defaults->toArray(),
+            $this->required->toArray()
+        );
     }
 }

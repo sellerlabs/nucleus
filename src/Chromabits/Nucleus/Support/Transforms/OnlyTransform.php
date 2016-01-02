@@ -11,10 +11,10 @@
 
 namespace Chromabits\Nucleus\Support\Transforms;
 
+use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
-use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Support\Interfaces\TransformInterface;
 
 /**
@@ -53,6 +53,6 @@ class OnlyTransform extends BaseObject implements TransformInterface
      */
     public function run(array $input)
     {
-        return Arr::only($input, $this->allowed);
+        return ArrayMap::of($input)->only($this->allowed)->toArray();
     }
 }

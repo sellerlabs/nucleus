@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Data\Factories\ComplexFactory;
 use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
@@ -271,17 +272,17 @@ class Std extends StaticObject
         array $input,
         array $allowed = null
     ) {
+        $filtered = ArrayMap::of($input);
+
         if ($allowed !== null) {
-            $filtered = Arr::only($input, $allowed);
-        } else {
-            $filtered = $input;
+            $filtered = $filtered->only($allowed);
         }
 
-        foreach ($filtered as $key => $value) {
+        $filtered->each(function ($value, $key) use (&$object) {
             $setterName = 'set' . Str::studly($key);
 
             $object->$setterName($value);
-        }
+        });
     }
 
     /**

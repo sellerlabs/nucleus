@@ -9,6 +9,7 @@ use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
 use Chromabits\Nucleus\Data\Traits\ArrayBackingTrait;
+use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
 
@@ -26,6 +27,11 @@ class ArrayMap extends KeyedCollection implements
     ApplicativeInterface
 {
     use ArrayBackingTrait;
+
+    /**
+     * @var array
+     */
+    protected $value;
 
     /**
      * Construct an instance of a ArrayMap.

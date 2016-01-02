@@ -86,10 +86,11 @@ class Arguments extends BaseObject
             if (!$this->constraints[$key]->check($arg, $args)) {
                 throw new InvalidArgumentException(vsprintf(
                     'Argument %s does not meet its constraints.'
-                    . ' Failed constraint: %s',
+                    . "\nFailed constraint: %s\nValue provided:%s",
                     [
                         $key,
                         $this->constraints[$key]->toString(),
+                        print_r($arg, true)
                     ]
                 ));
             }

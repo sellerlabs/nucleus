@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Data\ArrayList;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use ReflectionClass;
 
@@ -31,7 +32,7 @@ abstract class Enum extends BaseObject
      */
     public static function getKeys()
     {
-        return Arr::keys(static::getValues());
+        return ArrayList::of(static::getValues())->toArray();
     }
 
     /**

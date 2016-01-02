@@ -2,14 +2,12 @@
 
 /**
  * Copyright 2015, Eduardo Trujillo
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
  * This file is part of the Nucleus package
  */
 
-use Chromabits\Nucleus\Support\Arr;
+use Chromabits\Nucleus\Data\ArrayList;
 use Chromabits\Nucleus\Support\Std;
 
 if (!function_exists('mb_lcfirst')) {
@@ -104,7 +102,7 @@ if (!function_exists('mb_ucwords')) {
             if ($upper) {
                 $char = mb_convert_case($char, MB_CASE_UPPER, $encoding);
                 $upper = false;
-            } elseif (Arr::in($delimitersArray, $char)) {
+            } elseif (ArrayList::of($delimitersArray)->contains($char)) {
                 $upper = true;
             }
 
@@ -120,6 +118,7 @@ if (!function_exists('mb_str_split')) {
      * @param string $string
      * @param int $splitLength
      * @param string $encoding
+     *
      * @return array
      * @throws Exception
      */

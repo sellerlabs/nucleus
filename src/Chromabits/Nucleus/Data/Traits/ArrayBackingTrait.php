@@ -5,6 +5,7 @@ namespace Chromabits\Nucleus\Data\Traits;
 use Chromabits\Nucleus\Control\Interfaces\ApplicativeInterface;
 use Chromabits\Nucleus\Control\Interfaces\ApplyInterface;
 use Chromabits\Nucleus\Control\Maybe;
+use Chromabits\Nucleus\Data\ArrayList;
 use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
 use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
@@ -92,10 +93,14 @@ trait ArrayBackingTrait
     /**
      * @param mixed $input
      *
-     * @return ApplicativeInterface
+     * @return static
      */
     public static function of($input)
     {
+        if ($input instanceof static) {
+            return $input;
+        }
+
         return new static($input);
     }
 
@@ -342,5 +347,85 @@ trait ArrayBackingTrait
         unset($cloned[$key]);
 
         return new static($cloned);
+    }
+
+    /**
+     * Get a copy of the provided array excluding the specified values.
+     *
+     * @param array $excluded
+     *
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    public function exceptValues($excluded = [])
+    {
+        Arguments::define(Boa::arrOf(Boa::either(
+            Boa::string(),
+            Boa::integer()
+        )))->check($excluded);
+
+        return $this->filter(function ($value, $_) use ($excluded) {
+            return !in_array($value, $excluded);
+        });
+    }
+
+    /**
+     * @param null $sortFlags
+     *
+     * @return static
+     */
+    public function unique($sortFlags = null)
+    {
+        return new static(array_unique($this->value, $sortFlags));
+    }
+
+    /**
+     * @return array
+     */
+    public function keys()
+    {
+        return new ArrayList(array_keys($this->value));
+    }
+
+    /**
+     * @param string $glue
+     *
+     * @return string
+     */
+    public function join($glue = '')
+    {
+        return implode($glue, $this->value);
+    }
+
+    /**
+     * Get an array with only the specified keys of the provided array.
+     *
+     * @param array|null $included
+     *
+     * @return static
+     */
+    public function only($included = [])
+    {
+        Arguments::define(
+            Boa::either(
+                Boa::arrOf(Boa::either(
+                    Boa::string(),
+                    Boa::integer()
+                )),
+                Boa::null()
+            )
+        )->check($included);
+
+        if (is_null($included)) {
+            return $this;
+        }
+
+        if (count($included) == 0) {
+            return static::zero();
+        }
+
+        return new static(
+            array_intersect_key($this->value, array_flip($included))
+        );
     }
 }

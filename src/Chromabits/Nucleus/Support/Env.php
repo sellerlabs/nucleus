@@ -2,6 +2,8 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Control\Maybe;
+use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Foundation\StaticObject;
 
@@ -61,10 +63,13 @@ class Env extends StaticObject
      */
     public static function getRaw($key, $default = null)
     {
-        if (Arr::has($_ENV, $key)) {
-            return $_ENV[$key];
-        } elseif (Arr::has($_SERVER, $key)) {
-            return $_SERVER[$key];
+        $env = ArrayMap::of($_ENV);
+        $server = ArrayMap::of($_SERVER);
+
+        if ($env->member($key)) {
+            return Maybe::fromJust($env->lookup($key));
+        } elseif ($server->member($key)) {
+            return Maybe::fromJust($server->lookup($key));
         }
 
         $value = getenv($key);
