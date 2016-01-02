@@ -39,7 +39,7 @@ class OnlyTransform extends BaseObject implements TransformInterface
     {
         parent::__construct();
 
-        Arguments::contain(Boa::arrOf(Boa::string()))->check($allowed);
+        Arguments::define(Boa::arrOf(Boa::string()))->check($allowed);
 
         $this->allowed = $allowed;
     }

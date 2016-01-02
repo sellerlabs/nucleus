@@ -53,7 +53,7 @@ class Flick extends BaseObject
     {
         parent::__construct();
 
-        Arguments::contain(
+        Arguments::define(
             Boa::lst(),
             Boa::either(Boa::string(), Boa::integer())
         )->check($functions, $default);
@@ -85,7 +85,7 @@ class Flick extends BaseObject
      */
     public function go($input)
     {
-        Arguments::contain(Boa::readMap())->contain($input);
+        Arguments::define(Boa::readMap())->define($input);
 
         $map = new ReadMap($this->functions);
 

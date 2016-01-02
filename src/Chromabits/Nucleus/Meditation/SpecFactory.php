@@ -77,13 +77,13 @@ class SpecFactory extends BaseObject
      */
     public function let($field, $constraint)
     {
-        Arguments::contain(
+        Arguments::define(
             Boa::string(),
             Boa::either(
                 Boa::instance(AbstractConstraint::class),
                 Boa::arrOf(Boa::instance(AbstractConstraint::class))
             )
-        )->contain($field, $constraint);
+        )->check($field, $constraint);
 
         if (!Arr::has($this->constraints, $field)) {
             $this->constraints[$field] = [];

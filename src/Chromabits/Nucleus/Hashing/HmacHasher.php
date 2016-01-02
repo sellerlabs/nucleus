@@ -13,6 +13,7 @@ namespace Chromabits\Nucleus\Hashing;
 
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Arguments;
+use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 
@@ -63,10 +64,8 @@ class HmacHasher extends BaseObject
      */
     public function hash($content, $privateKey)
     {
-        Arguments::contain(
-            PrimitiveTypeConstraint::forType(ScalarTypes::SCALAR_STRING),
-            PrimitiveTypeConstraint::forType(ScalarTypes::SCALAR_STRING)
-        )->check($content, $privateKey);
+        Arguments::define(Boa::string(), Boa::string())
+            ->check($content, $privateKey);
 
         return hash_hmac($this->algorithm, $content, $privateKey);
     }

@@ -68,7 +68,7 @@ class ReadMap extends AbstractAbstractor
      */
     public function get($key)
     {
-        Arguments::contain(Boa::either(Boa::string(), Boa::integer()))
+        Arguments::define(Boa::either(Boa::string(), Boa::integer()))
             ->check($key);
 
         if ($this->isArray) {
@@ -96,7 +96,7 @@ class ReadMap extends AbstractAbstractor
      */
     public function has($key)
     {
-        Arguments::contain(Boa::either(Boa::string(), Boa::integer()))
+        Arguments::define(Boa::either(Boa::string(), Boa::integer()))
             ->check($key);
 
         if ($this->isArray) {
