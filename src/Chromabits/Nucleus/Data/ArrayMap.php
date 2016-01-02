@@ -9,7 +9,7 @@ use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
 use Chromabits\Nucleus\Data\Traits\ArrayBackingTrait;
-use Chromabits\Nucleus\Meditation\Arguments;
+
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
 

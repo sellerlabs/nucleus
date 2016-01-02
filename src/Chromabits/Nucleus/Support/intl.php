@@ -102,7 +102,7 @@ if (!function_exists('mb_ucwords')) {
             if ($upper) {
                 $char = mb_convert_case($char, MB_CASE_UPPER, $encoding);
                 $upper = false;
-            } elseif (ArrayList::of($delimitersArray)->contains($char)) {
+            } elseif (ArrayList::of($delimitersArray)->includes($char)) {
                 $upper = true;
             }
 

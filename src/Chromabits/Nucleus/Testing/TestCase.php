@@ -13,6 +13,7 @@ namespace Chromabits\Nucleus\Testing;
 
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
+use PHPUnit_Framework_TestCase as BaseTestCase;
 
 /**
  * Class TestCase.
@@ -22,7 +23,7 @@ use Chromabits\Nucleus\Meditation\Primitives\CompoundTypes;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Testing
  */
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends BaseTestCase
 {
     /**
      * Asserts that a variable is of a given type.

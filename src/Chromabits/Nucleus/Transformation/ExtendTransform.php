@@ -9,9 +9,9 @@
  * This file is part of the Nucleus package
  */
 
-namespace Chromabits\Nucleus\Support\Transforms;
+namespace Chromabits\Nucleus\Transformation;
 
-use Chromabits\Nucleus\Support\Interfaces\TransformInterface;
+use Chromabits\Nucleus\Transformation\Interfaces\TransformInterface;
 
 /**
  * Class ExtendTransform.

@@ -69,7 +69,7 @@ abstract class Maybe extends Monad implements FunctorInterface, MonoidInterface
     }
 
     /**
-     * >>==
+     * >>=
      *
      * @param callable|Closure $closure
      *

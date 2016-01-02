@@ -1,10 +1,16 @@
 <?php
 
-namespace tests\Chromabits\Nucleus\Data;
+namespace Tests\Chromabits\Nucleus\Data;
 
 use Chromabits\Nucleus\Data\ArrayList;
 use Chromabits\Nucleus\Testing\TestCase;
 
+/**
+ * Class ArrayListTest.
+ *
+ * @author Eduardo Trujillo <ed@chromabits.com>
+ * @package Tests\Chromabits\Nucleus\Data
+ */
 class ArrayListTest extends TestCase
 {
     public function testConstructor()

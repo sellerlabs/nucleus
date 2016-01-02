@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Meditation\Exceptions;
 
+use Chromabits\Nucleus\Data\ArrayList;
 use Chromabits\Nucleus\Meditation\TypeHound;
 
 /**
@@ -33,9 +34,11 @@ class MismatchedArgumentTypesException extends InvalidArgumentException
             vsprintf(
                 'Argument type mismatch: %s for function %s',
                 [
-                    implode(', ', array_map(function ($item) {
-                        return TypeHound::fetch($item);
-                    }, $arguments)),
+                    ArrayList::of($arguments)
+                        ->map(function ($item) {
+                            return TypeHound::fetch($item);
+                        })
+                        ->join(', '),
                     $functionName,
                 ]
             )

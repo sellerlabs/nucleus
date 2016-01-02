@@ -106,7 +106,7 @@ abstract class Iterable extends BaseObject implements
     /**
      * @param callable $callable
      *
-     * @return Iterable
+     * @return static|Iterable
      */
     public function map(callable $callable)
     {
@@ -262,6 +262,8 @@ abstract class Iterable extends BaseObject implements
 
                     return false;
                 }
+
+                return true;
             }
         );
 

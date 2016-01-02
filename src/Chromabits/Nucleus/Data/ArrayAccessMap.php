@@ -3,6 +3,7 @@
 namespace Chromabits\Nucleus\Data;
 
 use ArrayAccess;
+use Chromabits\Nucleus\Control\Maybe;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Foundation\BaseObject;
 
@@ -38,11 +39,11 @@ class ArrayAccessMap extends BaseObject implements MapInterface
      *
      * @param string $key
      *
-     * @return static
+     * @return Maybe
      */
     public function lookup($key)
     {
-        return $this->value->offsetGet($key);
+        return Maybe::just($this->value->offsetGet($key));
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Chromabits\Nucleus\Data\Traits;
 
-use Chromabits\Nucleus\Control\Interfaces\ApplicativeInterface;
 use Chromabits\Nucleus\Control\Interfaces\ApplyInterface;
 use Chromabits\Nucleus\Control\Maybe;
 use Chromabits\Nucleus\Data\ArrayList;
@@ -16,21 +15,32 @@ use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
-
 use Chromabits\Nucleus\Support\Std;
 
+/**
+ * Trait ArrayBackingTrait.
+ *
+ * @method reverse()
+ *
+ * @author Eduardo Trujillo <ed@chromabits.com>
+ * @package Chromabits\Nucleus\Data\Traits
+ */
 trait ArrayBackingTrait
 {
     use SameTypeTrait;
 
     /**
-     * Get an empty monoid.
+     * @param mixed $input
      *
-     * @return MonoidInterface
+     * @return static
      */
-    public static function zero()
+    public static function of($input)
     {
-        return new static([]);
+        if ($input instanceof static) {
+            return $input;
+        }
+
+        return new static($input);
     }
 
     /**
@@ -38,7 +48,7 @@ trait ArrayBackingTrait
      *
      * @param SemigroupInterface $other
      *
-     * @return SemigroupInterface
+     * @return static|SemigroupInterface
      * @throws CoreException
      * @throws MismatchedArgumentTypesException
      */
@@ -46,10 +56,12 @@ trait ArrayBackingTrait
     {
         $this->assertSameType($other);
 
-        return new static(Std::concat(
-            $this->value,
-            $other->value
-        ));
+        return new static(
+            Std::concat(
+                $this->value,
+                $other->value
+            )
+        );
     }
 
     /**
@@ -91,38 +103,6 @@ trait ArrayBackingTrait
     }
 
     /**
-     * @param mixed $input
-     *
-     * @return static
-     */
-    public static function of($input)
-    {
-        if ($input instanceof static) {
-            return $input;
-        }
-
-        return new static($input);
-    }
-
-    /**
-     * @param callable $callable
-     *
-     * @return Iterable
-     */
-    public function filter(callable $callable)
-    {
-        $result = [];
-
-        foreach ($this->value as $key => $value) {
-            if ($callable($value, $key, $this)) {
-                $result[] = $value;
-            }
-        }
-
-        return new static($result);
-    }
-
-    /**
      * @param int $begin
      * @param int $end
      *
@@ -132,13 +112,13 @@ trait ArrayBackingTrait
      */
     public function slice($begin, $end = null)
     {
-        Arguments::define (
-            Boa::integer (),
-            Boa::either (Boa::null (), Boa::integer ())
-        )->check ($begin, $end);
+        Arguments::define(
+            Boa::integer(),
+            Boa::either(Boa::null(), Boa::integer())
+        )->check($begin, $end);
 
         if ($end === null) {
-            return new static(array_slice ($this->value, $begin));
+            return new static(array_slice($this->value, $begin));
         }
 
         $actualBegin = $begin;
@@ -159,7 +139,7 @@ trait ArrayBackingTrait
         }
 
         return new static(
-            array_slice (
+            array_slice(
                 $this->value,
                 $actualBegin,
                 $diff
@@ -192,23 +172,23 @@ trait ArrayBackingTrait
      */
     public function ap(ApplyInterface $other)
     {
-        $this->assertSameType ($other);
+        $this->assertSameType($other);
 
         $result = [];
 
-        Std::poll (
+        Std::poll(
             function ($ii) use (&$result, &$other) {
-                Std::poll (
+                Std::poll(
                     function ($jj) use (&$result, &$other, $ii) {
-                        $result[] = Std::call (
+                        $result[] = Std::call(
                             $this->value[$ii],
                             $other->value[$jj]
                         );
                     },
-                    count ($other->value)
+                    count($other->value)
                 );
             },
-            count ($this->value)
+            count($this->value)
         );
 
         return $result;
@@ -224,11 +204,11 @@ trait ArrayBackingTrait
      */
     public function lookup($key)
     {
-        Arguments::define ($this->getKeyType ())->check ($key);
+        Arguments::define($this->getKeyType())->check($key);
 
-        if (!$this->member ($key)) {
+        if (!$this->member($key)) {
             throw new CoreException(
-                vsprintf (
+                vsprintf(
                     'The key "%s" is not a member of this Map.',
                     [$key]
                 )
@@ -247,7 +227,7 @@ trait ArrayBackingTrait
      */
     public function member($key)
     {
-        return array_key_exists ($key, $this->value);
+        return array_key_exists($key, $this->value);
     }
 
     /**
@@ -281,13 +261,13 @@ trait ArrayBackingTrait
      */
     public function sort(callable $comparator = null)
     {
-        $copy = array_merge ($this->value);
+        $copy = array_merge($this->value);
 
         if ($comparator === null) {
-            return new static(sort ($copy));
+            return new static(sort($copy));
         }
 
-        return new static(usort ($copy, $comparator));
+        return new static(usort($copy, $comparator));
     }
 
     /**
@@ -320,10 +300,10 @@ trait ArrayBackingTrait
      */
     public function insert($key, $value)
     {
-        Arguments::define ($this->getKeyType (), $this->getValueType ())
-            ->check ($key, $value);
+        Arguments::define($this->getKeyType(), $this->getValueType())
+            ->check($key, $value);
 
-        $cloned = array_merge ($this->value);
+        $cloned = array_merge($this->value);
 
         $cloned[$key] = $value;
 
@@ -340,9 +320,9 @@ trait ArrayBackingTrait
      */
     public function delete($key)
     {
-        Arguments::define ($this->getKeyType ())->check ($key);
+        Arguments::define($this->getKeyType())->check($key);
 
-        $cloned = array_merge ($this->value);
+        $cloned = array_merge($this->value);
 
         unset($cloned[$key]);
 
@@ -354,19 +334,43 @@ trait ArrayBackingTrait
      *
      * @param array $excluded
      *
-     * @return array
+     * @return static|Iterable
      * @throws InvalidArgumentException
      */
     public function exceptValues($excluded = [])
     {
-        Arguments::define(Boa::arrOf(Boa::either(
-            Boa::string(),
-            Boa::integer()
-        )))->check($excluded);
+        Arguments::define(
+            Boa::arrOf(
+                Boa::either(
+                    Boa::string(),
+                    Boa::integer()
+                )
+            )
+        )->check($excluded);
 
-        return $this->filter(function ($value, $_) use ($excluded) {
-            return !in_array($value, $excluded);
-        });
+        return $this->filter(
+            function ($value, $_) use ($excluded) {
+                return !in_array($value, $excluded);
+            }
+        );
+    }
+
+    /**
+     * @param callable $callable
+     *
+     * @return Iterable
+     */
+    public function filter(callable $callable)
+    {
+        $result = [];
+
+        foreach ($this->value as $key => $value) {
+            if ($callable($value, $key, $this)) {
+                $result[] = $value;
+            }
+        }
+
+        return new static($result);
     }
 
     /**
@@ -408,10 +412,12 @@ trait ArrayBackingTrait
     {
         Arguments::define(
             Boa::either(
-                Boa::arrOf(Boa::either(
-                    Boa::string(),
-                    Boa::integer()
-                )),
+                Boa::arrOf(
+                    Boa::either(
+                        Boa::string(),
+                        Boa::integer()
+                    )
+                ),
                 Boa::null()
             )
         )->check($included);
@@ -427,5 +433,15 @@ trait ArrayBackingTrait
         return new static(
             array_intersect_key($this->value, array_flip($included))
         );
+    }
+
+    /**
+     * Get an empty monoid.
+     *
+     * @return MonoidInterface
+     */
+    public static function zero()
+    {
+        return new static([]);
     }
 }

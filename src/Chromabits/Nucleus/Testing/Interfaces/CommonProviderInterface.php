@@ -17,7 +17,7 @@ interface CommonProviderInterface
      * This method should return a map from class or interface names to a
      * Closure defining a mock or to an array of CallExpectations:
      *
-     * Map<String, Either<Array<CallExpactation>, (MockInterface -> void)>>
+     * Map<String, Either<Array<CallExpectation>, (MockInterface -> void)>>
      *
      * @return mixed
      */

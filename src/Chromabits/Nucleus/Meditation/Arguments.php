@@ -45,7 +45,7 @@ class Arguments extends BaseObject
     /**
      * Construct an instance of an Argument.
      *
-     * @param AbstractConstraint ...$constraints
+     * @param AbstractConstraint[] $constraints
      *
      * @deprecated See Arguments::define
      * @return static
@@ -58,7 +58,7 @@ class Arguments extends BaseObject
     /**
      * Construct an instance of an Argument.
      *
-     * @param AbstractConstraint ...$constraints
+     * @param AbstractConstraint[] $constraints
      *
      * @return static
      */

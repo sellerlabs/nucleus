@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Data\ArrayList;
 use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Data\Factories\ComplexFactory;
 use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
@@ -94,7 +95,7 @@ class Std extends StaticObject
             return $one . $other;
         }
 
-        return array_merge($one, $other);
+        return ArrayMap::of($one)->append(ArrayMap::of($other))->toArray();
     }
 
     /**
@@ -416,22 +417,6 @@ class Std extends StaticObject
     }
 
     /**
-     * Return the input array but with its items reversed.
-     *
-     * @param array $list
-     *
-     * @return array
-     */
-    public static function reverse($list)
-    {
-        Arguments::define(Boa::arr())->check($list);
-
-        // TODO: Support Lists, not just arrays.
-
-        return array_reverse($list);
-    }
-
-    /**
      * Placeholder.
      *
      * @param mixed $value
@@ -523,7 +508,7 @@ class Std extends StaticObject
         Arguments::define(Boa::func(), Boa::arr())->check($function, $args);
 
         // Counts required parameters.
-        $required = function () use ($function, $args) {
+        $required = function () use ($function) {
             return (new ReflectionFunction($function))
                 ->getNumberOfRequiredParameters();
         };
@@ -542,7 +527,9 @@ class Std extends StaticObject
             $required,
             $isFulfilled
         ) {
-            $newArgs = array_merge($args, $funcArgs);
+            $newArgs = ArrayList::of($args)
+                ->append(ArrayList::of($funcArgs))
+                ->toArray();
 
             if ($isFulfilled($function, $newArgs)) {
                 return static::apply($function, $newArgs);

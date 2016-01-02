@@ -388,7 +388,7 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     /**
      * Concatenate with other strings.
      *
-     * @param string ...$others
+     * @param string[] $others
      *
      * @return Rope
      */

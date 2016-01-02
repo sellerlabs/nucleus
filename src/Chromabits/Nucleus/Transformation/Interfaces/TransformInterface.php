@@ -9,7 +9,7 @@
  * This file is part of the Nucleus package
  */
 
-namespace Chromabits\Nucleus\Support\Interfaces;
+namespace Chromabits\Nucleus\Transformation\Interfaces;
 
 /**
  * Interface TransformInterface.

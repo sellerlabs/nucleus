@@ -57,7 +57,7 @@ class ArrayList extends IndexedCollection implements ListInterface, MapInterface
     }
 
     /**
-     * @return Iterable
+     * @return static|Iterable
      */
     public function reverse()
     {

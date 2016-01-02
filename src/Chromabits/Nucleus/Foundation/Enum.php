@@ -9,10 +9,9 @@
  * This file is part of the Nucleus package
  */
 
-namespace Chromabits\Nucleus\Support;
+namespace Chromabits\Nucleus\Foundation;
 
 use Chromabits\Nucleus\Data\ArrayList;
-use Chromabits\Nucleus\Foundation\BaseObject;
 use ReflectionClass;
 
 /**

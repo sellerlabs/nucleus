@@ -48,7 +48,7 @@ class Node extends BaseObject implements
     protected $selfClosing = false;
 
     /**
-     * @var RenderableInterface|Interfaces\RenderableInterface[]|string|string[]
+     * @var RenderableInterface|RenderableInterface[]|string|string[]
      */
     protected $content;
 

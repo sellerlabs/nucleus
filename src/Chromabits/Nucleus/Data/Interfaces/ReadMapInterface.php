@@ -1,6 +1,7 @@
 <?php
 
 namespace Chromabits\Nucleus\Data\Interfaces;
+use Chromabits\Nucleus\Control\Maybe;
 
 /**
  * Interface ReadMapInterface
@@ -17,7 +18,7 @@ interface ReadMapInterface
      *
      * @param string $key
      *
-     * @return static
+     * @return Maybe
      */
     public function lookup($key);
 

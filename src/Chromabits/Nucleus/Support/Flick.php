@@ -12,12 +12,13 @@
 namespace Chromabits\Nucleus\Support;
 
 use ArrayAccess;
+use Chromabits\Nucleus\Control\Maybe;
+use Chromabits\Nucleus\Data\Factories\ComplexFactory;
 use Chromabits\Nucleus\Exceptions\UnknownKeyException;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
-use Chromabits\Nucleus\Support\Abstractors\ReadMap;
 use Traversable;
 
 /**
@@ -87,16 +88,16 @@ class Flick extends BaseObject
     {
         Arguments::define(Boa::readMap())->define($input);
 
-        $map = new ReadMap($this->functions);
+        $map = ComplexFactory::toReadMap($this->functions);
 
-        if ($map->has($input)) {
+        if ($map->member($input)) {
             /** @var callable $function */
-            $function = $map->get($input);
+            $function = Maybe::fromJust($map->lookup($input));
 
             return $function();
-        } elseif ($map->has($this->default)) {
+        } elseif ($map->member($this->default)) {
             /** @var callable $function */
-            $function = $map->get($this->default);
+            $function = Maybe::fromJust($map->lookup($this->default));
 
             return $function();
         }
