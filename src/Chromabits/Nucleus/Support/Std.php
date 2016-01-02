@@ -570,7 +570,7 @@ class Std extends StaticObject
      * This covers one of the most frequent case for using for-loops.
      *
      * @param callable $function
-     * @param integer $times
+     * @param int $times
      */
     public static function poll(callable $function, $times)
     {
@@ -587,7 +587,7 @@ class Std extends StaticObject
      * throws an exception.
      *
      * @param callable $function
-     * @param integer $attempts
+     * @param int $attempts
      *
      * @return mixed|null
      * @throws InvalidArgumentException

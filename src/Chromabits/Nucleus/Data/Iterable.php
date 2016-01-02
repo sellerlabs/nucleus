@@ -162,13 +162,13 @@ abstract class Iterable extends BaseObject implements
     /**
      * @param callable $sideEffect
      *
-     * @return integer
+     * @return int
      */
     abstract public function each(callable $sideEffect);
 
     /**
-     * @param integer $begin
-     * @param integer|null $end
+     * @param int $begin
+     * @param int|null $end
      *
      * @return Iterable
      */
@@ -191,7 +191,7 @@ abstract class Iterable extends BaseObject implements
     }
 
     /**
-     * @param integer $amount
+     * @param int $amount
      *
      * @return Iterable
      */
@@ -206,7 +206,7 @@ abstract class Iterable extends BaseObject implements
     }
 
     /**
-     * @param integer $amount
+     * @param int $amount
      *
      * @return Iterable
      */
@@ -236,7 +236,7 @@ abstract class Iterable extends BaseObject implements
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function count()
     {

@@ -118,8 +118,8 @@ trait ArrayBackingTrait
     }
 
     /**
-     * @param integer $begin
-     * @param integer $end
+     * @param int $begin
+     * @param int $end
      *
      * @return Iterable
      * @throws CoreException
@@ -286,7 +286,7 @@ trait ArrayBackingTrait
     /**
      * @param callable $sideEffect
      *
-     * @return integer
+     * @return int
      */
     public function each(callable $sideEffect)
     {

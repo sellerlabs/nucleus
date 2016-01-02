@@ -97,7 +97,7 @@ class Env extends StaticObject
      * Set an environment variable with the provided value.
      *
      * @param string $key
-     * @param string|boolean|integer|float $value
+     * @param string|bool|int|float $value
      */
     public static function set($key, $value)
     {
