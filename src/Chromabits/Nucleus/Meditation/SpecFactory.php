@@ -129,7 +129,7 @@ class SpecFactory extends BaseObject
      */
     public function defaultValue($field, $value)
     {
-        Arguments::contain(Boa::string(), Boa::any())->check($field, $value);
+        Arguments::define(Boa::string(), Boa::any())->check($field, $value);
 
         $this->defaults[$field] = $value;
 
@@ -146,7 +146,7 @@ class SpecFactory extends BaseObject
      */
     public function required($fields)
     {
-        Arguments::contain(
+        Arguments::define(
             Boa::either(Boa::string(), Boa::arrOf(Boa::string()))
         )->check($fields);
 

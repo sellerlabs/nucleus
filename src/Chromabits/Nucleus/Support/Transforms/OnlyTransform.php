@@ -14,8 +14,8 @@ namespace Chromabits\Nucleus\Support\Transforms;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
+use Chromabits\Nucleus\Support\Arr;
 use Chromabits\Nucleus\Support\Interfaces\TransformInterface;
-use Illuminate\Support\Arr;
 
 /**
  * Class OnlyTransform.

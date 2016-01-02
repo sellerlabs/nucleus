@@ -12,8 +12,6 @@
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
 use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
-use Iterator;
-use Traversable;
 
 /**
  * Class TraversableConstraint.

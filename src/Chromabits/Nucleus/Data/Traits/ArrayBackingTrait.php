@@ -15,7 +15,7 @@ use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
-use Chromabits\Nucleus\Support\Arr;
+
 use Chromabits\Nucleus\Support\Std;
 
 trait ArrayBackingTrait
@@ -249,6 +249,7 @@ trait ArrayBackingTrait
      * @param array|Iterable $searchKeyPath
      *
      * @return Maybe
+     * @throws MindTheGapException
      */
     public function lookupIn($searchKeyPath)
     {
@@ -260,6 +261,7 @@ trait ArrayBackingTrait
      * @param array|Iterable $searchKeyPath
      *
      * @return mixed
+     * @throws MindTheGapException
      */
     public function memberIn($searchKeyPath)
     {

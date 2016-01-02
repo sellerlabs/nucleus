@@ -14,8 +14,6 @@ namespace Chromabits\Nucleus\Hashing;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
-use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
-use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 
 /**
  * Class HmacHasher.

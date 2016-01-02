@@ -70,7 +70,7 @@ class Env extends StaticObject
         $value = getenv($key);
 
         if ($value === false) {
-            return Std::value($default);
+            return Std::thunk($default);
         }
 
         return $value;
