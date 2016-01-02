@@ -24,6 +24,19 @@ class MismatchedDataTypesException extends CoreException
     protected $received;
 
     /**
+     * Construct an instance of a MismatchedDataTypesException.
+     *
+     * @param string $expected
+     * @param mixed $received
+     */
+    public function __construct($expected, $received)
+    {
+        parent::__construct('', null, null);
+
+        $this->setExpectedAndReceived($expected, $received);
+    }
+
+    /**
      * Static constructor.
      *
      * @param string|object $expected
@@ -53,5 +66,21 @@ class MismatchedDataTypesException extends CoreException
             'An instance of a %s was expected but got %s',
             [$this->expected, $this->received]
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpected()
+    {
+        return $this->expected;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReceived()
+    {
+        return $this->received;
     }
 }

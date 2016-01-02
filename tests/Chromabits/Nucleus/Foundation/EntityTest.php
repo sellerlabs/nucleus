@@ -42,6 +42,7 @@ class EntityTest extends TestCase
 
         $instance->shouldDeferMissing();
 
+        /** @var Entity $instance */
         $instance->fill([]);
     }
 }

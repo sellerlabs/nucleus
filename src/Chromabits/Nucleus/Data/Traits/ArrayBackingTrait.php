@@ -56,12 +56,7 @@ trait ArrayBackingTrait
     {
         $this->assertSameType($other);
 
-        return new static(
-            Std::concat(
-                $this->value,
-                $other->value
-            )
-        );
+        return new static(array_merge($this->value, $other->value));
     }
 
     /**
@@ -438,7 +433,7 @@ trait ArrayBackingTrait
     /**
      * Get an empty monoid.
      *
-     * @return MonoidInterface
+     * @return static|MonoidInterface
      */
     public static function zero()
     {

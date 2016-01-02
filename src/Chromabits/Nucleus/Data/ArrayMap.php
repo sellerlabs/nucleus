@@ -73,7 +73,7 @@ class ArrayMap extends KeyedCollection implements
     {
         $copy = array_merge ($this->value);
 
-        return $copy[$key];
+        return Maybe::just($copy[$key]);
     }
 
     /**

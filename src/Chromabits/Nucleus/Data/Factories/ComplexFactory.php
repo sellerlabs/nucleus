@@ -15,7 +15,7 @@ use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Data\Interfaces\ReadMapInterface;
 use Chromabits\Nucleus\Data\TraversableLeftFoldable;
 use Chromabits\Nucleus\Exceptions\CoreException;
-use Chromabits\Nucleus\Foundation\BaseObject;
+use Chromabits\Nucleus\Foundation\StaticObject;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
@@ -27,7 +27,7 @@ use Traversable;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Data\Factories
  */
-class ComplexFactory extends BaseObject
+class ComplexFactory extends StaticObject
 {
     /**
      * Wrap the provided value inside a LeftFoldable.

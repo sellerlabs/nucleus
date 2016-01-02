@@ -43,6 +43,10 @@ class ArrayAccessMap extends BaseObject implements MapInterface
      */
     public function lookup($key)
     {
+        if (!$this->member($key)) {
+            return Maybe::nothing();
+        }
+
         return Maybe::just($this->value->offsetGet($key));
     }
 
@@ -81,8 +85,6 @@ class ArrayAccessMap extends BaseObject implements MapInterface
      * @param string $key
      *
      * @return static
-     * @internal param mixed $value
-     *
      */
     public function delete($key)
     {

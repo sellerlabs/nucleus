@@ -28,6 +28,6 @@ class ExampleA extends ExampleBase implements ExampleAInterface
      */
     public function sayHello()
     {
-        return rope('hello there');
+        return Rope::of('hello there');
     }
 }
