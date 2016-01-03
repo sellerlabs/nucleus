@@ -10,7 +10,8 @@
   ],
   "require-dev": {
     "phpunit/phpunit": "*",
-    "mockery/mockery": "0.9.*"
+    "mockery/mockery": "0.9.*",
+    "phpbench/phpbench": "@dev"
   },
   "autoload": {
     "psr-4": {
@@ -22,7 +23,9 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\Chromabits\\Nucleus\\": "tests/Chromabits/Nucleus"
+      "Tests\\Chromabits\\Nucleus\\": "tests/Chromabits/Nucleus",
+      "Benchmarks\\Chromabits\\Nucleus\\": "benchmarks/Chromabits/Nucleus",
+      "Benchmarks\\Chromabits\\Sanity\\": "benchmarks/Chromabits/Sanity"
     }
   },
   "require": {
