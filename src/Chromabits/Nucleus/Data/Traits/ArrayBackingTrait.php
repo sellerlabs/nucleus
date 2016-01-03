@@ -68,7 +68,7 @@ trait ArrayBackingTrait
      */
     public function fmap(callable $closure)
     {
-        return Std::map($closure, $this->value);
+        return static::of(Std::map($closure, $this->value));
     }
 
     /**
@@ -92,9 +92,41 @@ trait ArrayBackingTrait
      *
      * @return mixed
      */
+    public function foldrWithKeys(callable $closure, $initial)
+    {
+        return $this->reverse()->foldlWithKeys($closure, $initial);
+    }
+
+    /**
+     * Combine all the elements in the traversable using a combining operation.
+     *
+     * @param callable $closure
+     * @param mixed $initial
+     *
+     * @return mixed
+     */
     public function foldl(callable $closure, $initial)
     {
         return array_reduce($this->value, $closure, $initial);
+    }
+
+    /**
+     * Combine all the elements in the traversable using a combining operation.
+     *
+     * @param callable $callback
+     * @param mixed $initial
+     *
+     * @return mixed
+     */
+    public function foldlWithKeys(callable $callback, $initial)
+    {
+        $accumulator = $initial;
+
+        foreach ($this->value as $key => $value) {
+            $accumulator = $callback($accumulator, $value, $key, $this);
+        }
+
+        return $accumulator;
     }
 
     /**
@@ -113,7 +145,7 @@ trait ArrayBackingTrait
         )->check($begin, $end);
 
         if ($end === null) {
-            return new static(array_slice($this->value, $begin));
+            return static::of(array_slice($this->value, $begin));
         }
 
         $actualBegin = $begin;
@@ -133,7 +165,7 @@ trait ArrayBackingTrait
             throw new CoreException('Invalid range.');
         }
 
-        return new static(
+        return static::of(
             array_slice(
                 $this->value,
                 $actualBegin,
@@ -157,7 +189,7 @@ trait ArrayBackingTrait
             }
         }
 
-        return new static($taken);
+        return static::of($taken);
     }
 
     /**
@@ -194,7 +226,7 @@ trait ArrayBackingTrait
      *
      * @param string $key
      *
-     * @return static
+     * @return Maybe
      * @throws CoreException
      */
     public function lookup($key)
@@ -202,15 +234,10 @@ trait ArrayBackingTrait
         Arguments::define($this->getKeyType())->check($key);
 
         if (!$this->member($key)) {
-            throw new CoreException(
-                vsprintf(
-                    'The key "%s" is not a member of this Map.',
-                    [$key]
-                )
-            );
+            return Maybe::nothing();
         }
 
-        return $this->value[$key];
+        return Maybe::just($this->value[$key]);
     }
 
     /**
@@ -229,24 +256,63 @@ trait ArrayBackingTrait
      * @param array|Iterable $searchKeyPath
      *
      * @return Maybe
-     * @throws MindTheGapException
      */
     public function lookupIn($searchKeyPath)
     {
-        // TODO: Implement lookupIn() method.
-        throw new MindTheGapException();
+        $path = ArrayList::of($searchKeyPath);
+
+        if ($path->count() === 0) {
+            return Maybe::nothing();
+        }
+
+        if ($path->count() === 1) {
+            return $this->lookup($path->head());
+        }
+
+        $value = $this->lookup($path->head());
+
+        if ($value->isNothing()) {
+            return $value;
+        }
+
+        $innerValue = Maybe::fromJust($value);
+
+        if ($innerValue instanceof Iterable) {
+            return $innerValue->lookupIn($path->tail());
+        }
+
+        return Maybe::nothing();
     }
 
     /**
      * @param array|Iterable $searchKeyPath
      *
-     * @return mixed
+     * @return bool
      * @throws MindTheGapException
      */
     public function memberIn($searchKeyPath)
     {
-        // TODO: Implement memberIn() method.
-        throw new MindTheGapException();
+        $path = ArrayList::of($searchKeyPath);
+
+        if ($path->count() === 0) {
+            return false;
+        }
+
+        if ($path->count() === 1) {
+            return $this->member($path->head());
+        }
+
+        if ($this->member($path->head()) === false) {
+            return false;
+        }
+
+        $innerValue = Maybe::fromJust($this->lookup($path->head()));
+
+        if ($innerValue instanceof Iterable) {
+            return $innerValue->memberIn($path->tail());
+        }
+
+        return false;
     }
 
     /**
@@ -259,10 +325,10 @@ trait ArrayBackingTrait
         $copy = array_merge($this->value);
 
         if ($comparator === null) {
-            return new static(sort($copy));
+            return static::of(sort($copy));
         }
 
-        return new static(usort($copy, $comparator));
+        return static::of(usort($copy, $comparator));
     }
 
     /**
@@ -302,7 +368,7 @@ trait ArrayBackingTrait
 
         $cloned[$key] = $value;
 
-        return new static($cloned);
+        return static::of($cloned);
     }
 
     /**
@@ -321,7 +387,7 @@ trait ArrayBackingTrait
 
         unset($cloned[$key]);
 
-        return new static($cloned);
+        return static::of($cloned);
     }
 
     /**
@@ -351,31 +417,13 @@ trait ArrayBackingTrait
     }
 
     /**
-     * @param callable $callable
-     *
-     * @return Iterable
-     */
-    public function filter(callable $callable)
-    {
-        $result = [];
-
-        foreach ($this->value as $key => $value) {
-            if ($callable($value, $key, $this)) {
-                $result[] = $value;
-            }
-        }
-
-        return new static($result);
-    }
-
-    /**
      * @param null $sortFlags
      *
      * @return static
      */
     public function unique($sortFlags = null)
     {
-        return new static(array_unique($this->value, $sortFlags));
+        return static::of(array_unique($this->value, $sortFlags));
     }
 
     /**
@@ -425,8 +473,27 @@ trait ArrayBackingTrait
             return static::zero();
         }
 
-        return new static(
+        return static::of(
             array_intersect_key($this->value, array_flip($included))
+        );
+    }
+
+    /**
+     * Attempt to set a field using the provided updater function.
+     *
+     * @param string $key
+     * @param callable $updater
+     * @param mixed $default
+     *
+     * @return ArrayBackingTrait
+     */
+    public function update($key, callable $updater, $default = null)
+    {
+        return $this->insert(
+            $key,
+            $updater(
+                Maybe::fromMaybe($default, $this->lookup($key))
+            )
         );
     }
 
@@ -437,6 +504,6 @@ trait ArrayBackingTrait
      */
     public static function zero()
     {
-        return new static([]);
+        return static::of([]);
     }
 }

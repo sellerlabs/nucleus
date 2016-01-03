@@ -2,15 +2,17 @@
 
 /**
  * Copyright 2015, Eduardo Trujillo
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
  * This file is part of the Nucleus package
  */
 
 namespace Chromabits\Nucleus\Meditation;
 
+use Chromabits\Nucleus\Control\Maybe;
+use Chromabits\Nucleus\Data\ArrayList;
+use Chromabits\Nucleus\Data\ArrayMap;
+use Chromabits\Nucleus\Data\Iterable;
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
@@ -26,19 +28,9 @@ use Chromabits\Nucleus\Support\Std;
 class Spec extends BaseObject implements CheckableInterface
 {
     /**
-     * @var array|\array[]|Constraints\AbstractConstraint[]
+     * @var ArrayMap
      */
-    protected $constraints;
-
-    /**
-     * @var array
-     */
-    protected $defaults;
-
-    /**
-     * @var array
-     */
-    protected $required;
+    protected $annotations;
 
     /**
      * Construct an instance of a Spec.
@@ -54,9 +46,51 @@ class Spec extends BaseObject implements CheckableInterface
     ) {
         parent::__construct();
 
-        $this->constraints = $constraints;
-        $this->defaults = $defaults;
-        $this->required = $required;
+        $annotations = ArrayMap::zero();
+
+        $annotations = ArrayMap::of($constraints)
+            ->foldlWithKeys(
+                function (ArrayMap $acc, $value, $key) {
+                    return $acc->update(
+                        $key,
+                        function (ArrayMap $field) use ($value) {
+                            return $field->insert('constraints', $value);
+                        },
+                        ArrayMap::zero()
+                    );
+                },
+                $annotations
+            );
+
+        $annotations = ArrayMap::of($defaults)
+            ->foldlWithKeys(
+                function (ArrayMap $acc, $value, $key) {
+                    return $acc->update(
+                        $key,
+                        function (ArrayMap $field) use ($value) {
+                            return $field->insert('default', $value);
+                        },
+                        ArrayMap::zero()
+                    );
+                },
+                $annotations
+            );
+
+        $annotations = ArrayList::of($required)
+            ->foldl(
+                function (ArrayMap $acc, $value) {
+                    return $acc->update(
+                        $value,
+                        function (ArrayMap $field) {
+                            return $field->insert('required', true);
+                        },
+                        ArrayMap::zero()
+                    );
+                },
+                $annotations
+            );
+
+        $this->annotations = $annotations;
     }
 
     /**
@@ -85,8 +119,6 @@ class Spec extends BaseObject implements CheckableInterface
      */
     public function check(array $input)
     {
-        $input = array_merge($this->defaults, (array) $input);
-
         $missing = [];
         $invalid = [];
 
@@ -103,9 +135,12 @@ class Spec extends BaseObject implements CheckableInterface
 
                 $missing = Std::concat(
                     $missing,
-                    array_map(function ($subKey) use ($key) {
-                        return vsprintf('%s.%s', [$key, $subKey]);
-                    }, $result->getMissing())
+                    array_map(
+                        function ($subKey) use ($key) {
+                            return vsprintf('%s.%s', [$key, $subKey]);
+                        },
+                        $result->getMissing()
+                    )
                 );
 
                 foreach ($result->getFailed() as $failedField => $constraints) {
@@ -121,44 +156,57 @@ class Spec extends BaseObject implements CheckableInterface
                     }
                 }
             } else {
-                throw new CoreException(vsprintf(
-                    'Unexpected constraint type: %s.',
-                    [
-                        TypeHound::fetch($constraint),
-                    ]
-                ));
+                throw new CoreException(
+                    vsprintf(
+                        'Unexpected constraint type: %s.',
+                        [
+                            TypeHound::fetch($constraint),
+                        ]
+                    )
+                );
             }
         };
 
-        array_map(function ($required) use ($input, &$missing) {
-            if (!array_key_exists($required, $input)) {
-                $missing[] = $required;
-            }
-        }, $this->required);
+        $inputMap = ArrayMap::of($input);
 
-        array_map(function ($key, $value) use ($input, &$invalid, $check) {
-            if (!array_key_exists($key, $this->constraints)) {
-                return;
-            }
-
-            if (is_array($this->constraints[$key])) {
-                array_map(function ($constraint) use (
-                    $key,
-                    $value,
-                    $input,
-                    &$invalid,
-                    $check
+        $this->annotations->each(
+            function ($value, $key) use (
+                $check,
+                $input,
+                $inputMap,
+                &$missing
+            ) {
+                // If a field is required but not present, we should report it.
+                if (Maybe::fromMaybe(false, $value->lookup('required'))
+                    && $inputMap->member($key) === false
                 ) {
-                    $check($constraint, $key, $value, $input);
-                }, $this->constraints[$key]);
+                    $missing[] = $key;
 
-                return;
+                    // There's no point on checking constraints on the field
+                    // since it is missing.
+                    return;
+                } elseif ($inputMap->member($key) === false) {
+                    // There's no point on checking constraints on the field
+                    // since it is missing.
+                    return;
+                }
+
+                $fieldValue = Maybe::fromJust($inputMap->lookup($key));
+
+                $this
+                    ->getInternalFieldConstraints($key)
+                    ->each(
+                        function ($constraint) use (
+                            $check,
+                            $key,
+                            $fieldValue,
+                            $input
+                        ) {
+                            $check($constraint, $key, $fieldValue, $input);
+                        }
+                    );
             }
-
-            /** @var AbstractConstraint $constraint */
-            $constraint = $this->constraints[$key];
-            $check($constraint, $key, $value, $input);
-        }, array_keys($input), $input);
+        );
 
         if (count($missing) === 0 && count($invalid) === 0) {
             return new SpecResult($missing, $invalid, SpecResult::STATUS_PASS);
@@ -168,11 +216,77 @@ class Spec extends BaseObject implements CheckableInterface
     }
 
     /**
+     * An alias for getFieldConstraints that can be overridden by child classes
+     * wishing to inject their own constraints into the checking process.
+     *
+     * @param string $fieldName
+     *
+     * @return Iterable
+     */
+    protected function getInternalFieldConstraints($fieldName)
+    {
+        return $this->getFieldConstraints($fieldName);
+    }
+
+    /**
+     * Get all the constraints for a single field.
+     *
+     * @param string $fieldName
+     *
+     * @return Iterable
+     */
+    public function getFieldConstraints($fieldName)
+    {
+        $maybeConstraints = $this->annotations->lookupIn(
+            [$fieldName, 'constraints']
+        );
+
+        if ($maybeConstraints->isNothing()) {
+            return ArrayList::zero();
+        }
+
+        $constraints = Maybe::fromJust($maybeConstraints);
+
+        if (is_array($constraints)) {
+            return ArrayList::of($constraints);
+        } elseif ($constraints instanceof Iterable) {
+            return $constraints;
+        }
+
+        return ArrayList::of([$constraints]);
+    }
+
+    /**
      * @return array|array[]|AbstractConstraint[]
      */
     public function getConstraints()
     {
-        return $this->constraints;
+        return $this->getAnnotation('constraints')->toArray();
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return ArrayMap
+     */
+    public function getAnnotation($name)
+    {
+        return $this->annotations
+            ->map(
+                function (ArrayMap $value) use ($name) {
+                    return $value->lookup($name);
+                }
+            )
+            ->filter(
+                function (Maybe $value) {
+                    return $value->isJust();
+                }
+            )
+            ->map(
+                function (Maybe $value) {
+                    return Maybe::fromJust($value);
+                }
+            );
     }
 
     /**
@@ -180,7 +294,7 @@ class Spec extends BaseObject implements CheckableInterface
      */
     public function getDefaults()
     {
-        return $this->defaults;
+        return $this->getAnnotation('default')->toArray();
     }
 
     /**
@@ -188,6 +302,124 @@ class Spec extends BaseObject implements CheckableInterface
      */
     public function getRequired()
     {
-        return $this->required;
+        return $this
+            ->getAnnotation('default')
+            ->filter(
+                function ($value) {
+                    return $value;
+                }
+            )
+            ->keys()
+            ->toArray();
+    }
+
+    /**
+     * Get all annotations in this spec.
+     *
+     * @return ArrayMap
+     */
+    public function getAnnotations()
+    {
+        return $this->annotations;
+    }
+
+    /**
+     * Get a specific field annotation.
+     *
+     * @param string $fieldName
+     * @param string $name
+     *
+     * @return Maybe
+     */
+    public function getFieldAnnotation($fieldName, $name)
+    {
+        return $this->annotations->lookupIn([$fieldName, $name]);
+    }
+
+    /**
+     * Get all the annotations for a single field.
+     *
+     * @param string $fieldName
+     *
+     * @return Maybe
+     */
+    public function getFieldAnnotations($fieldName)
+    {
+        return $this->annotations->lookup($fieldName);
+    }
+
+    /**
+     * Set the constraints for a field.
+     *
+     * @param string $fieldName
+     * @param Iterable|array|AbstractConstraint $constraints
+     *
+     * @return static
+     */
+    public function setFieldConstraints($fieldName, $constraints)
+    {
+        return $this->setFieldAnnotation(
+            $fieldName,
+            'constraints',
+            $constraints
+        );
+    }
+
+    /**
+     * Set the default value for a field.
+     *
+     * @param string $fieldName
+     * @param mixed $default
+     *
+     * @return static
+     */
+    public function setFieldDefault($fieldName, $default)
+    {
+        return $this->setFieldAnnotation(
+            $fieldName,
+            'default',
+            $default
+        );
+    }
+
+    /**
+     * Set a field as required.
+     *
+     * @param string $fieldName
+     * @param bool $value
+     *
+     * @return static
+     */
+    public function setFieldRequired($fieldName, $value = true)
+    {
+        return $this->setFieldAnnotation(
+            $fieldName,
+            'required',
+            $value
+        );
+    }
+
+    /**
+     * Set the value of an annotation.
+     *
+     * @param string $fieldName
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return static
+     */
+    public function setFieldAnnotation($fieldName, $name, $value)
+    {
+        $copy = clone $this;
+
+        $copy->annotations = $this->annotations->update(
+            $fieldName,
+            function (ArrayMap $fieldAnnotations) use ($name, $value) {
+                return $fieldAnnotations->insert($name, $value);
+            },
+            ArrayMap::zero()
+        );
+
+        return $copy;
     }
 }

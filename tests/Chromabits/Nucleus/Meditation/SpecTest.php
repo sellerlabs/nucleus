@@ -151,9 +151,9 @@ class SpecTest extends TestCase
         ], ['name']);
 
         $this->assertEqualsMatrix([
-            [$spec->getConstraints(), ['name' => $strings]],
-            [$spec->getDefaults(), ['name' => 'Bobby']],
-            [$spec->getRequired(), ['name']],
+            [['name' => $strings], $spec->getConstraints()],
+            [['name' => 'Bobby'], $spec->getDefaults()],
+            [['name'], $spec->getRequired()],
         ]);
     }
 }

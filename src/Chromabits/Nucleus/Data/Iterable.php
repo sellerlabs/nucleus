@@ -66,7 +66,7 @@ abstract class Iterable extends BaseObject implements
      */
     public function head()
     {
-        return $this->lookup(0);
+        return Maybe::fromJust($this->lookup(0));
     }
 
     /**
@@ -74,7 +74,7 @@ abstract class Iterable extends BaseObject implements
      */
     public function last()
     {
-        return $this->lookup($this->size - 1);
+        return Maybe::fromJust($this->lookup($this->size - 1));
     }
 
     /**

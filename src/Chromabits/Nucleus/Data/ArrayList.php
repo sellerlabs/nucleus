@@ -65,6 +65,24 @@ class ArrayList extends IndexedCollection implements ListInterface, MapInterface
     }
 
     /**
+     * @param callable $callable
+     *
+     * @return Iterable
+     */
+    public function filter(callable $callable)
+    {
+        $result = [];
+
+        foreach ($this->value as $key => $value) {
+            if ($callable($value, $key, $this)) {
+                $result[] = $value;
+            }
+        }
+
+        return static::of($result);
+    }
+
+    /**
      * @throws CoreException
      */
     protected function assertNotEmpty()

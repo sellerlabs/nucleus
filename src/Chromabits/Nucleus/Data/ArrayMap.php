@@ -71,9 +71,31 @@ class ArrayMap extends KeyedCollection implements
      */
     public function lookup($key)
     {
-        $copy = array_merge ($this->value);
+        if ($this->member($key) === false) {
+            return Maybe::nothing();
+        }
+
+        $copy = array_merge($this->value);
 
         return Maybe::just($copy[$key]);
+    }
+
+    /**
+     * @param callable $callable
+     *
+     * @return Iterable
+     */
+    public function filter(callable $callable)
+    {
+        $result = [];
+
+        foreach ($this->value as $key => $value) {
+            if ($callable($value, $key, $this)) {
+                $result[$key] = $value;
+            }
+        }
+
+        return static::of($result);
     }
 
     /**
