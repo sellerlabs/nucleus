@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\View\Composite;
 
+use Chromabits\Nucleus\Support\Html;
 use Chromabits\Nucleus\View\Common\Button;
 use Chromabits\Nucleus\View\Common\Italic;
 use Chromabits\Nucleus\View\Interfaces\RenderableInterface;
@@ -72,6 +73,6 @@ class IconButton implements RenderableInterface, SafeHtmlProducerInterface
      */
     public function getSafeHtml()
     {
-        return $this->render();
+        return Html::safe($this->render());
     }
 }
