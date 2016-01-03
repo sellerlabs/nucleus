@@ -3,6 +3,7 @@
 namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Control\Maybe;
+use Chromabits\Nucleus\Data\ArrayMap;
 
 /**
  * Class FormSpec.
@@ -13,6 +14,7 @@ use Chromabits\Nucleus\Control\Maybe;
 class FormSpec extends TypedSpec
 {
     const ANNOTATION_LABEL = 'label';
+
     const ANNOTATION_DESCRIPTION = 'description';
 
     /**
@@ -74,5 +76,25 @@ class FormSpec extends TypedSpec
             $fieldName,
             static::ANNOTATION_DESCRIPTION
         );
+    }
+
+    /**
+     * Get the labels for all fields.
+     *
+     * @return ArrayMap
+     */
+    public function getLabels()
+    {
+        return $this->getAnnotation(static::ANNOTATION_LABEL);
+    }
+
+    /**
+     * Get the descriptions for all fields.
+     *
+     * @return ArrayMap
+     */
+    public function getDescriptions()
+    {
+        return $this->getAnnotation(static::ANNOTATION_DESCRIPTION);
     }
 }

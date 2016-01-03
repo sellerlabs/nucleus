@@ -28,6 +28,11 @@ class FormSpecTest extends TestCase
             'WOWs',
             Maybe::fromJust($final->getFieldLabel('wow'))
         );
+
+        $this->assertEquals(
+            ['wow' => 'WOWs'],
+            $final->getLabels()->toArray()
+        );
     }
 
     public function testSetFieldDescription()
@@ -43,6 +48,11 @@ class FormSpecTest extends TestCase
         $this->assertEquals(
             'WOWs',
             Maybe::fromJust($final->getFieldDescription('wow'))
+        );
+
+        $this->assertEquals(
+            ['wow' => 'WOWs'],
+            $final->getDescriptions()->toArray()
         );
     }
 }
