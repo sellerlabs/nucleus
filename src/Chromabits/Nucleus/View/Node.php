@@ -13,6 +13,7 @@ namespace Chromabits\Nucleus\View;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Foundation\BaseObject;
+use Chromabits\Nucleus\Foundation\Interfaces\ArrayableInterface;
 use Chromabits\Nucleus\Meditation\Spec;
 use Chromabits\Nucleus\Meditation\TypeHound;
 use Chromabits\Nucleus\Support\Html;
@@ -154,7 +155,15 @@ class Node extends BaseObject implements
             return Html::escape($this->content);
         } elseif ($this->content instanceof RenderableInterface) {
             return Html::escape($this->content->render());
-        } elseif (is_array($this->content)) {
+        } elseif (is_array($this->content)
+            || $this->content instanceof ArrayableInterface
+        ) {
+            $content = $this->content;
+
+            if ($this->content instanceof ArrayableInterface) {
+                $content = $this->content->toArray();
+            }
+
             return implode('', array_map(function ($child) {
                 if (is_string($child)
                     || $child instanceof SafeHtmlWrapper
@@ -171,7 +180,7 @@ class Node extends BaseObject implements
                         TypeHound::fetch($child),
                     ]
                 ));
-            }, $this->content));
+            }, $content));
         }
 
         throw new CoreException(vsprintf(
