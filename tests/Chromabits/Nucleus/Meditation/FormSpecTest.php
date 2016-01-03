@@ -20,7 +20,7 @@ class FormSpecTest extends TestCase
 
         $this->assertTrue($spec->getFieldLabel('wow')->isNothing());
 
-        $final = $spec->setFieldLabel('wow', 'WOWs');
+        $final = $spec->withFieldLabel('wow', 'WOWs');
 
         $this->assertNotSame($spec, $final);
         $this->assertTrue($final->getFieldLabel('wow')->isJust());
@@ -41,7 +41,7 @@ class FormSpecTest extends TestCase
 
         $this->assertTrue($spec->getFieldDescription('wow')->isNothing());
 
-        $final = $spec->setFieldDescription('wow', 'WOWs');
+        $final = $spec->withFieldDescription('wow', 'WOWs');
 
         $this->assertNotSame($spec, $final);
         $this->assertTrue($final->getFieldDescription('wow')->isJust());

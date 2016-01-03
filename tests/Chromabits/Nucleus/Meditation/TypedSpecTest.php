@@ -18,8 +18,8 @@ class TypedSpecTest extends TestCase
     public function testCheck()
     {
         $spec = TypedSpec::define()
-            ->setFieldType('first_name', Boa::string())
-            ->setFieldType('age', Boa::integer());
+            ->withFieldType('first_name', Boa::string())
+            ->withFieldType('age', Boa::integer());
 
         $this->assertTrue($spec->check([
             'first_name' => 'Ed',
@@ -30,8 +30,8 @@ class TypedSpecTest extends TestCase
     public function testCheckWithFailures()
     {
         $spec = TypedSpec::define()
-            ->setFieldType('first_name', Boa::string())
-            ->setFieldType('age', Boa::integer());
+            ->withFieldType('first_name', Boa::string())
+            ->withFieldType('age', Boa::integer());
 
         $result = $spec->check([
             'first_name' => 'Ed',
@@ -45,9 +45,9 @@ class TypedSpecTest extends TestCase
     public function testCheckWithConstraints()
     {
         $spec = TypedSpec::define()
-            ->setFieldType('first_name', Boa::string())
-            ->setFieldConstraints('first_name', new StringLengthConstraint(4))
-            ->setFieldType('age', Boa::integer());
+            ->withFieldType('first_name', Boa::string())
+            ->withFieldConstraints('first_name', new StringLengthConstraint(4))
+            ->withFieldType('age', Boa::integer());
 
         $this->assertTrue($spec->check([
             'first_name' => 'Eduardo',
@@ -58,9 +58,9 @@ class TypedSpecTest extends TestCase
     public function testCheckWithFailedConstraints()
     {
         $spec = TypedSpec::define()
-            ->setFieldType('first_name', Boa::string())
-            ->setFieldConstraints('first_name', new StringLengthConstraint(4))
-            ->setFieldType('age', Boa::integer());
+            ->withFieldType('first_name', Boa::string())
+            ->withFieldConstraints('first_name', new StringLengthConstraint(4))
+            ->withFieldType('age', Boa::integer());
 
         $result = $spec->check([
             'first_name' => 'Ed',

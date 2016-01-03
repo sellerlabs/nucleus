@@ -374,9 +374,9 @@ class Spec extends BaseObject implements CheckableInterface
      *
      * @return static
      */
-    public function setFieldConstraints($fieldName, $constraints)
+    public function withFieldConstraints($fieldName, $constraints)
     {
-        return $this->setFieldAnnotation(
+        return $this->withFieldAnnotation(
             $fieldName,
             static::ANNOTATION_CONSTRAINTS,
             $constraints
@@ -392,7 +392,7 @@ class Spec extends BaseObject implements CheckableInterface
      *
      * @return static
      */
-    public function setFieldAnnotation($fieldName, $name, $value)
+    public function withFieldAnnotation($fieldName, $name, $value)
     {
         $copy = clone $this;
 
@@ -415,9 +415,9 @@ class Spec extends BaseObject implements CheckableInterface
      *
      * @return static
      */
-    public function setFieldDefault($fieldName, $default)
+    public function withFieldDefault($fieldName, $default)
     {
-        return $this->setFieldAnnotation(
+        return $this->withFieldAnnotation(
             $fieldName,
             static::ANNOTATION_DEFAULT,
             $default
@@ -432,9 +432,9 @@ class Spec extends BaseObject implements CheckableInterface
      *
      * @return static
      */
-    public function setFieldRequired($fieldName, $value = true)
+    public function withFieldRequired($fieldName, $value = true)
     {
-        return $this->setFieldAnnotation(
+        return $this->withFieldAnnotation(
             $fieldName,
             static::ANNOTATION_REQUIRED,
             $value

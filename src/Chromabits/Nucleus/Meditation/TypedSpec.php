@@ -26,9 +26,9 @@ class TypedSpec extends Spec
      *
      * @return TypedSpec
      */
-    public function setFieldType($fieldName, AbstractTypeConstraint $type)
+    public function withFieldType($fieldName, AbstractTypeConstraint $type)
     {
-        return $this->setFieldAnnotation(
+        return $this->withFieldAnnotation(
             $fieldName,
             static::ANNOTATION_TYPE,
             $type

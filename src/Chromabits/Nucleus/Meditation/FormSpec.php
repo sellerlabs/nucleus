@@ -25,9 +25,9 @@ class FormSpec extends TypedSpec
      *
      * @return static
      */
-    public function setFieldLabel($fieldName, $label)
+    public function withFieldLabel($fieldName, $label)
     {
-        return $this->setFieldAnnotation(
+        return $this->withFieldAnnotation(
             $fieldName,
             static::ANNOTATION_LABEL,
             $label
@@ -42,9 +42,9 @@ class FormSpec extends TypedSpec
      *
      * @return static
      */
-    public function setFieldDescription($fieldName, $description)
+    public function withFieldDescription($fieldName, $description)
     {
-        return $this->setFieldAnnotation(
+        return $this->withFieldAnnotation(
             $fieldName,
             static::ANNOTATION_DESCRIPTION,
             $description
