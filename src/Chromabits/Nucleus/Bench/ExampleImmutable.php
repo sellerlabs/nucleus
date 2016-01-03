@@ -7,6 +7,7 @@ use Chromabits\Nucleus\Foundation\BaseObject;
 /**
  * Class ExampleImmutable.
  *
+ * @internal
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Bench
  */

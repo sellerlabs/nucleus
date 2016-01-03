@@ -441,9 +441,6 @@ class Std extends StaticObject
      */
     public static function map(callable $function, $traversable)
     {
-        Arguments::define(Boa::func(), Boa::traversable())
-            ->check($function, $traversable);
-
         $aggregation = [];
 
         foreach ($traversable as $key => $value) {
