@@ -27,6 +27,10 @@ use Chromabits\Nucleus\Support\Std;
  */
 class Spec extends BaseObject implements CheckableInterface
 {
+    const ANNOTATION_CONSTRAINTS = 'constraints';
+    const ANNOTATION_DEFAULT = 'default';
+    const ANNOTATION_REQUIRED = 'required';
+
     /**
      * @var ArrayMap
      */
@@ -54,7 +58,10 @@ class Spec extends BaseObject implements CheckableInterface
                     return $acc->update(
                         $key,
                         function (ArrayMap $field) use ($value) {
-                            return $field->insert('constraints', $value);
+                            return $field->insert(
+                                static::ANNOTATION_CONSTRAINTS,
+                                $value
+                            );
                         },
                         ArrayMap::zero()
                     );
@@ -68,7 +75,10 @@ class Spec extends BaseObject implements CheckableInterface
                     return $acc->update(
                         $key,
                         function (ArrayMap $field) use ($value) {
-                            return $field->insert('default', $value);
+                            return $field->insert(
+                                static::ANNOTATION_DEFAULT,
+                                $value
+                            );
                         },
                         ArrayMap::zero()
                     );
@@ -82,7 +92,10 @@ class Spec extends BaseObject implements CheckableInterface
                     return $acc->update(
                         $value,
                         function (ArrayMap $field) {
-                            return $field->insert('required', true);
+                            return $field->insert(
+                                static::ANNOTATION_REQUIRED,
+                                true
+                            );
                         },
                         ArrayMap::zero()
                     );
@@ -177,7 +190,10 @@ class Spec extends BaseObject implements CheckableInterface
                 &$missing
             ) {
                 // If a field is required but not present, we should report it.
-                if (Maybe::fromMaybe(false, $value->lookup('required'))
+                if (Maybe::fromMaybe(
+                        false,
+                        $value->lookup(static::ANNOTATION_REQUIRED)
+                    )
                     && $inputMap->member($key) === false
                 ) {
                     $missing[] = $key;
@@ -238,7 +254,7 @@ class Spec extends BaseObject implements CheckableInterface
     public function getFieldConstraints($fieldName)
     {
         $maybeConstraints = $this->annotations->lookupIn(
-            [$fieldName, 'constraints']
+            [$fieldName, static::ANNOTATION_CONSTRAINTS]
         );
 
         if ($maybeConstraints->isNothing()) {
@@ -261,7 +277,7 @@ class Spec extends BaseObject implements CheckableInterface
      */
     public function getConstraints()
     {
-        return $this->getAnnotation('constraints')->toArray();
+        return $this->getAnnotation(static::ANNOTATION_CONSTRAINTS)->toArray();
     }
 
     /**
@@ -294,7 +310,7 @@ class Spec extends BaseObject implements CheckableInterface
      */
     public function getDefaults()
     {
-        return $this->getAnnotation('default')->toArray();
+        return $this->getAnnotation(static::ANNOTATION_DEFAULT)->toArray();
     }
 
     /**
@@ -303,7 +319,7 @@ class Spec extends BaseObject implements CheckableInterface
     public function getRequired()
     {
         return $this
-            ->getAnnotation('default')
+            ->getAnnotation(static::ANNOTATION_DEFAULT)
             ->filter(
                 function ($value) {
                     return $value;
@@ -360,7 +376,7 @@ class Spec extends BaseObject implements CheckableInterface
     {
         return $this->setFieldAnnotation(
             $fieldName,
-            'constraints',
+            static::ANNOTATION_CONSTRAINTS,
             $constraints
         );
     }
@@ -377,7 +393,7 @@ class Spec extends BaseObject implements CheckableInterface
     {
         return $this->setFieldAnnotation(
             $fieldName,
-            'default',
+            static::ANNOTATION_DEFAULT,
             $default
         );
     }
@@ -394,7 +410,7 @@ class Spec extends BaseObject implements CheckableInterface
     {
         return $this->setFieldAnnotation(
             $fieldName,
-            'required',
+            static::ANNOTATION_REQUIRED,
             $value
         );
     }
