@@ -16,6 +16,8 @@ use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
  */
 class TypedSpec extends Spec
 {
+    const ANNOTATION_TYPE = 'type';
+
     /**
      * Annotate the type of a field.
      *
@@ -26,21 +28,10 @@ class TypedSpec extends Spec
      */
     public function setFieldType($fieldName, AbstractTypeConstraint $type)
     {
-        return $this->setFieldAnnotation($fieldName, 'type', $type);
-    }
-
-    /**
-     * Get the type annotation for a field.
-     *
-     * @param string $fieldName
-     *
-     * @return AbstractTypeConstraint
-     */
-    public function getFieldType($fieldName)
-    {
-        return Maybe::fromMaybe(
-            Boa::any(),
-            $this->getFieldAnnotation($fieldName, 'type')
+        return $this->setFieldAnnotation(
+            $fieldName,
+            static::ANNOTATION_TYPE,
+            $type
         );
     }
 
@@ -51,7 +42,7 @@ class TypedSpec extends Spec
      */
     public function getTypes()
     {
-        return $this->getAnnotation('type');
+        return $this->getAnnotation(static::ANNOTATION_TYPE);
     }
 
     /**
@@ -65,5 +56,20 @@ class TypedSpec extends Spec
     {
         return parent::getInternalFieldConstraints($fieldName)
             ->append(ArrayList::of([$this->getFieldType($fieldName)]));
+    }
+
+    /**
+     * Get the type annotation for a field.
+     *
+     * @param string $fieldName
+     *
+     * @return AbstractTypeConstraint
+     */
+    public function getFieldType($fieldName)
+    {
+        return Maybe::fromMaybe(
+            Boa::any(),
+            $this->getFieldAnnotation($fieldName, static::ANNOTATION_TYPE)
+        );
     }
 }
