@@ -316,6 +316,48 @@ class Spec extends BaseObject implements CheckableInterface
     }
 
     /**
+     * @param string $fieldName
+     *
+     * @return Maybe
+     */
+    public function getFieldDefault($fieldName)
+    {
+        return $this->getFieldAnnotation(
+            $fieldName,
+            static::ANNOTATION_DEFAULT
+        );
+    }
+
+    /**
+     * Get a specific field annotation.
+     *
+     * @param string $fieldName
+     * @param string $name
+     *
+     * @return Maybe
+     */
+    public function getFieldAnnotation($fieldName, $name)
+    {
+        return $this->annotations->lookupIn([$fieldName, $name]);
+    }
+
+    /**
+     * @param string $fieldName
+     *
+     * @return bool
+     */
+    public function getFieldRequired($fieldName)
+    {
+        return Maybe::fromMaybe(
+            false,
+            $this->getFieldAnnotation(
+                $fieldName,
+                static::ANNOTATION_REQUIRED
+            )
+        );
+    }
+
+    /**
      * @return array
      */
     public function getRequired()
@@ -339,19 +381,6 @@ class Spec extends BaseObject implements CheckableInterface
     public function getAnnotations()
     {
         return $this->annotations;
-    }
-
-    /**
-     * Get a specific field annotation.
-     *
-     * @param string $fieldName
-     * @param string $name
-     *
-     * @return Maybe
-     */
-    public function getFieldAnnotation($fieldName, $name)
-    {
-        return $this->annotations->lookupIn([$fieldName, $name]);
     }
 
     /**
