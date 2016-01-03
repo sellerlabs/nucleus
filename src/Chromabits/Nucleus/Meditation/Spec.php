@@ -28,7 +28,9 @@ use Chromabits\Nucleus\Support\Std;
 class Spec extends BaseObject implements CheckableInterface
 {
     const ANNOTATION_CONSTRAINTS = 'constraints';
+
     const ANNOTATION_DEFAULT = 'default';
+
     const ANNOTATION_REQUIRED = 'required';
 
     /**
@@ -382,6 +384,30 @@ class Spec extends BaseObject implements CheckableInterface
     }
 
     /**
+     * Set the value of an annotation.
+     *
+     * @param string $fieldName
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return static
+     */
+    public function setFieldAnnotation($fieldName, $name, $value)
+    {
+        $copy = clone $this;
+
+        $copy->annotations = $this->annotations->update(
+            $fieldName,
+            function (ArrayMap $fieldAnnotations) use ($name, $value) {
+                return $fieldAnnotations->insert($name, $value);
+            },
+            ArrayMap::zero()
+        );
+
+        return $copy;
+    }
+
+    /**
      * Set the default value for a field.
      *
      * @param string $fieldName
@@ -413,29 +439,5 @@ class Spec extends BaseObject implements CheckableInterface
             static::ANNOTATION_REQUIRED,
             $value
         );
-    }
-
-    /**
-     * Set the value of an annotation.
-     *
-     * @param string $fieldName
-     * @param string $name
-     * @param mixed $value
-     *
-     * @return static
-     */
-    public function setFieldAnnotation($fieldName, $name, $value)
-    {
-        $copy = clone $this;
-
-        $copy->annotations = $this->annotations->update(
-            $fieldName,
-            function (ArrayMap $fieldAnnotations) use ($name, $value) {
-                return $fieldAnnotations->insert($name, $value);
-            },
-            ArrayMap::zero()
-        );
-
-        return $copy;
     }
 }
