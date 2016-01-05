@@ -1,23 +1,14 @@
 <?php
 
-/**
- * Copyright 2015, Eduardo Trujillo
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * This file is part of the Nucleus package
- */
-
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
 /**
- * Class NumericConstraint.
+ * Class BooleanConstraint
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
  */
-class NumericConstraint extends AbstractConstraint
+class BooleanConstraint extends AbstractConstraint
 {
     /**
      * Check if the constraint is met.
@@ -29,7 +20,17 @@ class NumericConstraint extends AbstractConstraint
      */
     public function check($value, array $context = [])
     {
-        return is_numeric($value);
+        if (is_string($value)) {
+            $lower = strtolower($value);
+
+            return $lower === 'true' || $lower === 'false';
+        } elseif (is_int($value)) {
+            return $value === 0 || $value === 1;
+        } elseif (is_float($value)) {
+            return $value === 0.0 || $value === 1.0;
+        }
+
+        return is_bool($value);
     }
 
     /**
@@ -39,6 +40,6 @@ class NumericConstraint extends AbstractConstraint
      */
     public function toString()
     {
-        return '{numeric}';
+        return '{boolean}';
     }
 }
