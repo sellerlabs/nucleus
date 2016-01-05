@@ -513,7 +513,7 @@ trait ArrayBackingTrait
      */
     public function values()
     {
-        return new ArrayList($this->values);
+        return new ArrayList(array_values($this->values));
     }
 
     /**
