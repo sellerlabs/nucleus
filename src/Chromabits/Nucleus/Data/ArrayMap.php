@@ -113,4 +113,14 @@ class ArrayMap extends KeyedCollection implements
     {
         return new static(array_reverse ($this->value, true));
     }
+
+    /**
+     * Get all the keys in this array.
+     *
+     * @return ArrayList
+     */
+    public function keys()
+    {
+        return new ArrayList(array_keys($this->value));
+    }
 }
