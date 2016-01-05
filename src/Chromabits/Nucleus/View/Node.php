@@ -11,13 +11,16 @@
 
 namespace Chromabits\Nucleus\View;
 
+use Chromabits\Nucleus\Data\ArrayList;
+use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Foundation\Interfaces\ArrayableInterface;
 use Chromabits\Nucleus\Meditation\Spec;
-use Chromabits\Nucleus\Meditation\TypeHound;
 use Chromabits\Nucleus\Support\Html;
 use Chromabits\Nucleus\View\Exceptions\InvalidAttributesException;
+use Chromabits\Nucleus\View\Exceptions\NodeChildRenderingException;
+use Chromabits\Nucleus\View\Exceptions\NodeRenderingException;
 use Chromabits\Nucleus\View\Interfaces\RenderableInterface;
 use Chromabits\Nucleus\View\Interfaces\SafeHtmlProducerInterface;
 
@@ -135,9 +138,11 @@ class Node extends BaseObject implements
      */
     protected function renderAttributes()
     {
-        return implode(' ', array_map(function ($name, $value) {
-            return $this->renderAttribute($name, $value);
-        }, array_keys($this->attributes), $this->attributes));
+        return ArrayMap::of($this->attributes)
+            ->map(function ($value, $name) {
+                return $this->renderAttribute($name, $value);
+            })
+            ->join(' ');
     }
 
     /**
@@ -158,37 +163,23 @@ class Node extends BaseObject implements
         } elseif (is_array($this->content)
             || $this->content instanceof ArrayableInterface
         ) {
-            $content = $this->content;
+            return ArrayList::of($this->content)
+                ->map(function ($child) {
+                    if (is_string($child)
+                        || $child instanceof SafeHtmlWrapper
+                        || $child instanceof SafeHtmlProducerInterface
+                    ) {
+                        return Html::escape($child);
+                    } elseif ($child instanceof RenderableInterface) {
+                        return Html::escape($child->render());
+                    }
 
-            if ($this->content instanceof ArrayableInterface) {
-                $content = $this->content->toArray();
-            }
-
-            return implode('', array_map(function ($child) {
-                if (is_string($child)
-                    || $child instanceof SafeHtmlWrapper
-                    || $child instanceof SafeHtmlProducerInterface
-                ) {
-                    return Html::escape($child);
-                } elseif ($child instanceof RenderableInterface) {
-                    return Html::escape($child->render());
-                }
-
-                throw new CoreException(vsprintf(
-                    'Unknown content type: %s. Child item cannot be rendered.',
-                    [
-                        TypeHound::fetch($child),
-                    ]
-                ));
-            }, $content));
+                    throw new NodeChildRenderingException($child);
+                })
+                ->join();
         }
 
-        throw new CoreException(vsprintf(
-            'Unknown content type: %s. Node cannot be rendered.',
-            [
-                TypeHound::fetch($this->content),
-            ]
-        ));
+        throw new NodeRenderingException($this->content);
     }
 
     /**

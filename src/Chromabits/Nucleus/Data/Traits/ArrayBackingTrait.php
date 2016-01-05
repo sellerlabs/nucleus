@@ -12,6 +12,7 @@ use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
 use Chromabits\Nucleus\Data\Iterable;
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Exceptions\MindTheGapException;
+use Chromabits\Nucleus\Foundation\Interfaces\ArrayableInterface;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
@@ -39,6 +40,8 @@ trait ArrayBackingTrait
     {
         if ($input instanceof static) {
             return $input;
+        } elseif ($input instanceof ArrayableInterface) {
+            return new static($input->toArray());
         }
 
         return new static($input);
