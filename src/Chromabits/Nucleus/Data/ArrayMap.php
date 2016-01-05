@@ -5,7 +5,9 @@ namespace Chromabits\Nucleus\Data;
 use Chromabits\Nucleus\Control\Interfaces\ApplicativeInterface;
 use Chromabits\Nucleus\Control\Maybe;
 use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
+use Chromabits\Nucleus\Data\Interfaces\IterableInterface;
 use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
+use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
 use Chromabits\Nucleus\Data\Traits\ArrayBackingTrait;
@@ -83,7 +85,7 @@ class ArrayMap extends KeyedCollection implements
     /**
      * @param callable $callable
      *
-     * @return Iterable
+     * @return IterableInterface
      */
     public function filter(callable $callable)
     {
@@ -107,7 +109,7 @@ class ArrayMap extends KeyedCollection implements
     }
 
     /**
-     * @return Iterable
+     * @return IterableInterface
      */
     public function reverse()
     {
@@ -115,12 +117,18 @@ class ArrayMap extends KeyedCollection implements
     }
 
     /**
-     * Get all the keys in this array.
-     *
-     * @return ArrayList
+     * @return ListInterface
      */
-    public function keys()
+    public function toList()
     {
-        return new ArrayList(array_keys($this->value));
+        return $this->values();
+    }
+
+    /**
+     * @return MapInterface
+     */
+    public function toMap()
+    {
+        return $this;
     }
 }

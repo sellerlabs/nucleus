@@ -8,7 +8,7 @@ namespace Chromabits\Nucleus\Data\Interfaces;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Data\Interfaces
  */
-interface MapInterface extends ReadMapInterface
+interface MapInterface extends ReadMapInterface, IterableInterface
 {
     //
     /**

@@ -5,6 +5,9 @@ namespace Chromabits\Nucleus\Data;
 use Chromabits\Nucleus\Control\Maybe;
 use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
+use Chromabits\Nucleus\Data\Interfaces\IterableInterface;
+use Chromabits\Nucleus\Data\Interfaces\ListInterface;
+use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Foundation\Interfaces\ArrayableInterface;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
@@ -18,7 +21,8 @@ use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
 abstract class Iterable extends BaseObject implements
     ArrayableInterface,
     FunctorInterface,
-    FoldableInterface
+    FoldableInterface,
+    IterableInterface
 {
     /**
      * @var int
@@ -210,7 +214,8 @@ abstract class Iterable extends BaseObject implements
      *
      * @return Iterable
      */
-    public function takeLast($amount) {
+    public function takeLast($amount)
+    {
         return $this->reverse()->take($amount);
     }
 
@@ -279,4 +284,47 @@ abstract class Iterable extends BaseObject implements
     {
         return $this->reverse()->find($predicate);
     }
+
+    /**
+     * @return MapInterface
+     */
+    abstract public function toMap();
+
+    /**
+     * @return ListInterface
+     */
+    abstract public function toList();
+
+    /**
+     * @return ListInterface
+     */
+    public function keys()
+    {
+        // This is a basic implementation. More specific classes can provide a
+        // more efficient implementation.
+        return $this
+            ->map(function ($value, $key) {
+                return $key;
+            })
+            ->toList();
+    }
+
+    /**
+     * @return ListInterface
+     */
+    public function values()
+    {
+        // This is a basic implementation. More specific classes can provide a
+        // more efficient implementation.
+        return $this
+            ->map(function ($value) {
+                return $value;
+            })
+            ->toList();
+    }
+
+    /**
+     * @return ListInterface
+     */
+    abstract public function entries();
 }

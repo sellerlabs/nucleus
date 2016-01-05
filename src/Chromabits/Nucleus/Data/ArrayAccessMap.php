@@ -4,6 +4,7 @@ namespace Chromabits\Nucleus\Data;
 
 use ArrayAccess;
 use Chromabits\Nucleus\Control\Maybe;
+use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Foundation\BaseObject;
 
@@ -93,5 +94,30 @@ class ArrayAccessMap extends BaseObject implements MapInterface
         $cloned->offsetUnset($key);
 
         return new static($cloned);
+    }
+
+    public function toMap()
+    {
+        // TODO: Implement toMap() method.
+    }
+
+    public function toList()
+    {
+        // TODO: Implement toList() method.
+    }
+
+    public function keys()
+    {
+        // TODO: Implement keys() method.
+    }
+
+    public function values()
+    {
+        // TODO: Implement values() method.
+    }
+
+    public function entries()
+    {
+        // TODO: Implement entries() method.
     }
 }

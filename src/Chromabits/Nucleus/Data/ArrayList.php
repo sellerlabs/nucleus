@@ -2,6 +2,7 @@
 
 namespace Chromabits\Nucleus\Data;
 
+use Chromabits\Nucleus\Data\Interfaces\IterableInterface;
 use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Data\Traits\ArrayBackingTrait;
@@ -57,7 +58,7 @@ class ArrayList extends IndexedCollection implements ListInterface, MapInterface
     }
 
     /**
-     * @return static|Iterable
+     * @return static|IterableInterface
      */
     public function reverse()
     {
@@ -67,7 +68,7 @@ class ArrayList extends IndexedCollection implements ListInterface, MapInterface
     /**
      * @param callable $callable
      *
-     * @return Iterable
+     * @return IterableInterface
      */
     public function filter(callable $callable)
     {
@@ -90,5 +91,21 @@ class ArrayList extends IndexedCollection implements ListInterface, MapInterface
         if ($this->size < 1) {
             throw new CoreException('List is empty');
         }
+    }
+
+    /**
+     * @return ListInterface
+     */
+    public function toList()
+    {
+        return $this;
+    }
+
+    /**
+     * @return MapInterface
+     */
+    public function toMap()
+    {
+        return new ArrayMap($this->value);
     }
 }

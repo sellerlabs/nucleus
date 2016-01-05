@@ -6,6 +6,7 @@ use Chromabits\Nucleus\Control\Interfaces\ApplyInterface;
 use Chromabits\Nucleus\Control\Maybe;
 use Chromabits\Nucleus\Data\ArrayList;
 use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
+use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
 use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
 use Chromabits\Nucleus\Data\Iterable;
@@ -505,5 +506,25 @@ trait ArrayBackingTrait
     public static function zero()
     {
         return static::of([]);
+    }
+
+    /**
+     * @return ListInterface
+     */
+    public function values()
+    {
+        return new ArrayList($this->values);
+    }
+
+    /**
+     * @return ListInterface
+     */
+    public function entries()
+    {
+        return $this
+            ->map(function ($value, $key) {
+                return new ArrayList([$key, $value]);
+            })
+            ->toList();
     }
 }
