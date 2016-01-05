@@ -41,4 +41,13 @@ class NumericConstraint extends AbstractConstraint
     {
         return '{numeric}';
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getDescription()
+    {
+        return 'The value is expected to be an integer, float, or a numeric ' .
+            'string.';
+    }
 }

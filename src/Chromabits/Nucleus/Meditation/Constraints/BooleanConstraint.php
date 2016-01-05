@@ -42,4 +42,13 @@ class BooleanConstraint extends AbstractConstraint
     {
         return '{boolean}';
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getDescription()
+    {
+        return 'The value is expected to be boolean-like: ' .
+            '0, 1, 0.0, 1.0, true, false, True, False';
+    }
 }
