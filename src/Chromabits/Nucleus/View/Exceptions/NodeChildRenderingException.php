@@ -2,6 +2,7 @@
 
 namespace Chromabits\Nucleus\View\Exceptions;
 
+use Chromabits\Nucleus\Meditation\TypeHound;
 use Exception;
 
 /**
@@ -13,7 +14,7 @@ use Exception;
 class NodeChildRenderingException extends NodeRenderingException
 {
     /**
-     * Construct an instance of a NodeRenderingException.
+     * Construct an instance of a NodeChildRenderingException.
      *
      * @param mixed $content
      * @param int $code
