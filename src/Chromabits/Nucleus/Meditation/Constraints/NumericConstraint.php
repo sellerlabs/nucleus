@@ -11,24 +11,34 @@
 
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
-use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
-
 /**
  * Class NumericConstraint.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation\Constraints
  */
-class NumericConstraint extends EitherConstraint
+class NumericConstraint extends AbstractTypeConstraint
 {
     /**
-     * Construct an instance of a NumericConstraint.
+     * Check if the constraint is met.
+     *
+     * @param mixed $value
+     * @param array $context
+     *
+     * @return mixed
      */
-    public function __construct()
+    public function check($value, array $context = [])
     {
-        parent::__construct(
-            new PrimitiveTypeConstraint(ScalarTypes::SCALAR_INTEGER),
-            new PrimitiveTypeConstraint(ScalarTypes::SCALAR_FLOAT)
-        );
+        return is_numeric($value);
+    }
+
+    /**
+     * Get string representation of this constraint.
+     *
+     * @return mixed
+     */
+    public function toString()
+    {
+        return '{numeric}';
     }
 }
