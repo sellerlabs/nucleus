@@ -36,7 +36,7 @@ class ArrayList extends IndexedCollection implements ListInterface, MapInterface
     {
         parent::__construct();
 
-        $this->value = $initial;
+        $this->value = array_values($initial);
         $this->size = count($initial);
     }
 
