@@ -483,7 +483,7 @@ class Spec extends BaseObject implements CheckableInterface
     public function withAnnotation($name, LeftKeyFoldableInterface $map)
     {
         return $map->foldlWithKeys(
-            function (static $acc, $value, $fieldName) use ($name) {
+            function (self $acc, $value, $fieldName) use ($name) {
                 return $acc->withFieldAnnotation($fieldName, $name, $value);
             },
             $this
