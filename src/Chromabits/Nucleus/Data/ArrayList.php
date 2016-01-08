@@ -3,8 +3,10 @@
 namespace Chromabits\Nucleus\Data;
 
 use Chromabits\Nucleus\Data\Interfaces\IterableInterface;
+use Chromabits\Nucleus\Data\Interfaces\ListableInterface;
 use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
+use Chromabits\Nucleus\Data\Interfaces\MappableInterface;
 use Chromabits\Nucleus\Data\Traits\ArrayBackingTrait;
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Meditation\Boa;
@@ -18,7 +20,11 @@ use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Data
  */
-class ArrayList extends IndexedCollection implements ListInterface, MapInterface
+class ArrayList extends IndexedCollection implements
+    ListInterface,
+    MapInterface,
+    ListableInterface,
+    MappableInterface
 {
     use ArrayBackingTrait;
 
@@ -84,16 +90,6 @@ class ArrayList extends IndexedCollection implements ListInterface, MapInterface
     }
 
     /**
-     * @throws CoreException
-     */
-    protected function assertNotEmpty()
-    {
-        if ($this->size < 1) {
-            throw new CoreException('List is empty');
-        }
-    }
-
-    /**
      * @return ListInterface
      */
     public function toList()
@@ -107,5 +103,15 @@ class ArrayList extends IndexedCollection implements ListInterface, MapInterface
     public function toMap()
     {
         return new ArrayMap($this->value);
+    }
+
+    /**
+     * @throws CoreException
+     */
+    protected function assertNotEmpty()
+    {
+        if ($this->size < 1) {
+            throw new CoreException('List is empty');
+        }
     }
 }

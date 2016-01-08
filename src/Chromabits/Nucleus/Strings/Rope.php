@@ -12,7 +12,11 @@
 namespace Chromabits\Nucleus\Strings;
 
 use Chromabits\Nucleus\Data\ArrayList;
+use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
+use Chromabits\Nucleus\Data\Interfaces\ListableInterface;
+use Chromabits\Nucleus\Data\Interfaces\MapInterface;
+use Chromabits\Nucleus\Data\Interfaces\MappableInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
 use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
 use Chromabits\Nucleus\Foundation\BaseObject;
@@ -31,23 +35,13 @@ use Closure;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Strings
  */
-class Rope extends BaseObject implements FunctorInterface, MonoidInterface
+class Rope extends BaseObject implements
+    FunctorInterface,
+    MonoidInterface,
+    ListableInterface,
+    MappableInterface
 {
     const ENCODING_UTF8 = 'UTF-8';
-
-    /**
-     * Internal string.
-     *
-     * @var string
-     */
-    protected $contents;
-
-    /**
-     * Name of the encoding to use.
-     *
-     * @var string
-     */
-    protected $encoding;
 
     /**
      * The cache of snake-cased words.
@@ -69,6 +63,34 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
      * @var array
      */
     protected static $studlyCache = [];
+
+    /**
+     * Internal string.
+     *
+     * @var string
+     */
+    protected $contents;
+
+    /**
+     * Name of the encoding to use.
+     *
+     * @var string
+     */
+    protected $encoding;
+
+    /**
+     * Construct an instance of a Rope.
+     *
+     * @param string $contents
+     * @param null|string $encoding
+     */
+    public function __construct($contents = '', $encoding = null)
+    {
+        parent::__construct();
+
+        $this->contents = (string) $contents;
+        $this->encoding = Std::coalesce($encoding, mb_internal_encoding());
+    }
 
     /**
      * Replace the snake case cache.
@@ -101,17 +123,13 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     }
 
     /**
-     * Construct an instance of a Rope.
+     * Get an empty monoid.
      *
-     * @param string $contents
-     * @param null|string $encoding
+     * @return MonoidInterface
      */
-    public function __construct($contents = '', $encoding = null)
+    public static function zero()
     {
-        parent::__construct();
-
-        $this->contents = (string) $contents;
-        $this->encoding = Std::coalesce($encoding, mb_internal_encoding());
+        return static::of();
     }
 
     /**
@@ -125,34 +143,11 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     }
 
     /**
-     * Construct an instance of a Rope.
-     *
-     * @param string $contents
-     * @param null|string $encoding
-     *
-     * @return static
-     */
-    public static function of($contents = '', $encoding = null)
-    {
-        return new static($contents, $encoding);
-    }
-
-    /**
      * Get the primitive string version of this Rope.
      *
      * @return string
      */
     public function __toString()
-    {
-        return $this->contents;
-    }
-
-    /**
-     * Get the primitive string version of this Rope.
-     *
-     * @return string
-     */
-    public function toString()
     {
         return $this->contents;
     }
@@ -175,43 +170,6 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
                 $this->toStudly(),
                 $this->encoding
             ),
-            $this->encoding
-        );
-    }
-
-    /**
-     * Convert a string to snake case.
-     *
-     * @param string $delimiter
-     * @return Rope
-     */
-    public function toSnake($delimiter = '_')
-    {
-        $hash = md5($this->contents) . $delimiter;
-
-        if (isset(static::$snakeCache[$hash])) {
-            return new static(static::$snakeCache[$hash], $this->encoding);
-        }
-
-        $value = $this->contents;
-
-        if (!mb_ctype_lower($value, $this->encoding)) {
-            // Set the target encoding.
-            $previous = mb_regex_encoding();
-            mb_regex_encoding($this->encoding);
-
-            $value = mb_strtolower(preg_replace(
-                '/(.)(?=[A-Z])/u',
-                '$1' . $delimiter,
-                $value
-            ), $this->encoding);
-
-            // Restore the previous encoding.
-            mb_regex_encoding($previous);
-        }
-
-        return new static(
-            static::$snakeCache[$value . $delimiter] = $value,
             $this->encoding
         );
     }
@@ -242,6 +200,45 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     }
 
     /**
+     * Convert a string to snake case.
+     *
+     * @param string $delimiter
+     *
+     * @return Rope
+     */
+    public function toSnake($delimiter = '_')
+    {
+        $hash = md5($this->contents) . $delimiter;
+
+        if (isset(static::$snakeCache[$hash])) {
+            return new static(static::$snakeCache[$hash], $this->encoding);
+        }
+
+        $value = $this->contents;
+
+        if (!mb_ctype_lower($value, $this->encoding)) {
+            // Set the target encoding.
+            $previous = mb_regex_encoding();
+            mb_regex_encoding($this->encoding);
+
+            $value = mb_strtolower(preg_replace(
+                '/(.)(?=[A-Z])/u',
+                '$1' . $delimiter,
+                $value
+            ),
+                $this->encoding);
+
+            // Restore the previous encoding.
+            mb_regex_encoding($previous);
+        }
+
+        return new static(
+            static::$snakeCache[$value . $delimiter] = $value,
+            $this->encoding
+        );
+    }
+
+    /**
      * Get the string with the first character in lower-case.
      *
      * @return Rope
@@ -252,6 +249,19 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
             mb_lcfirst($this->contents, $this->encoding),
             $this->encoding
         );
+    }
+
+    /**
+     * Construct an instance of a Rope.
+     *
+     * @param string $contents
+     * @param null|string $encoding
+     *
+     * @return static
+     */
+    public static function of($contents = '', $encoding = null)
+    {
+        return new static($contents, $encoding);
     }
 
     /**
@@ -295,19 +305,6 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     }
 
     /**
-     * Split the string into smaller chunks.
-     *
-     * @param int $splitLength
-     *
-     * @return string[]
-     * @throws \Exception
-     */
-    public function split($splitLength = 1)
-    {
-        return mb_str_split($this->contents, $splitLength, $this->encoding);
-    }
-
-    /**
      * Get the length of the string.
      *
      * @return int
@@ -342,12 +339,12 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     public function beginsWith($prefix)
     {
         return $prefix === ''
-            || mb_strpos(
-                $this->contents,
-                (string) $prefix,
-                null,
-                $this->encoding
-            ) === 0;
+        || mb_strpos(
+            $this->contents,
+            (string) $prefix,
+            null,
+            $this->encoding
+        ) === 0;
     }
 
     /**
@@ -360,12 +357,12 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     public function endsWith($suffix)
     {
         return $suffix === ''
-            || $suffix === mb_substr(
-                $this->contents,
-                -strlen((string) $suffix),
-                null,
-                $this->encoding
-            );
+        || $suffix === mb_substr(
+            $this->contents,
+            -strlen((string) $suffix),
+            null,
+            $this->encoding
+        );
     }
 
     /**
@@ -386,24 +383,6 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     }
 
     /**
-     * Concatenate with other strings.
-     *
-     * @param string[] $others
-     *
-     * @return Rope
-     */
-    public function concat(...$others)
-    {
-        return static::of(Std::foldr(
-            function ($carry, $part) {
-                return $carry . (string) $part;
-            },
-            $this->contents,
-            $others
-        ), $this->encoding);
-    }
-
-    /**
      * Return the string with all its characters reversed.
      *
      * @return Rope
@@ -417,13 +396,16 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     }
 
     /**
-     * Get a List containing the characters of this string.
+     * Split the string into smaller chunks.
      *
-     * @return ArrayList
+     * @param int $splitLength
+     *
+     * @return string[]
+     * @throws \Exception
      */
-    public function toList()
+    public function split($splitLength = 1)
     {
-        return new ArrayList($this->split());
+        return mb_str_split($this->contents, $splitLength, $this->encoding);
     }
 
     /**
@@ -439,6 +421,16 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     }
 
     /**
+     * Get the primitive string version of this Rope.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->contents;
+    }
+
+    /**
      * Apply a function to this functor.
      *
      * @param callable|Closure $closure
@@ -451,13 +443,13 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     }
 
     /**
-     * Get an empty monoid.
+     * Get a List containing the characters of this string.
      *
-     * @return MonoidInterface
+     * @return ArrayList
      */
-    public static function zero()
+    public function toList()
     {
-        return static::of();
+        return new ArrayList($this->split());
     }
 
     /**
@@ -470,5 +462,32 @@ class Rope extends BaseObject implements FunctorInterface, MonoidInterface
     public function append(SemigroupInterface $other)
     {
         return $this->concat($other);
+    }
+
+    /**
+     * Concatenate with other strings.
+     *
+     * @param string[] $others
+     *
+     * @return Rope
+     */
+    public function concat(...$others)
+    {
+        return static::of(Std::foldr(
+            function ($carry, $part) {
+                return $carry . (string) $part;
+            },
+            $this->contents,
+            $others
+        ),
+            $this->encoding);
+    }
+
+    /**
+     * @return MapInterface
+     */
+    public function toMap()
+    {
+        return new ArrayMap($this->split());
     }
 }
