@@ -16,7 +16,7 @@ use Chromabits\Nucleus\Foundation\BaseObject;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Data
  */
-class ArrayAccessMap extends BaseObject implements MapInterface
+class ArrayAccessMap extends BaseObject
 {
     /**
      * @var ArrayAccess
@@ -94,30 +94,5 @@ class ArrayAccessMap extends BaseObject implements MapInterface
         $cloned->offsetUnset($key);
 
         return new static($cloned);
-    }
-
-    public function toMap()
-    {
-        // TODO: Implement toMap() method.
-    }
-
-    public function toList()
-    {
-        // TODO: Implement toList() method.
-    }
-
-    public function keys()
-    {
-        // TODO: Implement keys() method.
-    }
-
-    public function values()
-    {
-        // TODO: Implement values() method.
-    }
-
-    public function entries()
-    {
-        // TODO: Implement entries() method.
     }
 }

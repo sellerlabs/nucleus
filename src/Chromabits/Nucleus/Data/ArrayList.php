@@ -3,6 +3,8 @@
 namespace Chromabits\Nucleus\Data;
 
 use Chromabits\Nucleus\Data\Interfaces\IterableInterface;
+use Chromabits\Nucleus\Data\Interfaces\KeyFoldableInterface;
+use Chromabits\Nucleus\Data\Interfaces\LeftKeyFoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\ListableInterface;
 use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
@@ -24,7 +26,9 @@ class ArrayList extends IndexedCollection implements
     ListInterface,
     MapInterface,
     ListableInterface,
-    MappableInterface
+    MappableInterface,
+    KeyFoldableInterface,
+    LeftKeyFoldableInterface
 {
     use ArrayBackingTrait;
 

@@ -12,6 +12,8 @@ namespace Chromabits\Nucleus\Meditation;
 use Chromabits\Nucleus\Control\Maybe;
 use Chromabits\Nucleus\Data\ArrayList;
 use Chromabits\Nucleus\Data\ArrayMap;
+use Chromabits\Nucleus\Data\Interfaces\LeftKeyFoldableInterface;
+use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Data\Iterable;
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Foundation\BaseObject;
@@ -468,5 +470,36 @@ class Spec extends BaseObject implements CheckableInterface
             static::ANNOTATION_REQUIRED,
             $value
         );
+    }
+
+    /**
+     * Get this spec with a map applied as an annotation.
+     *
+     * @param string $name
+     * @param LeftKeyFoldableInterface $map
+     *
+     * @return mixed
+     */
+    public function withAnnotation($name, LeftKeyFoldableInterface $map)
+    {
+        return $map->foldlWithKeys(
+            function (static $acc, $value, $fieldName) use ($name) {
+                return $acc->withFieldAnnotation($fieldName, $name, $value);
+            },
+            $this
+        );
+    }
+
+    /**
+     * Get this spec with each value in the provided map as the default of the
+     * matching key-field name.
+     *
+     * @param LeftKeyFoldableInterface $map
+     *
+     * @return mixed
+     */
+    public function withDefaults(LeftKeyFoldableInterface $map)
+    {
+        return $this->withAnnotation(static::ANNOTATION_DEFAULT, $map);
     }
 }

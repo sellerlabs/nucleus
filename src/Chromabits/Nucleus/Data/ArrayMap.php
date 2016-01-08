@@ -6,7 +6,9 @@ use Chromabits\Nucleus\Control\Interfaces\ApplicativeInterface;
 use Chromabits\Nucleus\Control\Maybe;
 use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\IterableInterface;
+use Chromabits\Nucleus\Data\Interfaces\KeyFoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
+use Chromabits\Nucleus\Data\Interfaces\LeftKeyFoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Data\Interfaces\MappableInterface;
@@ -29,7 +31,9 @@ class ArrayMap extends KeyedCollection implements
     LeftFoldableInterface,
     ApplicativeInterface,
     MappableInterface,
-    ListInterface
+    ListInterface,
+    KeyFoldableInterface,
+    LeftKeyFoldableInterface
 {
     use ArrayBackingTrait;
 

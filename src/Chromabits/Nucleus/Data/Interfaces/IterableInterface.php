@@ -12,7 +12,7 @@ use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Data\Interfaces
  */
-interface IterableInterface
+interface IterableInterface extends LeftFoldableInterface, FoldableInterface
 {
     /**
      * @return AbstractTypeConstraint
