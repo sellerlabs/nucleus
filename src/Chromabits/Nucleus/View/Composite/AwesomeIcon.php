@@ -285,7 +285,7 @@ class AwesomeIcon extends BaseObject implements
 
         return (new Italic([
             'class' => $classes->join(' '),
-        ]));
+        ]))->render();
     }
 
     /**
