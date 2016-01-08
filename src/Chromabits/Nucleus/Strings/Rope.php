@@ -239,6 +239,32 @@ class Rope extends BaseObject implements
     }
 
     /**
+     * Get this Rope with all its characters in lowercase.
+     *
+     * @return Rope
+     */
+    public function toLower()
+    {
+        return static::of(mb_strtolower(
+            $this->contents,
+            $this->encoding
+        ), $this->encoding);
+    }
+
+    /**
+     * Get this Rope with all its characters in uppercase.
+     *
+     * @return Rope
+     */
+    public function toUpper()
+    {
+        return static::of(mb_strtoupper(
+            $this->contents,
+            $this->encoding
+        ), $this->encoding);
+    }
+
+    /**
      * Get the string with the first character in lower-case.
      *
      * @return Rope
@@ -489,5 +515,18 @@ class Rope extends BaseObject implements
     public function toMap()
     {
         return new ArrayMap($this->split());
+    }
+
+    /**
+     * Return whether this Rope is equal to another.
+     *
+     * @param Rope $other
+     *
+     * @return bool
+     */
+    public function equals(Rope $other)
+    {
+        return $this->contents === $other->contents
+            && $this->encoding === $other->encoding;
     }
 }

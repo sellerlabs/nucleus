@@ -2,6 +2,8 @@
 
 namespace Chromabits\Nucleus\Meditation\Constraints;
 
+use Chromabits\Nucleus\Strings\Rope;
+
 /**
  * Class BooleanConstraint
  *
@@ -20,10 +22,11 @@ class BooleanConstraint extends AbstractConstraint
      */
     public function check($value, array $context = [])
     {
-        if (is_string($value)) {
-            $lower = strtolower($value);
+        if (is_string($value) || $value instanceof Rope) {
+            $lower = Rope::of($value)->toLower();
 
-            return $lower === 'true' || $lower === 'false';
+            return $lower->equals(Rope::of('true'))
+                || $lower->equals(Rope::of('false'));
         } elseif (is_int($value)) {
             return $value === 0 || $value === 1;
         } elseif (is_float($value)) {

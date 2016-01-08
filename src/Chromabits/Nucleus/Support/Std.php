@@ -16,6 +16,7 @@ use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Data\Factories\ComplexFactory;
 use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
+use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Foundation\StaticObject;
 use Chromabits\Nucleus\Meditation\Arguments;
@@ -593,5 +594,48 @@ class Std extends StaticObject
         }
 
         return null;
+    }
+
+    /**
+     * Attempt to cast a value into a bool.
+     *
+     * @param mixed $mixed
+     *
+     * @return bool
+     * @throws CoreException
+     */
+    public static function castToBool($mixed)
+    {
+        if (is_string($mixed) || $mixed instanceof Rope) {
+            $lower = Rope::of($mixed)->toLower();
+
+            if ($lower->equals(Rope::of('true'))) {
+                return true;
+            } elseif ($lower->equals(Rope::of('false'))) {
+                return false;
+            }
+
+            throw new CoreException('Unable to cast into a bool.');
+        } elseif (is_int($mixed)) {
+            if ($mixed === 1) {
+                return true;
+            } elseif ($mixed === 0) {
+                return false;
+            }
+
+            throw new CoreException('Unable to cast into a bool.');
+        } elseif (is_float($mixed)) {
+            if ($mixed === 1.0) {
+                return true;
+            } elseif ($mixed === 0.0) {
+                return false;
+            }
+
+            throw new CoreException('Unable to cast into a bool.');
+        } elseif (is_bool($mixed)) {
+            return $mixed;
+        }
+
+        throw new CoreException('Unable to cast into a bool.');
     }
 }
