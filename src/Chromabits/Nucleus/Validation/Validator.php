@@ -29,6 +29,9 @@ use Chromabits\Nucleus\Support\Std;
  */
 class Validator extends BaseObject implements CheckableInterface
 {
+    /**
+     * @var array
+     */
     protected $messages;
 
     /**

@@ -27,7 +27,7 @@ use Chromabits\Nucleus\View\Interfaces\SafeHtmlProducerInterface;
 /**
  * Class Node.
  *
- * WIP
+ * A renderable HTML node.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\View
