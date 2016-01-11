@@ -12,6 +12,11 @@
 namespace Chromabits\Nucleus\Foundation;
 
 use Chromabits\Nucleus\Data\ArrayList;
+use Chromabits\Nucleus\Data\ArrayMap;
+use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
+use Chromabits\Nucleus\Data\Interfaces\ListInterface;
+use Chromabits\Nucleus\Data\Interfaces\MapInterface;
+use Closure;
 use ReflectionClass;
 
 /**
@@ -20,7 +25,7 @@ use ReflectionClass;
  * An enumeration emulation.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
- * @package Chromabits\Nucleus\Support
+ * @package Chromabits\Nucleus\Foundation
  */
 abstract class Enum extends BaseObject
 {
@@ -44,5 +49,29 @@ abstract class Enum extends BaseObject
         $self = new ReflectionClass(static::class);
 
         return $self->getConstants();
+    }
+
+    /**
+     * @return MapInterface
+     */
+    public static function toMap()
+    {
+        return ArrayMap::of(static::getValues());
+    }
+
+    /**
+     * @return ListInterface
+     */
+    public static function toList()
+    {
+        return ArrayList::of(static::getValues());
+    }
+
+    /**
+     * @return ListInterface
+     */
+    public static function toValuesList()
+    {
+        return ArrayMap::of(static::getValues())->values();
     }
 }
