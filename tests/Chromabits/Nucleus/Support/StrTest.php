@@ -68,7 +68,7 @@ class StrTest extends TestCase
     {
         $this->assertEquals(16, strlen(Str::random()));
 
-        $someInteger = mt_rand(1, 100);
+        $someInteger = mt_rand(1, 5);
         $this->assertEquals($someInteger, strlen(Str::random($someInteger)));
         $this->assertInternalType('string', Str::random());
     }

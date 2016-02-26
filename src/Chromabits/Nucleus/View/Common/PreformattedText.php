@@ -14,6 +14,12 @@ namespace Chromabits\Nucleus\View\Common;
 use Chromabits\Nucleus\View\Interfaces\RenderableInterface;
 use Chromabits\Nucleus\View\Node;
 
+/**
+ * Class PreformattedText.
+ *
+ * @author Eduardo Trujillo <ed@chromabits.com>
+ * @package Chromabits\Nucleus\View\Common
+ */
 class PreformattedText extends Node
 {
     /**

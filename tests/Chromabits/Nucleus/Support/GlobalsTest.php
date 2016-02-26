@@ -12,6 +12,7 @@
 namespace Tests\Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
+use Chromabits\Nucleus\Support\Std;
 use Chromabits\Nucleus\Testing\TestCase;
 
 /**
@@ -24,30 +25,30 @@ class GlobalsTest extends TestCase
 {
     public function testWithin()
     {
-        $this->assertTrue(within(0, 4500, 30));
-        $this->assertTrue(within(-300, 4500.5, 0));
-        $this->assertTrue(within(-300, -1, -20));
+        $this->assertTrue(Std::within(0, 4500, 30));
+        $this->assertTrue(Std::within(-300, 4500.5, 0));
+        $this->assertTrue(Std::within(-300, -1, -20));
 
-        $this->assertFalse(within(0, 4500, -30));
-        $this->assertFalse(within(-300, 4500, -7000));
-        $this->assertFalse(within(-300, -1, 20));
+        $this->assertFalse(Std::within(0, 4500, -30));
+        $this->assertFalse(Std::within(-300, 4500, -7000));
+        $this->assertFalse(Std::within(-300, -1, 20));
     }
 
     public function testWithinValidation()
     {
         $this->setExpectedException(LackOfCoffeeException::class);
 
-        within(4000, -1, 34);
+        Std::within(4000, -1, 34);
     }
 
     public function testCoalesce()
     {
-        $this->assertEquals('doge', coalesce('doge'));
-        $this->assertEquals('doge', coalesce(null, 'doge'));
-        $this->assertEquals('doge', coalesce(null, null, 'doge'));
-        $this->assertEquals('doge', coalesce(null, null, 'doge', 'dolan'));
-        $this->assertEquals('gopher', coalesce('gopher', null, 'doge'));
-        $this->assertNull(coalesce());
+        $this->assertEquals('doge', Std::coalesce('doge'));
+        $this->assertEquals('doge', Std::coalesce(null, 'doge'));
+        $this->assertEquals('doge', Std::coalesce(null, null, 'doge'));
+        $this->assertEquals('doge', Std::coalesce(null, null, 'doge', 'dolan'));
+        $this->assertEquals('gopher', Std::coalesce('gopher', null, 'doge'));
+        $this->assertNull(Std::coalesce());
     }
 
     public function testMbCtypeLower()

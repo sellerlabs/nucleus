@@ -37,7 +37,7 @@ class AtLeastOneOfConstraint extends AbstractConstraint
     {
         parent::__construct();
 
-        Arguments::contain(Boa::arrOf(Boa::string()))->check($fields);
+        Arguments::define(Boa::arrOf(Boa::string()))->check($fields);
 
         $this->fields = $fields;
     }

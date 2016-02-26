@@ -21,6 +21,14 @@ While Nucleus has a bunch of random crap in it, there are some useful classes wo
 - **View**: An set of classes and utilities for generating clean and safe HTML/Text. It sort of looks like XHP without the XML or de-sugarized React.js code.
 - **Std, Arr, and others**: We all know the PHP standard library is a mess. There are many failed attempts to fix this out there. This is another one of those attempts. I've created a few classes with a bunch of static aliases that attempt to improve upon it. Yes, there is a performance penalty (validation + at least one more function call), but it makes many operations more predictable and safer.
 
+## Building documentation
+
+```sh
+cd docs
+pip install -r requirements.txt
+make html
+```
+
 ## Contributing
 
 Pull requests are accepted on GitHub. Bug fixes and small improvements are welcome. Big ideas will be reviewed and discussed.

@@ -11,9 +11,12 @@
 
 namespace Chromabits\Nucleus\Support;
 
+use Chromabits\Nucleus\Data\ArrayList;
+use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Data\Factories\ComplexFactory;
 use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
+use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Foundation\StaticObject;
 use Chromabits\Nucleus\Meditation\Arguments;
@@ -93,7 +96,7 @@ class Std extends StaticObject
             return $one . $other;
         }
 
-        return array_merge($one, $other);
+        return ArrayMap::of($one)->append(ArrayMap::of($other))->toArray();
     }
 
     /**
@@ -271,17 +274,17 @@ class Std extends StaticObject
         array $input,
         array $allowed = null
     ) {
+        $filtered = ArrayMap::of($input);
+
         if ($allowed !== null) {
-            $filtered = Arr::only($input, $allowed);
-        } else {
-            $filtered = $input;
+            $filtered = $filtered->only($allowed);
         }
 
-        foreach ($filtered as $key => $value) {
+        $filtered->each(function ($value, $key) use (&$object) {
             $setterName = 'set' . Str::studly($key);
 
             $object->$setterName($value);
-        }
+        });
     }
 
     /**
@@ -415,22 +418,6 @@ class Std extends StaticObject
     }
 
     /**
-     * Return the input array but with its items reversed.
-     *
-     * @param array $list
-     *
-     * @return array
-     */
-    public static function reverse($list)
-    {
-        Arguments::define(Boa::arr())->check($list);
-
-        // TODO: Support Lists, not just arrays.
-
-        return array_reverse($list);
-    }
-
-    /**
      * Placeholder.
      *
      * @param mixed $value
@@ -455,9 +442,6 @@ class Std extends StaticObject
      */
     public static function map(callable $function, $traversable)
     {
-        Arguments::define(Boa::func(), Boa::traversable())
-            ->check($function, $traversable);
-
         $aggregation = [];
 
         foreach ($traversable as $key => $value) {
@@ -522,7 +506,7 @@ class Std extends StaticObject
         Arguments::define(Boa::func(), Boa::arr())->check($function, $args);
 
         // Counts required parameters.
-        $required = function () use ($function, $args) {
+        $required = function () use ($function) {
             return (new ReflectionFunction($function))
                 ->getNumberOfRequiredParameters();
         };
@@ -541,7 +525,9 @@ class Std extends StaticObject
             $required,
             $isFulfilled
         ) {
-            $newArgs = array_merge($args, $funcArgs);
+            $newArgs = ArrayList::of($args)
+                ->append(ArrayList::of($funcArgs))
+                ->toArray();
 
             if ($isFulfilled($function, $newArgs)) {
                 return static::apply($function, $newArgs);
@@ -570,7 +556,7 @@ class Std extends StaticObject
      * This covers one of the most frequent case for using for-loops.
      *
      * @param callable $function
-     * @param integer $times
+     * @param int $times
      */
     public static function poll(callable $function, $times)
     {
@@ -587,7 +573,7 @@ class Std extends StaticObject
      * throws an exception.
      *
      * @param callable $function
-     * @param integer $attempts
+     * @param int $attempts
      *
      * @return mixed|null
      * @throws InvalidArgumentException
@@ -608,5 +594,48 @@ class Std extends StaticObject
         }
 
         return null;
+    }
+
+    /**
+     * Attempt to cast a value into a bool.
+     *
+     * @param mixed $mixed
+     *
+     * @return bool
+     * @throws CoreException
+     */
+    public static function castToBool($mixed)
+    {
+        if (is_string($mixed) || $mixed instanceof Rope) {
+            $lower = Rope::of($mixed)->toLower();
+
+            if ($lower->equals(Rope::of('true'))) {
+                return true;
+            } elseif ($lower->equals(Rope::of('false'))) {
+                return false;
+            }
+
+            throw new CoreException('Unable to cast into a bool.');
+        } elseif (is_int($mixed)) {
+            if ($mixed === 1) {
+                return true;
+            } elseif ($mixed === 0) {
+                return false;
+            }
+
+            throw new CoreException('Unable to cast into a bool.');
+        } elseif (is_float($mixed)) {
+            if ($mixed === 1.0) {
+                return true;
+            } elseif ($mixed === 0.0) {
+                return false;
+            }
+
+            throw new CoreException('Unable to cast into a bool.');
+        } elseif (is_bool($mixed)) {
+            return $mixed;
+        }
+
+        throw new CoreException('Unable to cast into a bool.');
     }
 }

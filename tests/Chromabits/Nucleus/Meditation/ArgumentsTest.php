@@ -29,28 +29,28 @@ use stdClass;
  */
 class ArgumentsTest extends TestCase
 {
-    public function testContain()
+    public function testDefine()
     {
-        Arguments::contain(
+        Arguments::define(
             PrimitiveTypeConstraint::forType(ScalarTypes::SCALAR_STRING)
         )->check('wow');
     }
 
-    public function testContainWithMismatch()
+    public function testDefineWithMismatch()
     {
         $this->setExpectedException(
             InvalidArgumentException::class,
             'Argument number mismatch.'
         );
 
-        Arguments::contain(
+        Arguments::define(
             PrimitiveTypeConstraint::forType(ScalarTypes::SCALAR_STRING)
         )->check('wow', new stdClass());
     }
 
-    public function testContainWithInvalid()
+    public function testDefineWithInvalid()
     {
-        $definition = Arguments::contain(
+        $definition = Arguments::define(
             PrimitiveTypeConstraint::forType(ScalarTypes::SCALAR_STRING),
             EitherConstraint::create(
                 MaybeConstraint::forType(PrimitiveTypeConstraint::forType(

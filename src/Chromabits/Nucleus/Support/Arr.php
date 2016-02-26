@@ -518,7 +518,7 @@ class Arr extends StaticObject
      * Returns the suffix of element after the first N elements.
      *
      * @param array $input
-     * @param integer $count
+     * @param int $count
      *
      * @return array
      */
@@ -536,7 +536,7 @@ class Arr extends StaticObject
      * @param array $input
      * @param mixed $value
      *
-     * @return integer|bool
+     * @return int|bool
      */
     public static function indexOf(array $input, $value)
     {
@@ -553,7 +553,7 @@ class Arr extends StaticObject
      * Returns the suffix of elements before the first N elements
      *
      * @param array $input
-     * @param integer $count
+     * @param int $count
      *
      * @return array
      */

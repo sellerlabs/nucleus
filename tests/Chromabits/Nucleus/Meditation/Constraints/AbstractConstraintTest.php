@@ -20,7 +20,7 @@ use Mockery;
  * Class AbstractConstraintTest.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
- * @package tests\Chromabits\Nucleus\Meditation\Constraints
+ * @package Tests\Chromabits\Nucleus\Meditation\Constraints
  */
 class AbstractConstraintTest extends TestCase
 {

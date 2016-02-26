@@ -65,14 +65,6 @@ class ImpersonatorTest extends TestCase
         $this->assertEquals('Goodbye', $result->getTwo()->sayHello());
     }
 
-    public function testMakeWithNoConstructor()
-    {
-        $imp = new Impersonator();
-
-        $this->setExpectedException(LackOfCoffeeException::class);
-        $imp->make(ExampleA::class);
-    }
-
     public function testMakeWithResolutionIssue()
     {
         $imp = new Impersonator();

@@ -11,7 +11,7 @@
 
 namespace Chromabits\Nucleus\Meditation;
 
-use Chromabits\Nucleus\Support\Enum;
+use Chromabits\Nucleus\Foundation\Enum;
 
 /**
  * Class TypesDefinition.

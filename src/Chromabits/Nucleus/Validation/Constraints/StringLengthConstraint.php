@@ -63,7 +63,7 @@ class StringLengthConstraint extends AbstractConstraint
     {
         parent::__construct();
 
-        Arguments::contain(Boa::integer(), Boa::integer())
+        Arguments::define(Boa::integer(), Boa::integer())
             ->check($min, $max);
 
         if ($min < 0) {

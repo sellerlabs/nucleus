@@ -11,5 +11,8 @@ namespace Chromabits\Nucleus\Data\Interfaces;
  */
 interface TraversableInterface extends FunctorInterface
 {
+    /**
+     * @return mixed
+     */
     public function sequence();
 }

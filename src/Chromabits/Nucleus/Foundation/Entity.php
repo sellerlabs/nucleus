@@ -2,11 +2,11 @@
 
 namespace Chromabits\Nucleus\Foundation;
 
+use Chromabits\Nucleus\Data\ArrayList;
+use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 use Chromabits\Nucleus\Foundation\Interfaces\ArrayableInterface;
 use Chromabits\Nucleus\Foundation\Interfaces\FillableInterface;
-use Chromabits\Nucleus\Support\Arr;
-use Chromabits\Nucleus\Support\Std;
 use Chromabits\Nucleus\Support\Str;
 
 /**
@@ -63,20 +63,20 @@ abstract class Entity extends BaseObject implements
     {
         $this->assertIsFillable();
 
-        $filtered = Arr::only($input, $this->getFillable());
+        ArrayMap::of($input)
+            ->only($this->getFillable())
+            ->each(function ($value, $key) {
+                $setter = vsprintf('set%s', [Str::studly($key)]);
 
-        foreach ($filtered as $key => $value) {
-            $setter = vsprintf('set%s', [Str::studly($key)]);
+                if (method_exists($this, $setter)) {
+                    $this->$setter($value);
 
-            if (method_exists($this, $setter)) {
-                $this->$setter($value);
+                    return;
+                }
 
-                continue;
-            }
-
-            $camel = Str::camel($key);
-            $this->$camel = $value;
-        }
+                $camel = Str::camel($key);
+                $this->$camel = $value;
+            });
 
         return $this;
     }
@@ -124,26 +124,23 @@ abstract class Entity extends BaseObject implements
     public function toArray()
     {
         $result = [];
-        $included = Arr::exceptValues(
-            array_unique(Std::concat(
-                $this->getFillable(),
-                $this->getVisible())
-            , SORT_STRING),
-            $this->getHidden()
-        );
 
-        foreach ($included as $key) {
-            $getter = vsprintf('get%s', [Str::studly($key)]);
+        ArrayList::of($this->getFillable())
+            ->append(ArrayList::of($this->getVisible()))
+            ->unique(SORT_STRING)
+            ->exceptValues($this->getHidden())
+            ->each(function ($key) use (&$result) {
+                $getter = vsprintf('get%s', [Str::studly($key)]);
 
-            if (method_exists($this, $getter)) {
-                $result[$key] = $this->$getter();
+                if (method_exists($this, $getter)) {
+                    $result[$key] = $this->$getter();
 
-                continue;
-            }
+                    return;
+                }
 
-            $camel = Str::camel($key);
-            $result[$key] = $this->$camel;
-        }
+                $camel = Str::camel($key);
+                $result[$key] = $this->$camel;
+            });
 
         return $result;
     }

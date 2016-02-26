@@ -9,13 +9,13 @@
  * This file is part of the Nucleus package
  */
 
-namespace Chromabits\Nucleus\Support\Transforms;
+namespace Chromabits\Nucleus\Transformation;
 
+use Chromabits\Nucleus\Data\ArrayMap;
 use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
-use Chromabits\Nucleus\Support\Interfaces\TransformInterface;
-use Illuminate\Support\Arr;
+use Chromabits\Nucleus\Transformation\Interfaces\TransformInterface;
 
 /**
  * Class OnlyTransform.
@@ -39,7 +39,7 @@ class OnlyTransform extends BaseObject implements TransformInterface
     {
         parent::__construct();
 
-        Arguments::contain(Boa::arrOf(Boa::string()))->check($allowed);
+        Arguments::define(Boa::arrOf(Boa::string()))->check($allowed);
 
         $this->allowed = $allowed;
     }
@@ -53,6 +53,6 @@ class OnlyTransform extends BaseObject implements TransformInterface
      */
     public function run(array $input)
     {
-        return Arr::only($input, $this->allowed);
+        return ArrayMap::of($input)->only($this->allowed)->toArray();
     }
 }

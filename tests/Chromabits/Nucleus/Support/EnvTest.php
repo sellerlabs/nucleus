@@ -1,17 +1,17 @@
 <?php
 
-namespace tests\Chromabits\Nucleus\Support;
+namespace Tests\Chromabits\Nucleus\Support;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Support\Env;
-use Chromabits\Nucleus\Support\Str;
+
 use Chromabits\Nucleus\Testing\TestCase;
 
 /**
  * Class EnvTest
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
- * @package tests\Chromabits\Nucleus\Support
+ * @package Tests\Chromabits\Nucleus\Support
  */
 class EnvTest extends TestCase
 {

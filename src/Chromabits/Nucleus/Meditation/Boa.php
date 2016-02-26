@@ -15,6 +15,7 @@ use Chromabits\Nucleus\Foundation\BaseObject;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\AnyConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ArrayOfConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\BooleanConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\CallableConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClassTypeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ClosureConstraint;
@@ -25,6 +26,7 @@ use Chromabits\Nucleus\Meditation\Constraints\InArrayConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ListConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\MapConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\MaybeConstraint;
+use Chromabits\Nucleus\Meditation\Constraints\NumericConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\PrimitiveTypeConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\ReadMapConstraint;
 use Chromabits\Nucleus\Meditation\Constraints\LeftFoldableConstraint;
@@ -347,5 +349,21 @@ class Boa extends BaseObject
     public static function functor()
     {
         return new FunctorConstraint();
+    }
+
+    /**
+     * @return BooleanConstraint
+     */
+    public static function booleanLike()
+    {
+        return new BooleanConstraint();
+    }
+
+    /**
+     * @return NumericConstraint
+     */
+    public static function numeric()
+    {
+        return new NumericConstraint();
     }
 }

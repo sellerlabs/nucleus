@@ -12,6 +12,9 @@ Contents:
    :maxdepth: 2
 
    design/index
+   flavor/index
+   exception
+   foundation
    pipelines
    specs
    transforms

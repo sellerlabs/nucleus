@@ -2,32 +2,35 @@
 
 namespace Chromabits\Nucleus\Data;
 
-use Chromabits\Nucleus\Control\Interfaces\ApplicativeInterface;
-use Chromabits\Nucleus\Control\Interfaces\ApplyInterface;
-use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
+use Chromabits\Nucleus\Data\Interfaces\IterableInterface;
+use Chromabits\Nucleus\Data\Interfaces\KeyFoldableInterface;
+use Chromabits\Nucleus\Data\Interfaces\LeftKeyFoldableInterface;
+use Chromabits\Nucleus\Data\Interfaces\ListableInterface;
 use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
-use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
-use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
-use Chromabits\Nucleus\Data\Traits\SameTypeTrait;
+use Chromabits\Nucleus\Data\Interfaces\MappableInterface;
+use Chromabits\Nucleus\Data\Traits\ArrayBackingTrait;
 use Chromabits\Nucleus\Exceptions\CoreException;
-use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
-use Chromabits\Nucleus\Support\Arr;
-use Chromabits\Nucleus\Support\Std;
+use Chromabits\Nucleus\Meditation\Boa;
+use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
 
 /**
  * Class ArrayList
- *
  * An implementation of a List backed by an array.
- *
  * This is an early WIP. Interfaces might change over time.
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Data
  */
-class ArrayList implements ListInterface, MapInterface
+class ArrayList extends IndexedCollection implements
+    ListInterface,
+    MapInterface,
+    ListableInterface,
+    MappableInterface,
+    KeyFoldableInterface,
+    LeftKeyFoldableInterface
 {
-    use SameTypeTrait;
+    use ArrayBackingTrait;
 
     /**
      * @var array
@@ -35,180 +38,84 @@ class ArrayList implements ListInterface, MapInterface
     protected $value;
 
     /**
-     * Construct an instance of a ArrayList.
+     * Construct an instance of an ArrayList.
      *
      * @param array $initial
      */
     public function __construct(array $initial = [])
     {
-        $this->value = $initial;
+        parent::__construct();
+
+        $this->value = array_values($initial);
+        $this->size = count($initial);
     }
 
     /**
-     * Get an empty monoid.
-     *
-     * @return MonoidInterface
+     * @return AbstractTypeConstraint
      */
-    public static function zero()
+    public function getValueType()
     {
-        return new static();
+        // TODO: Figure out how to make this nicer.
+        return Boa::any();
     }
 
     /**
-     * Append another semigroup and return the result.
-     *
-     * @param SemigroupInterface $other
-     *
-     * @return SemigroupInterface
-     * @throws CoreException
-     * @throws MismatchedArgumentTypesException
+     * @return array
      */
-    public function append(SemigroupInterface $other)
+    public function toArray()
     {
-        $this->assertSameType($other);
-
-        return new static(Std::concat(
-            $this->value,
-            $other->value
-        ));
+        return array_values($this->value);
     }
 
     /**
-     * Apply a function to this functor.
-     *
-     * @param callable $closure
-     *
-     * @return FunctorInterface
+     * @return static|IterableInterface
      */
-    public function fmap(callable $closure)
+    public function reverse()
     {
-        return Std::map($closure, $this->value);
+        return new static(array_reverse($this->value));
     }
 
     /**
-     * Combine all the elements in the traversable using a combining operation.
+     * @param callable $callable
      *
-     * @param callable $closure
-     * @param mixed $initial
-     *
-     * @return mixed
+     * @return IterableInterface
      */
-    public function foldr(callable $closure, $initial)
+    public function filter(callable $callable)
     {
-        return array_reduce(Arr::reverse($this->value), $closure, $initial);
-    }
-
-    /**
-     * Combine all the elements in the traversable using a combining operation.
-     *
-     * @param callable $closure
-     * @param mixed $initial
-     *
-     * @return mixed
-     */
-    public function foldl(callable $closure, $initial)
-    {
-        return array_reduce($this->value, $closure, $initial);
-    }
-
-    /**
-     * @param mixed $input
-     *
-     * @return ApplicativeInterface
-     */
-    public static function of($input)
-    {
-        return new static($input);
-    }
-
-    /**
-     * @param ApplyInterface $other
-     *
-     * @return ApplyInterface
-     */
-    public function ap(ApplyInterface $other)
-    {
-        $this->assertSameType($other);
-
-        /** @var ArrayList $other */
         $result = [];
 
-        Std::poll(function ($ii) use (&$result, &$other) {
-            Std::poll(function ($jj) use (&$result, &$other, $ii) {
-                $result[] = Std::call(
-                    $this->value[$ii],
-                    $other->value[$jj]
-                );
-            }, count($other->value));
-        }, count($this->value));
-
-        return $result;
-    }
-
-    /**
-     * Get the value of the provided key.
-     *
-     * @param string $key
-     *
-     * @return static
-     * @throws CoreException
-     */
-    public function lookup($key)
-    {
-        if (!$this->member($key)) {
-            throw new CoreException(vsprintf(
-                'The key "%s" is not a member of this Map.',
-                [$key]
-            ));
+        foreach ($this->value as $key => $value) {
+            if ($callable($value, $key, $this)) {
+                $result[] = $value;
+            }
         }
 
-        return $this->value[$key];
+        return static::of($result);
     }
 
     /**
-     * Return a new Map of the same type containing the added key.
-     *
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return static
+     * @return ListInterface
      */
-    public function insert($key, $value)
+    public function toList()
     {
-        $cloned = array_merge($this->value);
-
-        $cloned[$key] = $value;
-
-        return new static($cloned);
+        return $this;
     }
 
     /**
-     * Return a new Map of the same type without the specified key.
-     *
-     * @param string $key
-     *
-     * @return static
-     * @internal param mixed $value
-     *
+     * @return MapInterface
      */
-    public function delete($key)
+    public function toMap()
     {
-        $cloned = array_merge($this->value);
-
-        unset($cloned[$key]);
-
-        return new static($cloned);
+        return new ArrayMap($this->value);
     }
 
     /**
-     * Return whether or not the map contains the specified key.
-     *
-     * @param string $key
-     *
-     * @return bool
+     * @throws CoreException
      */
-    public function member($key)
+    protected function assertNotEmpty()
     {
-        return array_key_exists($key, $this->value);
+        if ($this->size < 1) {
+            throw new CoreException('List is empty');
+        }
     }
 }

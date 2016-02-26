@@ -41,7 +41,7 @@ class Html extends StaticObject
      */
     public static function escape($string)
     {
-        Arguments::contain(
+        Arguments::define(
             Boa::either(
                 Boa::either(
                     Boa::instance(SafeHtmlWrapper::class),

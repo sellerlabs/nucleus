@@ -8,6 +8,8 @@ use Chromabits\Nucleus\Control\Interfaces\ChainInterface;
 /**
  * Class ChainTrait
  *
+ * @method bind(callable $other)
+ *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Control\Traits
  */

@@ -10,20 +10,22 @@
   ],
   "require-dev": {
     "phpunit/phpunit": "*",
-    "mockery/mockery": "0.9.*"
+    "mockery/mockery": "0.9.*",
+    "phpbench/phpbench": "@dev"
   },
   "autoload": {
     "psr-4": {
       "Chromabits\\Nucleus\\": "src/Chromabits/Nucleus"
     },
     "files": [
-      "src/Chromabits/Nucleus/Support/globals.php",
       "src/Chromabits/Nucleus/Support/intl.php"
     ]
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\Chromabits\\Nucleus\\": "tests/Chromabits/Nucleus"
+      "Tests\\Chromabits\\Nucleus\\": "tests/Chromabits/Nucleus",
+      "Benchmarks\\Chromabits\\Nucleus\\": "benchmarks/Chromabits/Nucleus",
+      "Benchmarks\\Chromabits\\Sanity\\": "benchmarks/Chromabits/Sanity"
     }
   },
   "require": {

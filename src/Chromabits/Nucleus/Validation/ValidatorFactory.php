@@ -58,7 +58,7 @@ class ValidatorFactory extends SpecFactory
      */
     public function message($field, $message)
     {
-        Arguments::contain(Boa::string(), Boa::string())
+        Arguments::define(Boa::string(), Boa::string())
             ->check($field, $message);
 
         $this->messages[$field] = $message;

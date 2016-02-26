@@ -25,6 +25,7 @@ class TestCaseTest extends PHPUnit_Framework_TestCase
 {
     public function testAssertInstanceOf()
     {
+        /** @var TestCase $case */
         $case = $this->getMockForAbstractClass(TestCase::class);
 
         $case->assertInstanceOf(
@@ -42,6 +43,7 @@ class TestCaseTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertInstanceOfWithInvalid()
     {
+        /** @var TestCase $case */
         $case = $this->getMockForAbstractClass(TestCase::class);
 
         $case->assertInstanceOf('EmptyIterator', new ArrayIterator());
@@ -52,6 +54,7 @@ class TestCaseTest extends PHPUnit_Framework_TestCase
      */
     public function testAssertInstanceOfWithMultipleInvalid()
     {
+        /** @var TestCase $case */
         $case = $this->getMockForAbstractClass(TestCase::class);
 
         $case->assertInstanceOf(

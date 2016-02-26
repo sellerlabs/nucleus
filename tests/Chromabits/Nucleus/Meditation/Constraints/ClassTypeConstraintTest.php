@@ -38,7 +38,7 @@ class ClassTypeConstraintTest extends TestCase
             [false, $instance->check(27645)],
             [false, $instance->check(276.564)],
             [false, $instance->check(new stdClass())],
-            [true, $instance->check(rope('some random string'))],
+            [true, $instance->check(Rope::of('some random string'))],
         ]);
     }
 
