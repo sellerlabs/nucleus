@@ -16,6 +16,11 @@ use Chromabits\Nucleus\Support\Std;
 class StdBench
 {
     /**
+     * @var string[]
+     */
+    protected $keyValueArray;
+
+    /**
      * Construct an instance of a StdBench.
      */
     public function __construct()
