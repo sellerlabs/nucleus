@@ -8,15 +8,12 @@ use Chromabits\Nucleus\Data\ArrayList;
 use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
 use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
-use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
 use Chromabits\Nucleus\Data\Iterable;
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Exceptions\MindTheGapException;
-use Chromabits\Nucleus\Foundation\Interfaces\ArrayableInterface;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
-use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
 use Chromabits\Nucleus\Support\Std;
 
 /**
@@ -56,9 +53,12 @@ trait ArrayBackingTrait
      */
     public function foldr(callable $closure, $initial)
     {
-        return $this->reverse()->foldl(function ($acc, $x) use ($closure) {
-            return $closure($x, $acc);
-        }, $initial);
+        return $this->reverse()->foldl(
+            function ($acc, $x) use ($closure) {
+                return $closure($x, $acc);
+            },
+            $initial
+        );
     }
 
     /**
@@ -336,26 +336,6 @@ trait ArrayBackingTrait
     }
 
     /**
-     * Return a new Map of the same type containing the added key.
-     *
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return static
-     */
-    public function insert($key, $value)
-    {
-        Arguments::define($this->getKeyType(), $this->getValueType())
-            ->check($key, $value);
-
-        $cloned = array_merge($this->value);
-
-        $cloned[$key] = $value;
-
-        return static::of($cloned);
-    }
-
-    /**
      * Return a new Map of the same type without the specified key.
      *
      * @param string $key
@@ -463,6 +443,16 @@ trait ArrayBackingTrait
     }
 
     /**
+     * Get an empty monoid.
+     *
+     * @return static|MonoidInterface
+     */
+    public static function zero()
+    {
+        return static::of([]);
+    }
+
+    /**
      * Attempt to set a field using the provided updater function.
      *
      * @param string $key
@@ -482,13 +472,23 @@ trait ArrayBackingTrait
     }
 
     /**
-     * Get an empty monoid.
+     * Return a new Map of the same type containing the added key.
      *
-     * @return static|MonoidInterface
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return static
      */
-    public static function zero()
+    public function insert($key, $value)
     {
-        return static::of([]);
+        Arguments::define($this->getKeyType(), $this->getValueType())
+            ->check($key, $value);
+
+        $cloned = array_merge($this->value);
+
+        $cloned[$key] = $value;
+
+        return static::of($cloned);
     }
 
     /**
