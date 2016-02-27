@@ -166,16 +166,18 @@ class ArrayMap extends KeyedCollection implements
     /**
      * Append another semigroup and return the result.
      *
-     * @param SemigroupInterface $other
+     * @param ArrayMap|SemigroupInterface $other
      *
-     * @return static|SemigroupInterface
+     * @return ArrayMap|SemigroupInterface
      * @throws CoreException
      * @throws MismatchedArgumentTypesException
      */
     public function append(SemigroupInterface $other)
     {
-        $this->assertSameType($other);
+        if ($other instanceof static) {
+            return new static(array_merge($this->value, $other->value));
+        }
 
-        return new ArrayMap(array_merge($this->value, $other->value));
+        $this->throwMismatchedDataTypeException($other);
     }
 }

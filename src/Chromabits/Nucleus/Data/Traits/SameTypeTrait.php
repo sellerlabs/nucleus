@@ -15,17 +15,27 @@ trait SameTypeTrait
     /**
      * Ensure that the received value is the same type as this class.
      *
-     * @param mixed $received
+     * @param string|object $received
      *
      * @throws MismatchedDataTypesException
      */
     protected function assertSameType($received)
     {
         if (!$received instanceof static) {
-            throw MismatchedDataTypesException::create(
-                static::class,
-                $received
-            );
+            $this->throwMismatchedDataTypeException($received);
         }
+    }
+
+    /**
+     * @param string|object $received
+     *
+     * @throws MismatchedDataTypesException
+     */
+    protected function throwMismatchedDataTypeException($received)
+    {
+        throw MismatchedDataTypesException::create(
+            static::class,
+            $received
+        );
     }
 }

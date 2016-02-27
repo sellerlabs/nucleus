@@ -149,8 +149,10 @@ class ArrayList extends IndexedCollection implements
      */
     public function append(SemigroupInterface $other)
     {
-        $this->assertSameType($other);
+        if ($other instanceof static) {
+            return new static(array_merge($this->value, $other->value));
+        }
 
-        return new ArrayList(array_merge($this->value, $other->value));
+        $this->throwMismatchedDataTypeException($other);
     }
 }

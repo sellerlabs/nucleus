@@ -23,7 +23,9 @@ use Chromabits\Nucleus\Support\Std;
  * Trait ArrayBackingTrait.
  *
  * @method reverse()
+ *
  * @property int $size
+ * @property array $value
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Data\Traits
