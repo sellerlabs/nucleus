@@ -24,6 +24,11 @@ use Exception;
 class InvalidAttributesException extends CoreException
 {
     /**
+     * @var SpecResult
+     */
+    protected $specResult;
+
+    /**
      * Construct the exception.
      *
      * @param SpecResult $checkableResult
