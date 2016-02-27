@@ -250,7 +250,7 @@ class AwesomeIcon extends BaseObject implements
         }
 
         // Pull classes (fa-pull-right, fa-pull-left)
-        if ($this->pull) {
+        if ($this->pull !== null && $this->pull !== '') {
             $classes = $classes->append(ArrayList::of([
                 vsprintf('fa-pull-%s', [$this->pull])
             ]));
