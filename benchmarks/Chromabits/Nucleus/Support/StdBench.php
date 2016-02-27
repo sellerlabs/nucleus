@@ -16,7 +16,7 @@ use Chromabits\Nucleus\Support\Std;
 class StdBench
 {
     /**
-     * @var string[]
+     * @var array<string, string>
      */
     protected $keyValueArray;
 

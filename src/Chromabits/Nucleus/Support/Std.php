@@ -278,7 +278,7 @@ class Std extends StaticObject
      *
      * @param object $object
      * @param array $input
-     * @param array $allowed
+     * @param string[]|null $allowed
      */
     public static function callSetters(
         $object,
