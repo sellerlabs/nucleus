@@ -42,7 +42,7 @@ trait ArrayBackingTrait
      *
      * @return static
      */
-    protected abstract function map($function);
+    protected abstract function map(callable $function);
 
     /**
      * Apply a function to this functor.

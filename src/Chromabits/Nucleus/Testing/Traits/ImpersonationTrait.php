@@ -7,7 +7,7 @@ use Chromabits\Nucleus\Support\Std;
 use Chromabits\Nucleus\Testing\Impersonator;
 use Chromabits\Nucleus\Testing\Mocking\CallAndThrowExpectation;
 use Chromabits\Nucleus\Testing\Mocking\CallExpectation;
-use Mockery\Matcher\Closure;
+use Closure;
 use Mockery\MockInterface;
 
 /**
