@@ -13,6 +13,7 @@ use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Exceptions\MindTheGapException;
 use Chromabits\Nucleus\Meditation\Arguments;
 use Chromabits\Nucleus\Meditation\Boa;
+use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
 use Chromabits\Nucleus\Meditation\Exceptions\InvalidArgumentException;
 use Chromabits\Nucleus\Support\Std;
 
@@ -30,6 +31,18 @@ use Chromabits\Nucleus\Support\Std;
 trait ArrayBackingTrait
 {
     use SameTypeTrait;
+
+    /**
+     * @return AbstractTypeConstraint
+     */
+    protected abstract function getKeyType();
+
+    /**
+     * @param callable $function
+     *
+     * @return static
+     */
+    protected abstract function map($function);
 
     /**
      * Apply a function to this functor.
@@ -381,7 +394,7 @@ trait ArrayBackingTrait
     }
 
     /**
-     * @param null $sortFlags
+     * @param int|null $sortFlags
      *
      * @return static
      */
@@ -391,7 +404,7 @@ trait ArrayBackingTrait
     }
 
     /**
-     * @return array
+     * @return ArrayList
      */
     public function keys()
     {
@@ -457,9 +470,9 @@ trait ArrayBackingTrait
      *
      * @param string $key
      * @param callable $updater
-     * @param mixed $default
+     * @param mixed|null $default
      *
-     * @return ArrayBackingTrait
+     * @return static
      */
     public function update($key, callable $updater, $default = null)
     {
