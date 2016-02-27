@@ -13,10 +13,8 @@ namespace Chromabits\Nucleus\Foundation;
 
 use Chromabits\Nucleus\Data\ArrayList;
 use Chromabits\Nucleus\Data\ArrayMap;
-use Chromabits\Nucleus\Data\Interfaces\FunctorInterface;
 use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
-use Closure;
 use ReflectionClass;
 
 /**

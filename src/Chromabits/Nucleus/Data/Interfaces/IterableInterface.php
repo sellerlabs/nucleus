@@ -3,7 +3,6 @@
 namespace Chromabits\Nucleus\Data\Interfaces;
 
 use Chromabits\Nucleus\Control\Maybe;
-use Chromabits\Nucleus\Data\Iterable;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
 
 /**
