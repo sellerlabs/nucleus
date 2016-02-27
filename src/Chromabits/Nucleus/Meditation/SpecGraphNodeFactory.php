@@ -13,6 +13,7 @@ namespace Chromabits\Nucleus\Meditation;
 
 use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
+use Chromabits\Nucleus\Foundation\BaseObject;
 
 /**
  * Class SpecGraphNodeFactory.
@@ -22,19 +23,32 @@ use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Meditation
  */
-class SpecGraphNodeFactory
+class SpecGraphNodeFactory extends BaseObject
 {
+    /**
+     * @var string|null
+     */
     protected $name;
+
+    /**
+     * @var array<string>
+     */
     protected $dependencies;
+
+    /**
+     * @var Spec|null
+     */
     protected $spec;
 
     /**
      * Construct a new instance of SpecGraphNodeFactory.
      *
-     * @param null $name
+     * @param string|null $name
      */
     public function __construct($name = null)
     {
+        parent::__construct();
+
         $this->name = $name;
         $this->dependencies = [];
         $this->spec = null;
@@ -108,7 +122,7 @@ class SpecGraphNodeFactory
     /**
      * Get the dependencies for this node.
      *
-     * @return array
+     * @return string[]
      */
     public function getDependencies()
     {

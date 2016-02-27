@@ -125,7 +125,7 @@ class Rope extends BaseObject implements
     /**
      * Get an empty monoid.
      *
-     * @return MonoidInterface
+     * @return Rope
      */
     public static function zero()
     {
@@ -485,9 +485,9 @@ class Rope extends BaseObject implements
     /**
      * Append another semigroup and return the result.
      *
-     * @param SemigroupInterface $other
+     * @param Rope|SemigroupInterface $other
      *
-     * @return SemigroupInterface
+     * @return Rope
      */
     public function append(SemigroupInterface $other)
     {
@@ -497,24 +497,26 @@ class Rope extends BaseObject implements
     /**
      * Concatenate with other strings.
      *
-     * @param string[] $others
+     * @param array<string|Rope> ...$others
      *
      * @return Rope
      */
     public function concat(...$others)
     {
-        return static::of(Std::foldr(
-            function ($carry, $part) {
-                return $carry . (string) $part;
-            },
-            $this->contents,
-            $others
-        ),
-            $this->encoding);
+        return static::of(
+            Std::foldl(
+                function ($carry, $part) {
+                    return $carry . (string) $part;
+                },
+                $this->contents,
+                $others
+            ),
+            $this->encoding
+        );
     }
 
     /**
-     * @return MapInterface
+     * @return ArrayMap
      */
     public function toMap()
     {

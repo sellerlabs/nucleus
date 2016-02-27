@@ -29,7 +29,7 @@ trait ImpersonationTrait
     }
 
     /**
-     * @return array
+     * @return array<string, array<CallExpectation|Closure>>
      */
     protected function getCommonProvisions()
     {

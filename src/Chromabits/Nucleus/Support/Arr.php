@@ -415,7 +415,7 @@ class Arr extends StaticObject
      *
      * @param array $input
      *
-     * @return array
+     * @return array<string|int>
      */
     public static function keys(array $input)
     {
@@ -536,7 +536,7 @@ class Arr extends StaticObject
      * @param array $input
      * @param mixed $value
      *
-     * @return int|bool
+     * @return int|string|bool
      */
     public static function indexOf(array $input, $value)
     {

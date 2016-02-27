@@ -104,7 +104,7 @@ class Std extends StaticObject
      *
      * Default: false
      *
-     * @param mixed ...$args
+     * @param array ...$args
      *
      * @return bool
      */
@@ -124,7 +124,7 @@ class Std extends StaticObject
      *
      * Default: true
      *
-     * @param mixed ...$args
+     * @param array ...$args
      *
      * @return bool
      */
@@ -142,9 +142,9 @@ class Std extends StaticObject
     /**
      * Return the first non-null argument.
      *
-     * @param mixed ...$args
+     * @param array ...$args
      *
-     * @return mixed
+     * @return mixed|null
      */
     public static function coalesce(...$args)
     {
@@ -160,9 +160,9 @@ class Std extends StaticObject
     /**
      * Return the first non-null argument with support for thunks.
      *
-     * @param mixed ...$args
+     * @param array ...$args
      *
-     * @return mixed
+     * @return mixed|null
      */
     public static function coalesceThunk(...$args)
     {
@@ -245,7 +245,7 @@ class Std extends StaticObject
      * Create a new instance of a rope.
      *
      * @param string $string
-     * @param null $encoding
+     * @param string|null $encoding
      *
      * @return Rope
      */
