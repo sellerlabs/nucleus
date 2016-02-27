@@ -100,7 +100,7 @@ class Node extends BaseObject implements
      * class and override the `getDefaultAttributes` to return
      * `['class' => 'table']`
      *
-     * @return array
+     * @return string[]
      */
     public function getDefaultAttributes()
     {
