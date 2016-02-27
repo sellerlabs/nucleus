@@ -69,8 +69,6 @@ abstract class TestCase extends BaseTestCase
                 throw new LackOfCoffeeException('Comparison entry is invalid.');
             }
 
-            $message = null;
-
             if (array_key_exists(2, $comparison)) {
                 $message = $comparison[2];
             } else {
