@@ -14,7 +14,6 @@ use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Data\Interfaces\MappableInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
 use Chromabits\Nucleus\Data\Traits\ArrayBackingTrait;
-
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
 
@@ -49,10 +48,10 @@ class ArrayMap extends KeyedCollection implements
      */
     public function __construct($value = [])
     {
-        parent::__construct ();
+        parent::__construct();
 
         $this->value = $value;
-        $this->size = count ($value);
+        $this->size = count($value);
     }
 
     /**
@@ -61,7 +60,7 @@ class ArrayMap extends KeyedCollection implements
     public function getKeyType()
     {
         // TODO: Figure out how to make this nicer.
-        return Boa::any ();
+        return Boa::any();
     }
 
     /**
@@ -70,7 +69,7 @@ class ArrayMap extends KeyedCollection implements
     public function getValueType()
     {
         // TODO: Figure out how to make this nicer.
-        return Boa::any ();
+        return Boa::any();
     }
 
     /**
@@ -120,7 +119,7 @@ class ArrayMap extends KeyedCollection implements
      */
     public function reverse()
     {
-        return new static(array_reverse ($this->value, true));
+        return new static(array_reverse($this->value, true));
     }
 
     /**
