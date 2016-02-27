@@ -2,6 +2,7 @@
 
 namespace Chromabits\Nucleus\Data;
 
+use ArrayObject;
 use Chromabits\Nucleus\Data\Interfaces\IterableInterface;
 use Chromabits\Nucleus\Data\Interfaces\KeyFoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\LeftKeyFoldableInterface;
@@ -43,30 +44,34 @@ class ArrayList extends IndexedCollection implements
     /**
      * @param mixed $input
      *
-     * @return static
+     * @return ArrayList|static
      */
     public static function of($input)
     {
         if ($input instanceof static) {
             return $input;
         } elseif ($input instanceof ArrayableInterface) {
-            return new ArrayList($input->toArray());
+            return new static($input->toArray());
         }
 
-        return new ArrayList($input);
+        return new static($input);
     }
 
     /**
      * Construct an instance of an ArrayList.
      *
-     * @param array $initial
+     * @param array|ArrayObject $value
      */
-    public function __construct(array $initial = [])
+    public function __construct(array $value = [])
     {
         parent::__construct();
 
-        $this->value = array_values($initial);
-        $this->size = count($initial);
+        if ($value instanceof ArrayObject) {
+            $value = $value->getArrayCopy();
+        }
+
+        $this->value = array_values($value);
+        $this->size = count($value);
     }
 
     /**

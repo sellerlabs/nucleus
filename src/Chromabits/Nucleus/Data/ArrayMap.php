@@ -44,17 +44,17 @@ class ArrayMap extends KeyedCollection implements
     /**
      * @param mixed $input
      *
-     * @return static
+     * @return ArrayMap|static
      */
     public static function of($input)
     {
         if ($input instanceof static) {
             return $input;
         } elseif ($input instanceof ArrayableInterface) {
-            return new ArrayMap($input->toArray());
+            return new static($input->toArray());
         }
 
-        return new ArrayMap($input);
+        return new static($input);
     }
 
     /**
