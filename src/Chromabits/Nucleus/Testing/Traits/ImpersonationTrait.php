@@ -29,6 +29,14 @@ trait ImpersonationTrait
     }
 
     /**
+     * @return array
+     */
+    protected function getCommonProvisions()
+    {
+        return [];
+    }
+
+    /**
      * Build an instance of an Impersonator included common dependencies
      * defined in the map returned by getCommonProvisions().
      *
@@ -37,12 +45,6 @@ trait ImpersonationTrait
      */
     public function impersonatorWithCommon()
     {
-        if (!method_exists($this, 'getCommonProvisions')) {
-            throw new LackOfCoffeeException(
-                'Cannot find a getCommonProvisions method on this class.'
-            );
-        }
-
         $impersonator = $this->impersonator();
 
         Std::map(function ($value, $key) use ($impersonator) {

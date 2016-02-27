@@ -32,7 +32,7 @@ use Traversable;
 class Flick extends BaseObject
 {
     /**
-     * @var array|Traversable
+     * @var array|Traversable|ArrayAccess
      */
     protected $functions;
 

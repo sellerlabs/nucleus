@@ -24,6 +24,11 @@ use Exception;
 trait ConstructorTesterTrait
 {
     /**
+     * @return mixed
+     */
+    abstract protected function make();
+
+    /**
      * Test the constructor of an object.
      *
      * Creates a new instance by using make and optionally checks
@@ -31,14 +36,6 @@ trait ConstructorTesterTrait
      */
     public function testConstructor()
     {
-        // If we don't have a factory function, the we don't really know
-        // how to make the object we are testing
-        if (!method_exists($this, 'make')) {
-            throw new Exception(
-                'Unable to test constructor. Factory function is not defined'
-            );
-        }
-
         $instance = $this->make();
 
         $this->assertInternalType('object', $instance);

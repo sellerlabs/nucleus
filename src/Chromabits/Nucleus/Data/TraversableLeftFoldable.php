@@ -2,6 +2,7 @@
 
 namespace Chromabits\Nucleus\Data;
 
+use Chromabits\Nucleus\Control\Maybe;
 use Chromabits\Nucleus\Data\Interfaces\LeftFoldableInterface;
 use Chromabits\Nucleus\Data\Interfaces\ReadMapInterface;
 use Chromabits\Nucleus\Exceptions\CoreException;
@@ -83,21 +84,18 @@ class TraversableLeftFoldable extends BaseObject implements
      *
      * @param string $key
      *
-     * @return static
+     * @return Maybe
      * @throws CoreException
      */
     public function lookup($key)
     {
         foreach ($this->value as $innerKey => $value) {
             if ($key === $innerKey) {
-                return $value;
+                return Maybe::just($value);
             }
         }
 
-        throw new CoreException(vsprintf(
-            'The key "%s" is not a member of this ReadMap.',
-            [$key]
-        ));
+        return Maybe::nothing();
     }
 
     /**

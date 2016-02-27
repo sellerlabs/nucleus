@@ -20,7 +20,7 @@ use Chromabits\Nucleus\Support\Std;
 /**
  * Trait ArrayBackingTrait.
  *
- * @method reverse()
+ * @method self reverse()
  *
  * @property int $size
  * @property array $value

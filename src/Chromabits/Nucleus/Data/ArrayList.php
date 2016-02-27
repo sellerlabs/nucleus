@@ -23,6 +23,8 @@ use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
  * An implementation of a List backed by an array.
  * This is an early WIP. Interfaces might change over time.
  *
+ * @method map(callable $callable): ArrayList|Iterable
+ *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Data
  */

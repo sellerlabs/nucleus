@@ -137,7 +137,7 @@ if (!function_exists('mb_str_split')) {
             $result[] = mb_substr($string, $ii, $splitLength, $encoding);
         }
 
-        if (!$result) {
+        if (empty($result)) {
             return [''];
         }
 

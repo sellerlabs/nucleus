@@ -258,7 +258,7 @@ abstract class Iterable extends BaseObject implements
         $result = Maybe::nothing();
 
         $this->each(
-            function ($value, $key, Iterable $iterable) use (
+            function ($value, $key) use (
                 $predicate,
                 &$result
             ) {

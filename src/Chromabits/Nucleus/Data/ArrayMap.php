@@ -25,6 +25,8 @@ use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
 /**
  * Class ArrayMap.
  *
+ * @method map(callable $callable): ArrayMap|Iterable
+ *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Data
  */

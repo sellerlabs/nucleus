@@ -45,14 +45,4 @@ class ConstructorTesterTraitTest extends TestCase
 
         $helper->testConstructor();
     }
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testTestConstructorWithInvalid()
-    {
-        $helper = new InvalidConstructorTesterHelper();
-
-        $helper->testConstructor();
-    }
 }

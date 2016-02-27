@@ -391,7 +391,7 @@ class Arr extends StaticObject
      */
     public static function mergev(array $arrayv)
     {
-        if (!$arrayv) {
+        if (empty($arrayv)) {
             return [];
         }
 

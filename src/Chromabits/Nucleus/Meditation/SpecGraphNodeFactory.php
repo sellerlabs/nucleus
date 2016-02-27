@@ -11,6 +11,7 @@
 
 namespace Chromabits\Nucleus\Meditation;
 
+use Chromabits\Nucleus\Exceptions\CoreException;
 use Chromabits\Nucleus\Exceptions\LackOfCoffeeException;
 
 /**
@@ -92,10 +93,15 @@ class SpecGraphNodeFactory
     /**
      * Get the node name.
      *
-     * @return null|string
+     * @return string
+     * @throws CoreException
      */
     public function getName()
     {
+        if ($this->name === null) {
+            throw new CoreException('Incomplete definition');
+        }
+
         return $this->name;
     }
 
@@ -112,10 +118,15 @@ class SpecGraphNodeFactory
     /**
      * Get the spec for this node.
      *
-     * @return null|Spec
+     * @return Spec
+     * @throws CoreException
      */
     public function getSpec()
     {
+        if ($this->spec === null) {
+            throw new CoreException('Incomplete definition');
+        }
+
         return $this->spec;
     }
 }
