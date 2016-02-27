@@ -26,7 +26,7 @@ class MismatchedDataTypesException extends CoreException
     /**
      * Construct an instance of a MismatchedDataTypesException.
      *
-     * @param string $expected
+     * @param string|object $expected
      * @param mixed $received
      */
     public function __construct($expected, $received)
