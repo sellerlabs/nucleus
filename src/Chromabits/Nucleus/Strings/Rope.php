@@ -81,8 +81,8 @@ class Rope extends BaseObject implements
     /**
      * Construct an instance of a Rope.
      *
-     * @param string $contents
-     * @param null|string $encoding
+     * @param string|Rope $contents
+     * @param string|null $encoding
      */
     public function __construct($contents = '', $encoding = null)
     {
@@ -280,13 +280,17 @@ class Rope extends BaseObject implements
     /**
      * Construct an instance of a Rope.
      *
-     * @param string $contents
-     * @param null|string $encoding
+     * @param string|Rope $contents
+     * @param string|null $encoding
      *
-     * @return static
+     * @return Rope
      */
     public static function of($contents = '', $encoding = null)
     {
+        if ($contents instanceof Rope) {
+            return $contents;
+        }
+
         return new static($contents, $encoding);
     }
 
