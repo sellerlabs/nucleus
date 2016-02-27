@@ -2,6 +2,7 @@
 
 namespace Chromabits\Nucleus\Data;
 
+use ArrayObject;
 use Chromabits\Nucleus\Control\Interfaces\ApplicativeInterface;
 use Chromabits\Nucleus\Control\Maybe;
 use Chromabits\Nucleus\Data\Interfaces\FoldableInterface;
@@ -44,11 +45,15 @@ class ArrayMap extends KeyedCollection implements
     /**
      * Construct an instance of a ArrayMap.
      *
-     * @param array $value
+     * @param array|ArrayObject $value
      */
     public function __construct($value = [])
     {
         parent::__construct();
+
+        if ($value instanceof ArrayObject) {
+            $value = $value->getArrayCopy();
+        }
 
         $this->value = $value;
         $this->size = count($value);

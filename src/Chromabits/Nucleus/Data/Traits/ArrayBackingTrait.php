@@ -23,6 +23,7 @@ use Chromabits\Nucleus\Support\Std;
  * Trait ArrayBackingTrait.
  *
  * @method reverse()
+ * @property int $size
  *
  * @author Eduardo Trujillo <ed@chromabits.com>
  * @package Chromabits\Nucleus\Data\Traits
@@ -414,7 +415,7 @@ trait ArrayBackingTrait
         )->check($excluded);
 
         return $this->filter(
-            function ($value, $_) use ($excluded) {
+            function ($value) use ($excluded) {
                 return !in_array($value, $excluded);
             }
         );
