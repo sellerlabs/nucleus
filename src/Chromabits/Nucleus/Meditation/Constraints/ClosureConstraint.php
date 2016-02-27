@@ -24,15 +24,21 @@ use Closure;
  */
 class ClosureConstraint extends AbstractConstraint
 {
+    /**
+     * @var Closure
+     */
     protected $closure;
 
+    /**
+     * @var string
+     */
     protected $description;
 
     /**
      * Construct an instance of a ClosureConstraint.
      *
      * @param Closure $closure
-     * @param null $description
+     * @param string|null $description
      */
     public function __construct(Closure $closure, $description = null)
     {
@@ -75,7 +81,7 @@ class ClosureConstraint extends AbstractConstraint
     /**
      * Get string representation of this constraint.
      *
-     * @return mixed
+     * @return string
      */
     public function toString()
     {
