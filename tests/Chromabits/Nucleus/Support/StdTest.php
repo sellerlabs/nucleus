@@ -11,6 +11,8 @@
 
 namespace Tests\Chromabits\Nucleus\Support;
 
+use ArrayObject;
+use Chromabits\Nucleus\Data\ArrayList;
 use Chromabits\Nucleus\Meditation\Primitives\ScalarTypes;
 use Chromabits\Nucleus\Meditation\TypeHound;
 use Chromabits\Nucleus\Support\Std;
@@ -130,7 +132,7 @@ class StdTest extends TestCase
 
         $this->assertEqualsMatrix([
             [28, Std::foldr($sum, 0, [1, 2, 3, 4, 5, 6, 7])],
-            ['worldhello ', Std::foldr($concat, '', ['hello ', 'world'])],
+            ['hello world---', Std::foldr($concat, '---', ['hello ', 'world'])],
         ]);
     }
 
@@ -254,5 +256,61 @@ class StdTest extends TestCase
 
         $mock->shouldHaveReceived('setFirstName', ['content']);
         $mock->shouldNotHaveReceived('setLastName');
+    }
+
+    public function testFoldl()
+    {
+        $input = ArrayList::of([1, 2, 3, 4, 5]);
+        $inputChars = ArrayList::of(['h', 'e', 'l', 'l', 'o']);
+        $sum = function ($x, $y) {
+            return $x + $y;
+        };
+        $concat = function ($x, $y) {
+            return $x . $y;
+        };
+
+        $this->assertEquals(
+            10 + 1 + 2 + 3 + 4 + 5,
+            Std::foldl($sum, 10, $input)
+        );
+        $this->assertEquals(
+            '---hello',
+            Std::foldl($concat, '---', $inputChars)
+        );
+    }
+
+    public function testFoldr()
+    {
+        $input = ArrayList::of([1, 2, 3, 4, 5]);
+        $inputChars = ArrayList::of(['h', 'e', 'l', 'l', 'o']);
+        $sum = function ($x, $y) {
+            return $x + $y;
+        };
+        $concat = function ($x, $y) {
+            return $x . $y;
+        };
+
+        $this->assertEquals(
+            10 + 5 + 4 + 3 + 2 + 1,
+            Std::foldr($sum, 10, $input)
+        );
+        $this->assertEquals(
+            'hello---',
+            Std::foldr($concat, '---', $inputChars)
+        );
+    }
+
+    public function testEach()
+    {
+        $result = '';
+        $concat = function ($x) use (&$result) {
+            $result .= $x;
+        };
+
+        Std::each($concat, ['h', 'e', 'l', 'l', 'o', ' ']);
+        Std::each($concat, ArrayList::of(['w', 'o', 'r', 'l', 'd']));
+        Std::each($concat, new ArrayObject([' ', ':', ')']));
+
+        $this->assertEquals('hello world :)', $result);
     }
 }

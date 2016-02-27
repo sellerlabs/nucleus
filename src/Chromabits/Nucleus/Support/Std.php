@@ -173,16 +173,27 @@ class Std extends StaticObject
      * Call the provided function on each element.
      *
      * @param callable $function
-     * @param array|Traversable|LeftFoldableInterface $foldable
+     * @param array|Traversable|FoldableInterface|LeftFoldableInterface $input
      *
      * @throws InvalidArgumentException
      */
-    public static function each(callable $function, $foldable)
+    public static function each(callable $function, $input)
     {
-        Arguments::define(Boa::func(), Boa::foldable())
-            ->check($function, $foldable);
+        if ($input instanceof FoldableInterface) {
+            $input->foldl(function ($acc, $x) use ($function) {
+                $function($x);
+            }, null);
 
-        static::map($function, $foldable);
+            return;
+        } elseif ($input instanceof LeftFoldableInterface) {
+            $input->foldl(function ($x) use ($function) {
+                $function($x);
+            }, null);
+
+            return;
+        }
+
+        static::map($function, $input);
     }
 
     /**

@@ -86,7 +86,9 @@ trait ArrayBackingTrait
      */
     public function foldr(callable $closure, $initial)
     {
-        return $this->reverse()->foldl($closure, $initial);
+        return $this->reverse()->foldl(function ($acc, $x) use ($closure) {
+            return $closure($x, $acc);
+        }, $initial);
     }
 
     /**
@@ -99,7 +101,14 @@ trait ArrayBackingTrait
      */
     public function foldrWithKeys(callable $closure, $initial)
     {
-        return $this->reverse()->foldlWithKeys($closure, $initial);
+        return $this
+            ->reverse()
+            ->foldlWithKeys(
+                function ($acc, $key, $x) use ($closure) {
+                    return $closure($key, $x, $acc);
+                },
+                $initial
+            );
     }
 
     /**
@@ -128,7 +137,7 @@ trait ArrayBackingTrait
         $accumulator = $initial;
 
         foreach ($this->value as $key => $value) {
-            $accumulator = $callback($accumulator, $value, $key, $this);
+            $accumulator = $callback($accumulator, $key, $value);
         }
 
         return $accumulator;

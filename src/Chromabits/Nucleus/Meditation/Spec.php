@@ -57,7 +57,7 @@ class Spec extends BaseObject implements CheckableInterface
 
         $annotations = ArrayMap::of($constraints)
             ->foldlWithKeys(
-                function (ArrayMap $acc, $value, $key) {
+                function (ArrayMap $acc, $key, $value) {
                     return $acc->update(
                         $key,
                         function (ArrayMap $field) use ($value) {
@@ -74,7 +74,7 @@ class Spec extends BaseObject implements CheckableInterface
 
         $annotations = ArrayMap::of($defaults)
             ->foldlWithKeys(
-                function (ArrayMap $acc, $value, $key) {
+                function (ArrayMap $acc, $key, $value) {
                     return $acc->update(
                         $key,
                         function (ArrayMap $field) use ($value) {
