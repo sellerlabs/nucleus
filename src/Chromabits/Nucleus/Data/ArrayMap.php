@@ -14,9 +14,13 @@ use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Data\Interfaces\MappableInterface;
 use Chromabits\Nucleus\Data\Interfaces\MonoidInterface;
+use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
 use Chromabits\Nucleus\Data\Traits\ArrayBackingTrait;
+use Chromabits\Nucleus\Exceptions\CoreException;
+use Chromabits\Nucleus\Foundation\Interfaces\ArrayableInterface;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
+use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
 
 /**
  * Class ArrayMap.
@@ -36,6 +40,22 @@ class ArrayMap extends KeyedCollection implements
     LeftKeyFoldableInterface
 {
     use ArrayBackingTrait;
+
+    /**
+     * @param mixed $input
+     *
+     * @return static
+     */
+    public static function of($input)
+    {
+        if ($input instanceof static) {
+            return $input;
+        } elseif ($input instanceof ArrayableInterface) {
+            return new ArrayMap($input->toArray());
+        }
+
+        return new ArrayMap($input);
+    }
 
     /**
      * @var array
@@ -141,5 +161,21 @@ class ArrayMap extends KeyedCollection implements
     public function toMap()
     {
         return $this;
+    }
+
+    /**
+     * Append another semigroup and return the result.
+     *
+     * @param SemigroupInterface $other
+     *
+     * @return static|SemigroupInterface
+     * @throws CoreException
+     * @throws MismatchedArgumentTypesException
+     */
+    public function append(SemigroupInterface $other)
+    {
+        $this->assertSameType($other);
+
+        return new ArrayMap(array_merge($this->value, $other->value));
     }
 }

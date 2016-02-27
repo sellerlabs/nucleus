@@ -9,10 +9,13 @@ use Chromabits\Nucleus\Data\Interfaces\ListInterface;
 use Chromabits\Nucleus\Data\Interfaces\ListableInterface;
 use Chromabits\Nucleus\Data\Interfaces\MapInterface;
 use Chromabits\Nucleus\Data\Interfaces\MappableInterface;
+use Chromabits\Nucleus\Data\Interfaces\SemigroupInterface;
 use Chromabits\Nucleus\Data\Traits\ArrayBackingTrait;
 use Chromabits\Nucleus\Exceptions\CoreException;
+use Chromabits\Nucleus\Foundation\Interfaces\ArrayableInterface;
 use Chromabits\Nucleus\Meditation\Boa;
 use Chromabits\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
+use Chromabits\Nucleus\Meditation\Exceptions\MismatchedArgumentTypesException;
 
 /**
  * Class ArrayList
@@ -36,6 +39,22 @@ class ArrayList extends IndexedCollection implements
      * @var array
      */
     protected $value;
+
+    /**
+     * @param mixed $input
+     *
+     * @return static
+     */
+    public static function of($input)
+    {
+        if ($input instanceof static) {
+            return $input;
+        } elseif ($input instanceof ArrayableInterface) {
+            return new ArrayList($input->toArray());
+        }
+
+        return new ArrayList($input);
+    }
 
     /**
      * Construct an instance of an ArrayList.
@@ -117,5 +136,21 @@ class ArrayList extends IndexedCollection implements
         if ($this->size < 1) {
             throw new CoreException('List is empty');
         }
+    }
+
+    /**
+     * Append another semigroup and return the result.
+     *
+     * @param SemigroupInterface $other
+     *
+     * @return static|SemigroupInterface
+     * @throws CoreException
+     * @throws MismatchedArgumentTypesException
+     */
+    public function append(SemigroupInterface $other)
+    {
+        $this->assertSameType($other);
+
+        return new ArrayList(array_merge($this->value, $other->value));
     }
 }

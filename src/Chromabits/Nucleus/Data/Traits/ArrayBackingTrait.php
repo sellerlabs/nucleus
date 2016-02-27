@@ -33,38 +33,6 @@ trait ArrayBackingTrait
     use SameTypeTrait;
 
     /**
-     * @param mixed $input
-     *
-     * @return static
-     */
-    public static function of($input)
-    {
-        if ($input instanceof static) {
-            return $input;
-        } elseif ($input instanceof ArrayableInterface) {
-            return new static($input->toArray());
-        }
-
-        return new static($input);
-    }
-
-    /**
-     * Append another semigroup and return the result.
-     *
-     * @param SemigroupInterface $other
-     *
-     * @return static|SemigroupInterface
-     * @throws CoreException
-     * @throws MismatchedArgumentTypesException
-     */
-    public function append(SemigroupInterface $other)
-    {
-        $this->assertSameType($other);
-
-        return new static(array_merge($this->value, $other->value));
-    }
-
-    /**
      * Apply a function to this functor.
      *
      * @param callable $closure
