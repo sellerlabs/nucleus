@@ -1,11 +1,11 @@
 {
-  "name": "chromabits/nucleus",
+  "name": "sellerlabs/nucleus",
   "description": "Some core PHP utilities",
   "license": "MIT",
   "authors": [
     {
       "name": "Eduardo Trujillo",
-      "email": "ed@chromabits.com"
+      "email": "ed@sellerlabs.com"
     }
   ],
   "require-dev": {
@@ -15,17 +15,17 @@
   },
   "autoload": {
     "psr-4": {
-      "Chromabits\\Nucleus\\": "src/Chromabits/Nucleus"
+      "SellerLabs\\Nucleus\\": "src/SellerLabs/Nucleus"
     },
     "files": [
-      "src/Chromabits/Nucleus/Support/intl.php"
+      "src/SellerLabs/Nucleus/Support/intl.php"
     ]
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\Chromabits\\Nucleus\\": "tests/Chromabits/Nucleus",
-      "Benchmarks\\Chromabits\\Nucleus\\": "benchmarks/Chromabits/Nucleus",
-      "Benchmarks\\Chromabits\\Sanity\\": "benchmarks/Chromabits/Sanity"
+      "Tests\\SellerLabs\\Nucleus\\": "tests/SellerLabs/Nucleus",
+      "Benchmarks\\SellerLabs\\Nucleus\\": "benchmarks/SellerLabs/Nucleus",
+      "Benchmarks\\SellerLabs\\Sanity\\": "benchmarks/SellerLabs/Sanity"
     }
   },
   "require": {

@@ -1,4 +1,4 @@
-# Nucleus [![Build Status](https://travis-ci.org/chromabits/nucleus.svg?branch=master)](https://travis-ci.org/chromabits/nucleus) ![](https://img.shields.io/packagist/v/chromabits/nucleus.svg) [![](https://img.shields.io/badge/ApiGen-reference-blue.svg)](http://chromabits.github.io/nucleus)
+# Nucleus [![Build Status](https://travis-ci.org/sellerlabs/nucleus.svg?branch=master)](https://travis-ci.org/sellerlabs/nucleus) ![](https://img.shields.io/packagist/v/sellerlabs/nucleus.svg) [![](https://img.shields.io/badge/ApiGen-reference-blue.svg)](http://sellerlabs.github.io/nucleus)
 
 A standalone PHP utility library. Inspired heavily by similar projects like libphutil. Currently used in personal and work projects. Designed to make working wth PHP a little bit nicer and predictable.
 
@@ -34,10 +34,6 @@ make html
 Pull requests are accepted on GitHub. Bug fixes and small improvements are welcome. Big ideas will be reviewed and discussed.
 
 Code Standard: PSR-2 with some additions. See https://github.com/chromabits/standard for more details.
-
-## Security
-
-If you discover any security related issues, please email ed+security@chromabits.com instead of using the issue tracker.
 
 ## License
 

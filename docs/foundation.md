@@ -32,7 +32,7 @@ constants in a class, which are commonly used for enum-like behaviors in PHP.
 ```php
 <?php
 
-use Chromabits\Nuclues\Foundation\Enum;
+use SellerLabs\Nucleus\Foundation\Enum;
 
 class DogeTypes extends Enum
 {

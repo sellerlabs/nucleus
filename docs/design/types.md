@@ -118,7 +118,7 @@ something the rest of Nucleus can easily understand:
 - `Iterator` --> `TraversableLeftFoldable`.
 
 **Location:**
-Wrapper classes can be found on the `Chromabits\Nucleus\Data` namespace.
+Wrapper classes can be found on the `SellerLabs\Nucleus\Data` namespace.
 
 ### Constraints:
 

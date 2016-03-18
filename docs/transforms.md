@@ -19,7 +19,7 @@ about the data types. For this reason, most of the tooling on Nucleus is built
 around transforms that act on arrays.
 
 **The interface:** On Nucleus, transforms implement the `TransformInterface`
-interface, which is available on the `Chromabits\Support` namespace.
+interface, which is available on the `SellerLabs\Nucleus\Support` namespace.
 
 **Built-in:** Nucleus includes a few built-in transforms, such as:
 
