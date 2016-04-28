@@ -33,7 +33,7 @@ make html
 
 Pull requests are accepted on GitHub. Bug fixes and small improvements are welcome. Big ideas will be reviewed and discussed.
 
-Code Standard: PSR-2 with some additions. See https://github.com/chromabits/standard for more details.
+Code Standard: PSR-2 with some additions. See https://github.com/sellerlabs/php-standard for more details.
 
 ## License
 
