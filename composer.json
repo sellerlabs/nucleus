@@ -11,7 +11,7 @@
   "require-dev": {
     "phpunit/phpunit": "*",
     "mockery/mockery": "0.9.*",
-    "phpbench/phpbench": "@dev"
+    "phpbench/phpbench": "0.10.0"
   },
   "autoload": {
     "psr-4": {
