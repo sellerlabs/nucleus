@@ -177,6 +177,8 @@ class Node extends BaseObject implements
                     throw new NodeChildRenderingException($child);
                 })
                 ->join();
+        } else if ($this->content === null) {
+            return 'null';
         }
 
         throw new NodeRenderingException($this->content);
