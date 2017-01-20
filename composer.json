@@ -29,6 +29,6 @@
     }
   },
   "require": {
-    "lstrojny/phpunit-function-mocker": "0.2.*"
+    "lstrojny/phpunit-function-mocker": "0.4.*"
   }
 }
