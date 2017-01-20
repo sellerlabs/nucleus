@@ -4,6 +4,9 @@ php:
 - 7.0
 - 7.1
 - hhvm
+branches:
+  only:
+    - master
 before_script:
 - composer self-update
 - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "hhvm" -o "$TRAVIS_PHP_VERSION" = "hhvm-nightly"
