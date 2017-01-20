@@ -13,12 +13,12 @@ use SellerLabs\Nucleus\Foundation\Interfaces\ArrayableInterface;
 use SellerLabs\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
 
 /**
- * Class Iterable.
+ * Class IterableType.
  *
  * @author Eduardo Trujillo <ed@sellerlabs.com>
  * @package SellerLabs\Nucleus\Data
  */
-abstract class Iterable extends BaseObject implements
+abstract class IterableType extends BaseObject implements
     ArrayableInterface,
     FunctorInterface,
     FoldableInterface,
@@ -82,14 +82,14 @@ abstract class Iterable extends BaseObject implements
     }
 
     /**
-     * @param array|Iterable $searchKeyPath
+     * @param array|IterableType $searchKeyPath
      *
      * @return Maybe
      */
     abstract public function lookupIn($searchKeyPath);
 
     /**
-     * @param array|Iterable $searchKeyPath
+     * @param array|IterableType $searchKeyPath
      *
      * @return mixed
      */
@@ -103,14 +103,14 @@ abstract class Iterable extends BaseObject implements
     /**
      * @param callable $callable
      *
-     * @return Iterable
+     * @return IterableType
      */
     abstract public function fmap(callable $callable);
 
     /**
      * @param callable $callable
      *
-     * @return static|Iterable
+     * @return static|IterableType
      */
     public function map(callable $callable)
     {
@@ -120,14 +120,14 @@ abstract class Iterable extends BaseObject implements
     /**
      * @param callable $callable
      *
-     * @return Iterable
+     * @return IterableType
      */
     abstract public function filter(callable $callable);
 
     /**
      * @param callable $callable
      *
-     * @return Iterable
+     * @return IterableType
      */
     public function filterNot(callable $callable)
     {
@@ -139,14 +139,14 @@ abstract class Iterable extends BaseObject implements
     }
 
     /**
-     * @return Iterable
+     * @return IterableType
      */
     abstract public function reverse();
 
     /**
      * @param callable $comparator
      *
-     * @return Iterable
+     * @return IterableType
      */
     abstract public function sort(callable $comparator = null);
 
@@ -154,7 +154,7 @@ abstract class Iterable extends BaseObject implements
      * @param callable $comparatorValueMapper
      * @param callable|null $comparator
      *
-     * @return Iterable
+     * @return IterableType
      */
     public function sortBy(
         callable $comparatorValueMapper,
@@ -174,12 +174,12 @@ abstract class Iterable extends BaseObject implements
      * @param int $begin
      * @param int|null $end
      *
-     * @return Iterable
+     * @return IterableType
      */
     abstract public function slice($begin, $end = null);
 
     /**
-     * @return Iterable
+     * @return IterableType
      */
     public function tail()
     {
@@ -187,7 +187,7 @@ abstract class Iterable extends BaseObject implements
     }
 
     /**
-     * @return Iterable
+     * @return IterableType
      */
     public function init()
     {
@@ -197,7 +197,7 @@ abstract class Iterable extends BaseObject implements
     /**
      * @param int $amount
      *
-     * @return Iterable
+     * @return IterableType
      */
     public function take($amount)
     {
@@ -212,7 +212,7 @@ abstract class Iterable extends BaseObject implements
     /**
      * @param int $amount
      *
-     * @return Iterable
+     * @return IterableType
      */
     public function takeLast($amount)
     {
@@ -222,14 +222,14 @@ abstract class Iterable extends BaseObject implements
     /**
      * @param callable $predicate
      *
-     * @return Iterable
+     * @return IterableType
      */
     abstract public function takeWhile(callable $predicate);
 
     /**
      * @param callable $predicate
      *
-     * @return Iterable
+     * @return IterableType
      */
     public function takeUntil(callable $predicate)
     {

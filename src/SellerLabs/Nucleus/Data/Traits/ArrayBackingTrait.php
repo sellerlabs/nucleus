@@ -8,7 +8,7 @@ use SellerLabs\Nucleus\Data\ArrayList;
 use SellerLabs\Nucleus\Data\Interfaces\FunctorInterface;
 use SellerLabs\Nucleus\Data\Interfaces\ListInterface;
 use SellerLabs\Nucleus\Data\Interfaces\MonoidInterface;
-use SellerLabs\Nucleus\Data\Iterable;
+use SellerLabs\Nucleus\Data\IterableType;
 use SellerLabs\Nucleus\Exceptions\CoreException;
 use SellerLabs\Nucleus\Exceptions\MindTheGapException;
 use SellerLabs\Nucleus\Meditation\Arguments;
@@ -130,7 +130,7 @@ trait ArrayBackingTrait
      * @param int $begin
      * @param int $end
      *
-     * @return Iterable
+     * @return IterableType
      * @throws CoreException
      * @throws InvalidArgumentException
      */
@@ -174,7 +174,7 @@ trait ArrayBackingTrait
     /**
      * @param callable $predicate
      *
-     * @return Iterable
+     * @return IterableType
      */
     public function takeWhile(callable $predicate)
     {
@@ -250,7 +250,7 @@ trait ArrayBackingTrait
     }
 
     /**
-     * @param array|Iterable $searchKeyPath
+     * @param array|IterableType $searchKeyPath
      *
      * @return Maybe
      */
@@ -274,7 +274,7 @@ trait ArrayBackingTrait
 
         $innerValue = Maybe::fromJust($value);
 
-        if ($innerValue instanceof Iterable) {
+        if ($innerValue instanceof IterableType) {
             return $innerValue->lookupIn($path->tail());
         }
 
@@ -282,7 +282,7 @@ trait ArrayBackingTrait
     }
 
     /**
-     * @param array|Iterable $searchKeyPath
+     * @param array|IterableType $searchKeyPath
      *
      * @return bool
      * @throws MindTheGapException
@@ -305,7 +305,7 @@ trait ArrayBackingTrait
 
         $innerValue = Maybe::fromJust($this->lookup($path->head()));
 
-        if ($innerValue instanceof Iterable) {
+        if ($innerValue instanceof IterableType) {
             return $innerValue->memberIn($path->tail());
         }
 
@@ -315,7 +315,7 @@ trait ArrayBackingTrait
     /**
      * @param callable $comparator
      *
-     * @return Iterable
+     * @return IterableType
      */
     public function sort(callable $comparator = null)
     {
@@ -372,7 +372,7 @@ trait ArrayBackingTrait
      *
      * @param array $excluded
      *
-     * @return static|Iterable
+     * @return static|IterableType
      * @throws InvalidArgumentException
      */
     public function exceptValues($excluded = [])
