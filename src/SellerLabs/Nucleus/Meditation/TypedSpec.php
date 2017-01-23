@@ -5,7 +5,7 @@ namespace SellerLabs\Nucleus\Meditation;
 use SellerLabs\Nucleus\Control\Maybe;
 use SellerLabs\Nucleus\Data\ArrayList;
 use SellerLabs\Nucleus\Data\ArrayMap;
-use SellerLabs\Nucleus\Data\Iterable;
+use SellerLabs\Nucleus\Data\IterableType;
 use SellerLabs\Nucleus\Meditation\Constraints\AbstractTypeConstraint;
 
 /**
@@ -50,7 +50,7 @@ class TypedSpec extends Spec
      *
      * @param string $fieldName
      *
-     * @return Iterable
+     * @return IterableType
      */
     protected function getInternalFieldConstraints($fieldName)
     {

@@ -13,7 +13,7 @@ use SellerLabs\Nucleus\Control\Maybe;
 use SellerLabs\Nucleus\Data\ArrayList;
 use SellerLabs\Nucleus\Data\ArrayMap;
 use SellerLabs\Nucleus\Data\Interfaces\LeftKeyFoldableInterface;
-use SellerLabs\Nucleus\Data\Iterable;
+use SellerLabs\Nucleus\Data\IterableType;
 use SellerLabs\Nucleus\Exceptions\CoreException;
 use SellerLabs\Nucleus\Foundation\BaseObject;
 use SellerLabs\Nucleus\Meditation\Constraints\AbstractConstraint;
@@ -240,7 +240,7 @@ class Spec extends BaseObject implements CheckableInterface
      *
      * @param string $fieldName
      *
-     * @return Iterable
+     * @return IterableType
      */
     protected function getInternalFieldConstraints($fieldName)
     {
@@ -252,7 +252,7 @@ class Spec extends BaseObject implements CheckableInterface
      *
      * @param string $fieldName
      *
-     * @return Iterable
+     * @return IterableType
      */
     public function getFieldConstraints($fieldName)
     {
@@ -268,7 +268,7 @@ class Spec extends BaseObject implements CheckableInterface
 
         if (is_array($constraints)) {
             return ArrayList::of($constraints);
-        } elseif ($constraints instanceof Iterable) {
+        } elseif ($constraints instanceof IterableType) {
             return $constraints;
         }
 
@@ -400,7 +400,7 @@ class Spec extends BaseObject implements CheckableInterface
      * Set the constraints for a field.
      *
      * @param string $fieldName
-     * @param Iterable|array|AbstractConstraint $constraints
+     * @param IterableType|array|AbstractConstraint $constraints
      *
      * @return static
      */

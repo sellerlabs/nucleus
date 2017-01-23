@@ -8,7 +8,7 @@ namespace SellerLabs\Nucleus\Data;
  * @author Eduardo Trujillo <ed@sellerlabs.com>
  * @package SellerLabs\Nucleus\Data
  */
-abstract class Collection extends Iterable
+abstract class Collection extends IterableType
 {
     //
 }
